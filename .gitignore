@@ -1,0 +1,13 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+
+# Ignore Byebug command history file.
+.byebug_history
+
+# Ignore RubyMine files
+/.idea
+/.env

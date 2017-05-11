@@ -1,0 +1,38 @@
+<% content_for :html_lang, params[:locale] %>
+<% content_for :page_title, ' - Verify Compliance - GOV.UK' %>
+
+<% content_for :head do %>
+  <%= yield :refresh_tag %>
+  <!--[if gt IE 8]><!--><%= stylesheet_link_tag 'application', integrity: true %><!--<![endif]-->
+  <!--[if IE 8]><%= stylesheet_link_tag 'style-ie8' %><![endif]-->
+  <%= csrf_meta_tags %>
+<% end %>
+
+<% content_for :content do %>
+  <main id="content" tabindex="-1">
+    <div class="phase-banner-alpha">
+      <p>
+        <strong class="phase-tag">ALPHA</strong>
+        <span>
+          This is a new service – your <a href="https://github.com/alphagov/verify-rp-environment-config-form/issues/new">feedback</a> will help us to improve it.
+        </span>
+      </p>
+    </div>
+    <%= content_for?(:main) ? yield(:main) : yield %>
+  </main>
+<% end %>
+
+<% content_for :footer_support_links do %>
+  <h2 class="visuallyhidden">Footer links</h2>
+  <ul>
+    <li><a href="https://gov.uk/help" hreflang="en">Help</a></li>
+    <li>Built by the <a href="https://gds.blog.gov.uk" lang="en" hreflang="en">Government Digital Service</a></li>
+  </ul>
+<% end %>
+
+<% content_for :body_end do %>
+
+  <%= javascript_include_tag 'application', integrity: true %>
+
+<% end %>
+<%= render file: 'layouts/govuk_template' %>

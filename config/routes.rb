@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  get '/' =>  Proc.new { |env| [ 200, {"Content-Type" => 'text/plain'}, ["Hello, world"] ] }
+  get '/' => 'environment_config_form#environment_config_form'
 end

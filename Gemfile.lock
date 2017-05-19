@@ -180,9 +180,9 @@ PLATFORMS
 DEPENDENCIES
   byebug
   dotenv-rails
-  govuk_elements_rails
-  govuk_frontend_toolkit
-  govuk_template
+  govuk_elements_rails (= 3.0.2)
+  govuk_frontend_toolkit (= 5.2.0)
+  govuk_template (~> 0.20.0)
   jbuilder (~> 2.5)
   jquery-rails (~> 4.2.2)
   listen (~> 3.0.5)

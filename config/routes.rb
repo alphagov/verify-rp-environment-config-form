@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  get '/' => 'environment_config_form#environment_config_form'
+  get '/' => 'environment_config_form#start'
 end

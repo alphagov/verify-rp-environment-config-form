@@ -18,170 +18,50 @@
         </div>
       </div>
     </fieldset>
-    <div class="form-group">
-      <label class="form-label" for="service-entity-id">1. Service entity ID</label><input class="form-control" id="service-entity-id" name="service-entity-id" required="required" type="url">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Enter the entityID for the service you want to connect to the integration environment. This is a globally unique identifier for your service within the environment. It's typically
-          in URL format, for example https://identity.service.gov.uk. For every service and connection to both integration and production make sure each has a unique entityID.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="matching-service-entity-id">2. Matching service entity ID</label><input class="form-control" id="matching-service-entity-id" name=
-      "matching-service-entity-id" required="required" type="url">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Your matching service is a unique entity within the federation. It therefore needs a matching service entityID, which must be different from your service entityID. For example
-          https://identity.service-ms.gov.uk. Several services can use the same matching service.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="matching-service-url">3. Matching service URL</label><input class="form-control" id="matching-service-url" name="matching-service-url" required="required"
-      type="url">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Enter the fully qualified URL to which the hub will make matching service requests. For example https://identity.service-integration.gov.uk/msa.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="service-homepage-url">4. Service start page URL</label><input class="form-control" id="service-homepage-url" name="service-homepage-url">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Enter the fully qualified URL used to access your service. This is usually a page on GOV.UK, for example <a href=
-          'https://www.gov.uk/update-company-car-details'>https://www.gov.uk/update-company-car-details</a>. For a private beta service this will not be on GOV.UK and is likely to be locally
-          hosted.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="assertion-consumer-services-https-url">5. Assertion consumer services HTTPS URL</label><input class="form-control" id=
-      "assertion-consumer-services-https-url" name="assertion-consumer-services-https-url" required="required" type="url">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Enter the fully qualified URL to which the hub will send its responses. For example <a href=
-          'https://test-rp.service.signin.gov.uk/authentication_endpoint'>https://test-rp.service.signin.gov.uk/authentication_endpoint</a>. This field must be unique for each connection you
-          request for the integration or production environment.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="signature-verification-certificate-transaction">6. Service signature validation certificate</label>
-      <textarea class="form-control block svc-attachment" id="signature-verification-certificate-transaction" name="signature_verification_certificate_transaction" rows="10"></textarea>
-      <div>
-        Or attach as file (extensions .pem or .crt permitted)
-      </div><input class="attachment svc-attachment" name="signature_verification_certificate_attachment" type="file">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Upload a valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
+
+    <%= render 'question', title: 'Service entity ID', id: 'service-entity-id', input_type: 'url', information: 'Enter the entityID for the service you want to connect to the
+          integration environment. This is a globally unique identifier for your service within the environment. It\'s typically in URL format, for example
+          https://identity.service.gov.uk. For every service and connection to both integration and production make sure each has a unique entityID.' %>
+    <%= render 'question', title: 'Matching service entity ID', id: 'matching-service-entity-id', input_type: 'url', information: 'Your matching service is a unique entity within the
+          federation. It therefore needs a matching service entityID, which must be different from your service entityID. For example
+          https://identity.service-ms.gov.uk. Several services can use the same matching service.' %>
+    <%= render 'question', title: 'Matching service URL', id: 'matching-service-url', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will
+          make matching service requests. For example https://identity.service-integration.gov.uk/msa.' %>
+    <%= render 'question', title: 'Service start page URL', id: 'service-homepage-url', input_type: 'url', information: 'Enter the fully qualified URL used to access your service.
+          This is usually a page on GOV.UK, for example <a href=\'https://www.gov.uk/update-company-car-details\'>https://www.gov.uk/update-company-car-details</a>. For a private
+          beta service this will not be on GOV.UK and is likely to be locally hosted.' %>
+    <%= render 'question', title: 'Assertion consumer services HTTPS URL', id: 'assertion-consumer-services-https-url', input_type: 'url', information: 'Enter the fully qualified URL
+          to which the hub will send its responses. For example <a href=\'https://test-rp.service.signin.gov.uk/authentication_endpoint\'>
+          https://test-rp.service.signin.gov.uk/authentication_endpoint</a>. This field must be unique for each connection you
+          request for the integration or production environment.' %>
+    <%= render 'certificate_question', title: 'Service signature validation certificate', id: 'signature-verification-certificate-transaction', input_type: 'textarea', information: 'Upload a
+          valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
           present on all messages sent from your service. It must correspond to the private key for your service. See <a href=
-          'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert'>Request certificates</a>.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="signature-verification-certificate-match">7. Matching service signature validation certificate</label>
-      <textarea class="form-control block svc-matching-attachment" id="signature-verification-certificate-match" name="signature_verification_certificate_match" rows="10"></textarea>
-      <div>
-        Or attach as file (extensions .pem or .crt permitted)
-      </div><input class="attachment svc-matching-attachment" name="signature_verification_certificate_match_attachment" type="file">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Upload a valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
-          present on all responses sent from the Matching Service Adapter. It must correspond to the private key for the Matching Service Adapter. You can retrieve the certificate from your
-          Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
-          'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert'>Request certificates</a>.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="encryption-certificate-transaction">8. Service encryption certificate</label>
-      <textarea class="form-control block ec-transaction" id="encryption-certificate-transaction" name="encryption_certificate_transaction" rows="10"></textarea>
-      <div>
-        Or attach as file (extensions .pem or .crt permitted)
-      </div><input class="attachment ec-transaction" name="encryption_certificate_attachment" type="file">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Upload a valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
+          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
+    <%= render 'certificate_question', title: 'Matching service signature validation certificate', id: 'signature-verification-certificate-match', input_type: 'textarea', information: 'Upload a valid
+          X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
+          present on all responses sent from the Matching Service Adapter. It must correspond to the private key for the Matching Service Adapter. You can retrieve the certificate
+          from your Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
+          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
+    <%= render 'certificate_question', title: 'Service encryption certificate', id: 'encryption-certificate-transaction', input_type: 'textarea', information: 'Upload a valid X509 public
+          certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
           assertions within the responses that it sends to your service. Your service decrypts the assertions using your corresponding private key. See <a href=
-          'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert'>Request certificates</a>.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="encryption-certificate-match">9. Matching service encryption certificate</label>
-      <textarea class="form-control block ec-transaction-matching" id="encryption-certificate-match" name="encryption_certificate_match" rows="10"></textarea>
-      <div>
-        Or attach as file (extensions .pem or .crt permitted)
-      </div><input class="attachment ec-transaction-matching" name="encryption_certificate_match_attachment" type="file">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Upload a valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
-          assertions within the requests that it sends to the Matching Service Adapter. The Matching Service Adapter decrypts the the assertions using the corresponding private key. You can
-          retrieve this certificate from your Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
-          'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert'>Request certificates</a>.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="cycle3AttributeName">10. Requested cycle 3 attribute name (if applicable)</label><input class="form-control" id="cycle3AttributeName" name=
-      "cycle3AttributeName">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Enter the name of the additional information you want the hub to send for <a href='http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3'>matching cycle
-          3</a>, for example, driving licence number. Matching cycle 3 is used if <a href='http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc1'>matching cycle 1</a>
-          fails. Make sure that your GOV.UK Verify engagement lead pre-approves this field as it requires development.</p>
-        </div>
-      </details>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="user-account-creation-uri">11. Matching service user account creation URL</label><input class="form-control" id="user-account-creation-uri" name=
-      "user-account-creation-uri">
-      <details>
-        <summary>
-          <span class="summary">More Information</span>
-        </summary>
-        <div class="panel panel-border-narrow">
-          <p>Enter the fully qualified URL to which the hub will make unknown user attribute query requests. This is optional. It is required only if you want to enable <a href=
-          'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msCua.html#ms-cua'>user account creation</a> in your service.</p>
-        </div>
-      </details>
-    </div>
+          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
+    <%= render 'certificate_question', title: 'Matching service encryption certificate', id: 'encryption-certificate-match', input_type: 'textarea', information: 'Upload a valid X509
+          public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
+          assertions within the requests that it sends to the Matching Service Adapter. The Matching Service Adapter decrypts the the assertions using the corresponding private key.
+          You can retrieve this certificate from your Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
+          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
+    <%= render 'question', title: 'Requested cycle 3 attribute name (if applicable)', id: 'cycle3AttributeName', input_type: 'text', information: 'Enter the name of the additional
+        information you want the hub to send for <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3\'>matching cycle 3</a>, for example, driving
+        licence number. Matching cycle 3 is used if <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc1\'>matching cycle 1</a>
+        fails. Make sure that your GOV.UK Verify engagement lead pre-approves this field as it requires development.' %>
+    <%= render 'question', title: 'Matching service user account creation URL', id: 'user-account-creation-uri', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will make unknown user attribute query requests. This is optional. It is required only if you want to enable <a href=
+          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msCua.html#ms-cua\'>user account creation</a> in your service.' %>
+
     <fieldset class="form-group">
       <div class="provide-option">
-        <label class="form-label">12. Attributes for creating user account</label>
+        <label class="form-label"> Attributes for creating user account</label>
         <div class="personal-attributes form-group">
           <div class="multiple-choice">
             <input id="FIRST_NAME" name="FIRST_NAME" type="checkbox"><label for="FIRST_NAME">First name</label>
@@ -213,55 +93,22 @@
         </details>
       </div>
     </fieldset>
+
     <div class="form-group">
-      <label class="other-ways-title">Your service design or content team will be able to provide the following:</label>
-      <div class="form-group">
-        <label class="form-label" for="service-display-name">13. Service display name</label><input class="form-control" id="service-display-name" name="service-display-name" required=
-        "required">
-        <details>
-          <summary>
-            <span class="summary">More Information</span>
-          </summary>
-          <div class="panel panel-border-narrow">
-            <p>Enter the service name that appears to the user throughout their hub journey. Use a sentence starting with a verb, for example <em>Sign in to your personal tax account</em>,
-            rather than a title like <em>Self Assessment tax return</em>.</p>
-          </div>
-        </details>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="other-ways-display-name">14. Other ways to... display name</label><input class="form-control" id="other-ways-display-name" name="other-ways-display-name"
-        required="required">
-        <details>
-          <summary>
-            <span class="summary">More Information</span>
-          </summary>
-          <div class="panel panel-border-narrow">
-            <p>Enter an alternative service name, for example <em>access your personal tax account</em>. This appears on the <em>Other ways to...</em> content in the hub, which appears when a
-            user can’t prove their identity using GOV.UK Verify. If you don’t provide an alternative service name, the GOV.UK Verify team sets it to the service display name by default.</p>
-          </div>
-        </details>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="other-ways-complete-transaction">15. Other ways to complete the transaction</label>
-        <div class="additional-info">
-          Must be valid HTML
-        </div>
-        <textarea class="form-control" id="other-ways-complete-transaction" name="other-ways-complete-transaction" required="required" rows="5"></textarea>
-        <details>
-          <summary>
-            <span class="summary">More Information</span>
-          </summary>
-          <div class="panel panel-border-narrow">
-            <p>Enter valid HTML content, including URLs, that displays on the <em>Other ways to...</em> content in the hub. This informs the user of alternative methods of using your service.
+      <h2 class="heading-medium">Service description</h2>
+      <%= render 'question', title: 'Service display name', id: 'service-display-name', input_type: 'text', information: 'Enter the service name that appears to the user throughout
+            their hub journey. Use a sentence starting with a verb, for example <em>Sign in to your personal tax account</em>,
+            rather than a title like <em>Self Assessment tax return</em>.' %>
+      <%= render 'question', title: 'Other ways to... display name', id: 'other-ways-display-name', input_type: 'text', information: 'Enter an alternative service name,
+            for example <em>access your personal tax account</em>. This appears on the <em>Other ways to...</em> content in the hub, which appears when a
+            user can’t prove their identity using GOV.UK Verify. If you don’t provide an alternative service name, the GOV.UK Verify team sets it to the service display name by default.'%>
+      <%= render 'textarea_question', title: 'Other ways to complete the transaction', id: 'other-ways-complete-transaction', input_type: 'textarea', information: 'Enter valid HTML content, including URLs, that displays on the <em>Other ways to...</em> content in the hub. This informs the user of alternative methods of using your service.
             For example: <em>If you can’t verify your identity using GOV.UK Verify, request Government Gateway user ID and password replacements from HMRC. This can take about 10 working days
-            (or longer if you live abroad). For help, contact the HMRC Online Self Assessment helpline.</em></p>
-          </div>
-        </details>
-      </div>
+            (or longer if you live abroad). For help, contact the HMRC Online Self Assessment helpline.</em>'%>
     </div>
     <fieldset class="contact-details">
       <div class="contact-detail-title">
-        Your contact details
+        <h2 class="heading-medium">Your contact details</h2>
       </div>
       <div class="form-group">
         <label class="form-label" for="name">Name</label><input class="form-control" id="name" name="name" required="required" type="text">

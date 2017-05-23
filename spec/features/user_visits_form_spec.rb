@@ -84,4 +84,19 @@ RSpec.describe 'The start page', :type => :feature do
     expect(page).to have_checked_field('First name')
   end
 
+  it 'should validate certificate correctness' do
+    visit '/'
+    fill_in 'Service signature validation certificate', with: 'malformed-certificate'
+    fill_in 'Matching service signature validation certificate', with: 'malformed-certificate'
+    fill_in 'Service encryption certificate', with: 'malformed-certificate'
+    fill_in 'Matching service encryption certificate', with: 'malformed-certificate'
+
+    click_button 'Request access'
+
+    expect(page).to have_content('Service signature validation certificate is malformed')
+    expect(page).to have_content('Matching service signature validation certificate is malformed')
+    expect(page).to have_content('Service encryption certificate is malformed')
+    expect(page).to have_content('Matching service encryption certificate is malformed')
+  end
+
 end

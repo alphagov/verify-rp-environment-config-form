@@ -13,10 +13,12 @@
       <div class="form-group">
         <h2 class="heading-small">Select the environment you wish to access</h2><legend class="visually-hidden">Select the environment you wish to access</legend>
         <div class="multiple-choice">
-          <input checked id="integration-access" name="environment-access" type="radio" value="integration-access-request"><label for="integration-access">Integration</label>
+          <%= f.radio_button :environment_access, 'integration-access-request' %>
+          <label for="onboarding_form_environment_access_integration-access-request">Integration</label>
         </div>
         <div class="multiple-choice">
-          <input id="production-access" name="environment-access" type="radio" value="production-access-request"><label for="production-access" id="production-access-radio">Production</label>
+          <%= f.radio_button :environment_access, 'production-access-request' %>
+          <label for="onboarding_form_environment_access_production-access-request">Production</label>
         </div>
       </div>
     </fieldset>
@@ -26,45 +28,46 @@
                id: 'service_entity_id',
                errors: @onboarding_form.errors['service_entity_id'],
                input_type: 'url',
+               value: @onboarding_form.service_entity_id,
                information: 'Enter the entityID for the service you want to connect to the
                 integration environment. This is a globally unique identifier for your service within the environment. It\'s typically in URL format, for example
                 https://identity.service.gov.uk. For every service and connection to both integration and production make sure each has a unique entityID.'
     %>
-    <%= render 'question', errors: @onboarding_form.errors['matching_service_entity_id'], title: 'Matching service entity ID', id: 'matching_service_entity_id', input_type: 'url', information: 'Your matching service is a unique entity within the
+    <%= render 'question', value: @onboarding_form.matching_service_entity_id, errors: @onboarding_form.errors['matching_service_entity_id'], title: 'Matching service entity ID', id: 'matching_service_entity_id', input_type: 'url', information: 'Your matching service is a unique entity within the
           federation. It therefore needs a matching service entityID, which must be different from your service entityID. For example
           https://identity.service-ms.gov.uk. Several services can use the same matching service.' %>
-    <%= render 'question', errors: @onboarding_form.errors['matching_service_url'], title: 'Matching service URL', id: 'matching_service_url', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will
+    <%= render 'question', value: @onboarding_form.matching_service_url, errors: @onboarding_form.errors['matching_service_url'], title: 'Matching service URL', id: 'matching_service_url', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will
           make matching service requests. For example https://identity.service-integration.gov.uk/msa.' %>
-    <%= render 'question', errors: @onboarding_form.errors['service_homepage_url'], title: 'Service start page URL', id: 'service_homepage_url', input_type: 'url', information: 'Enter the fully qualified URL used to access your service.
+    <%= render 'question', value: '', errors: @onboarding_form.errors['service_homepage_url'], title: 'Service start page URL', id: 'service_homepage_url', input_type: 'url', information: 'Enter the fully qualified URL used to access your service.
           This is usually a page on GOV.UK, for example <a href=\'https://www.gov.uk/update-company-car-details\'>https://www.gov.uk/update-company-car-details</a>. For a private
           beta service this will not be on GOV.UK and is likely to be locally hosted.' %>
-    <%= render 'question', errors: @onboarding_form.errors['assertion_consumer_services_https_url'], title: 'Assertion consumer services HTTPS URL', id: 'assertion_consumer_services_https_url', input_type: 'url', information: 'Enter the fully qualified URL
+    <%= render 'question', value: @onboarding_form.assertion_consumer_services_https_url, errors: @onboarding_form.errors['assertion_consumer_services_https_url'], title: 'Assertion consumer services HTTPS URL', id: 'assertion_consumer_services_https_url', input_type: 'url', information: 'Enter the fully qualified URL
           to which the hub will send its responses. For example <a href=\'https://test-rp.service.signin.gov.uk/authentication_endpoint\'>
           https://test-rp.service.signin.gov.uk/authentication_endpoint</a>. This field must be unique for each connection you
           request for the integration or production environment.' %>
-    <%= render 'certificate_question', errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
+    <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
           valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
           present on all messages sent from your service. It must correspond to the private key for your service. See <a href=
           \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'certificate_question', errors: @onboarding_form.errors['signature_verification_certificate_match'], title: 'Matching service signature validation certificate', id: 'signature_verification_certificate_match', input_type: 'textarea', information: 'Upload a valid
+    <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_match, errors: @onboarding_form.errors['signature_verification_certificate_match'], title: 'Matching service signature validation certificate', id: 'signature_verification_certificate_match', input_type: 'textarea', information: 'Upload a valid
           X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
           present on all responses sent from the Matching Service Adapter. It must correspond to the private key for the Matching Service Adapter. You can retrieve the certificate
           from your Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
           \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'certificate_question', errors: @onboarding_form.errors['encryption_certificate_transaction'], title: 'Service encryption certificate', id: 'encryption_certificate_transaction', input_type: 'textarea', information: 'Upload a valid X509 public
+    <%= render 'certificate_question', value: @onboarding_form.encryption_certificate_transaction, errors: @onboarding_form.errors['encryption_certificate_transaction'], title: 'Service encryption certificate', id: 'encryption_certificate_transaction', input_type: 'textarea', information: 'Upload a valid X509 public
           certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
           assertions within the responses that it sends to your service. Your service decrypts the assertions using your corresponding private key. See <a href=
           \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'certificate_question', errors: @onboarding_form.errors['encryption_certificate_match'], title: 'Matching service encryption certificate', id: 'encryption_certificate_match', input_type: 'textarea', information: 'Upload a valid X509
+    <%= render 'certificate_question', value: @onboarding_form.encryption_certificate_match, errors: @onboarding_form.errors['encryption_certificate_match'], title: 'Matching service encryption certificate', id: 'encryption_certificate_match', input_type: 'textarea', information: 'Upload a valid X509
           public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
           assertions within the requests that it sends to the Matching Service Adapter. The Matching Service Adapter decrypts the the assertions using the corresponding private key.
           You can retrieve this certificate from your Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
           \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'question', errors: @onboarding_form.errors['cycle3_attribute_name'], title: 'Requested cycle 3 attribute name (if applicable)', id: 'cycle3_attribute_name', input_type: 'text', information: 'Enter the name of the additional
+    <%= render 'question', value: @onboarding_form.cycle3_attribute_name, errors: @onboarding_form.errors['cycle3_attribute_name'], title: 'Requested cycle 3 attribute name (if applicable)', id: 'cycle3_attribute_name', input_type: 'text', information: 'Enter the name of the additional
         information you want the hub to send for <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3\'>matching cycle 3</a>, for example, driving
         licence number. Matching cycle 3 is used if <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc1\'>matching cycle 1</a>
         fails. Make sure that your GOV.UK Verify engagement lead pre-approves this field as it requires development.' %>
-    <%= render 'question', errors: @onboarding_form.errors['user_account_creation_uri'], title: 'Matching service user account creation URL', id: 'user_account_creation_uri', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will make unknown user attribute query requests. This is optional. It is required only if you want to enable <a href=
+    <%= render 'question', value: @onboarding_form.user_account_creation_uri, errors: @onboarding_form.errors['user_account_creation_uri'], title: 'Matching service user account creation URL', id: 'user_account_creation_uri', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will make unknown user attribute query requests. This is optional. It is required only if you want to enable <a href=
           \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msCua.html#ms-cua\'>user account creation</a> in your service.' %>
 
     <fieldset class="form-group">
@@ -72,25 +75,31 @@
         <label class="form-label"> Attributes for creating user account</label>
         <div class="personal-attributes form-group">
           <div class="multiple-choice">
-            <input id="FIRST_NAME" name="onboarding_form[user_account_first_name]" type="checkbox"><label for="FIRST_NAME">First name</label>
+            <%= f.check_box :user_account_first_name %>
+            <label for="onboarding_form_user_account_first_name">First name</label>
           </div>
           <div class="multiple-choice">
-            <input id="MIDDLE_NAME" name="onboarding_form[user_account_middle_name]" type="checkbox"><label for="MIDDLE_NAME">Middle name</label>
+            <%= f.check_box :user_account_middle_name %>
+            <label for="onboarding_form_user_account_middle_name">Middle name</label>
           </div>
           <div class="multiple-choice">
-            <input id="SURNAME" name="onboarding_form[user_account_surname]" type="checkbox"><label for="SURNAME">Surname</label>
+            <%= f.check_box :user_account_surname %>
+            <label for="onboarding_form_user_account_surname">Surname</label>
           </div>
           <div class="multiple-choice">
-            <input id="DATE_OF_BIRTH" name="onboarding_form[user_account_dob]" type="checkbox"><label for="DATE_OF_BIRTH">Date of birth</label>
+            <%= f.check_box :user_account_dob %>
+            <label for="onboarding_form_user_account_dob">Date of birth</label>
           </div>
           <div class="multiple-choice">
-            <input id="CURRENT_ADDRESS" name="onboarding_form[user_account_current_address]" type="checkbox"><label for="CURRENT_ADDRESS">Current address</label>
+            <%= f.check_box :user_account_current_address %>
+            <label for="onboarding_form_user_account_current_address">Current address</label>
           </div>
           <div class="multiple-choice">
-            <!--<input id="CYCLE_3" name="onboarding_form[user_account_cycle_3]" type="checkbox" true><label for="CYCLE_3">Cycle 3</label>-->
-            <%= f.check_box :user_account_cycle_3, {}, 'checked', 'unchecked' %>
+            <%= f.check_box :user_account_cycle_3 %>
+            <label for="onboarding_form_user_account_cycle_3">Cycle 3</label>
           </div>
         </div>
+
         <details>
           <summary>
             <span class="summary">More Information</span>
@@ -105,13 +114,13 @@
 
     <div class="form-group">
       <h2 class="heading-medium">Service description</h2>
-      <%= render 'question', errors: @onboarding_form.errors['service_display_name'], title: 'Service display name', id: 'service_display_name', input_type: 'text', information: 'Enter the service name that appears to the user throughout
+      <%= render 'question', value: @onboarding_form.service_display_name, errors: @onboarding_form.errors['service_display_name'], title: 'Service display name', id: 'service_display_name', input_type: 'text', information: 'Enter the service name that appears to the user throughout
             their hub journey. Use a sentence starting with a verb, for example <em>Sign in to your personal tax account</em>,
             rather than a title like <em>Self Assessment tax return</em>.' %>
-      <%= render 'question', errors: @onboarding_form.errors['other_ways_display_name'], title: 'Other ways to... display name', id: 'other_ways_display_name', input_type: 'text', information: 'Enter an alternative service name,
+      <%= render 'question', value: @onboarding_form.other_ways_display_name, errors: @onboarding_form.errors['other_ways_display_name'], title: 'Other ways to... display name', id: 'other_ways_display_name', input_type: 'text', information: 'Enter an alternative service name,
             for example <em>access your personal tax account</em>. This appears on the <em>Other ways to...</em> content in the hub, which appears when a
             user can’t prove their identity using GOV.UK Verify. If you don’t provide an alternative service name, the GOV.UK Verify team sets it to the service display name by default.'%>
-      <%= render 'textarea_question', errors: @onboarding_form.errors['other_ways_complete_transaction'], title: 'Other ways to complete the transaction', id: 'other_ways_complete_transaction', input_type: 'textarea', information: 'Enter valid HTML content, including URLs, that displays on the <em>Other ways to...</em> content in the hub. This informs the user of alternative methods of using your service.
+      <%= render 'textarea_question', value: @onboarding_form.other_ways_complete_transaction, errors: @onboarding_form.errors['other_ways_complete_transaction'], title: 'Other ways to complete the transaction', id: 'other_ways_complete_transaction', input_type: 'textarea', information: 'Enter valid HTML content, including URLs, that displays on the <em>Other ways to...</em> content in the hub. This informs the user of alternative methods of using your service.
             For example: <em>If you can’t verify your identity using GOV.UK Verify, request Government Gateway user ID and password replacements from HMRC. This can take about 10 working days
             (or longer if you live abroad). For help, contact the HMRC Online Self Assessment helpline.</em>'%>
     </div>
@@ -119,33 +128,14 @@
       <div class="contact-detail-title">
         <h2 class="heading-medium">Your contact details</h2>
       </div>
-      <div class="form-group">
-        <label class="form-label" for="name">Name</label>
-        <input class="form-control" id="name" name="onboarding_form[contact_details_name]" required="required" type="text" value="<%= @onboarding_form.contact_details_name %>">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="email">Email address</label>
-        <input class="form-control" id="email" name="onboarding_form[contact_details_email]" required="required" type="text" value="<%= @onboarding_form.contact_details_email %>">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="phone">Phone number (optional)</label>
-        <input class="form-control" id="phone" name="onboarding_form[contact_details_phone]" type="text" value="<%= @onboarding_form.contact_details_phone %>">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="message">Message (optional)</label>
-        <div class="additional-info">
-          <label class="form-label" for="message">Please make note of your ideal response time / pending deadlines</label>
-        </div>
-        <textarea class="form-control" id="message" name="onboarding_form[contact_details_message]" rows="10" type="text" value="<%= @onboarding_form.contact_details_message %>"></textarea>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="service">Service</label>
-        <input class="form-control" id="service" name="onboarding_form[contact_details_service]" required="required" type="text" value="<%= @onboarding_form.contact_details_service %>">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="department">Department or Agency</label>
-        <input class="form-control" id="department" name="onboarding_form[contact_details_department]" required="required" type="text" value="<%= @onboarding_form.contact_details_department %>">
-      </div>
+
+      <%= render 'question', value: @onboarding_form.contact_details_name, errors: @onboarding_form.errors['contact_details_name'], title: 'Name', id: 'contact_details_name', input_type: 'text' %>
+      <%= render 'question', value: @onboarding_form.contact_details_email, errors: @onboarding_form.errors['contact_details_email'], title: 'Email address', id: 'contact_details_email', input_type: 'email' %>
+      <%= render 'question', value: @onboarding_form.contact_details_phone, errors: @onboarding_form.errors['contact_details_phone'], title: 'Phone number (optional)', id: 'contact_details_phone', input_type: 'tel' %>
+      <%= render 'textarea_question', value: @onboarding_form.contact_details_message, errors: @onboarding_form.errors['contact_details_message'], title: 'Message (optional)', id: 'contact_details_message'%>
+      <%= render 'question', value: @onboarding_form.contact_details_service, errors: @onboarding_form.errors['contact_details_service'], title: 'Service', id: 'contact_details_service', input_type: 'text' %>
+      <%= render 'question', value: @onboarding_form.contact_details_department, errors: @onboarding_form.errors['contact_details_department'], title: 'Department or Agency', id: 'contact_details_department', input_type: 'text' %>
+
     </fieldset><input class="button button-get-started" type="submit" value="Request access">
     <div class="form-group">
       <span class="bold">Note:</span> <span>Access to the environment form will be given subject to successful gate reviews. Environment set up and configuration will take the GOV.UK Verify

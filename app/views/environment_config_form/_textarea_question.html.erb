@@ -1,12 +1,22 @@
-<div class="form-group">
+<div class="form-group <%= 'form-group-error' if errors.any? %>">
   <label class="form-label" for="<%= id %>"><%= title %></label>
-  <textarea class="form-control" name="onboarding_form[<%= id %>]" id="<%= id %>" rows="5"></textarea>
-  <details>
-    <summary>
-      <span class="summary">More Information</span>
-    </summary>
-    <div class="panel panel-border-narrow">
-      <p><%= raw information %></p>
-    </div>
-  </details>
+
+  <% errors.each do | error | %>
+    <span class="error-message">
+      <%= title %> <%= error %>
+    </span>
+  <% end %>
+
+  <textarea class="form-control <%= 'form-control-error' if errors.any? %>" name="onboarding_form[<%= id %>]" id="<%= id %>" rows="5"><%= value %></textarea>
+
+  <% if defined?(information) %>
+    <details>
+      <summary>
+        <span class="summary">More Information</span>
+      </summary>
+      <div class="panel panel-border-narrow">
+        <p><%= raw information %></p>
+      </div>
+    </details>
+  <% end %>
 </div>

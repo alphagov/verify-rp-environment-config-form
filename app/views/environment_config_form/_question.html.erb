@@ -1,6 +1,14 @@
-<div class="form-group">
+
+<div class="form-group <%= 'form-group-error' if errors.any? %>">
   <label class="form-label" for="<%= id %>"><%= title %></label>
-  <input class="form-control" id="<%= id %>" name="onboarding_form[<%= id %>]" required="required" type="<%= input_type %>>">
+
+  <% errors.each do | error | %>
+    <span class="error-message">
+      <%= title %> <%= error %>
+    </span>
+  <% end %>
+
+  <input class="form-control <%= 'form-control-error' if errors.any? %>" id="<%= id %>" name="onboarding_form[<%= id %>]" required="required" type="<%= input_type %>>">
   <details>
     <summary>
       <span class="summary">More Information</span>

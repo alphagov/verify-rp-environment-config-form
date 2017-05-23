@@ -1,12 +1,40 @@
 class OnboardingForm
   include ActiveModel::Model
 
-  attr_accessor :service_entity_id, :matching_service_entity_id, :matching_service_url, :service_homepage_url, :assertion_consumer_services_https_url,
-                :signature_verification_certificate_transaction, :signature_verification_certificate_match, :encryption_certificate_transaction,
-                :encryption_certificate_match, :cycle3_attribute_name, :user_account_creation_uri, :user_account_first_name, :user_account_middle_name,
-                :user_account_surname, :user_account_dob, :user_account_current_address, :user_account_cycle_3, :service_display_name,
-                :other_ways_display_name, :other_ways_complete_transaction, :contact_details_name, :contact_details_email, :contact_details_phone,
-                :contact_details_message, :contact_details_service, :contact_details_department
+  OPTIONAL_FIELDS = [
+    :cycle3_attribute_name,
+    :user_account_creation_uri,
+    :user_account_first_name,
+    :user_account_middle_name,
+    :user_account_surname,
+    :user_account_dob,
+    :user_account_current_address,
+    :user_account_cycle_3,
+    :contact_details_phone,
+    :contact_details_message
+  ]
+
+  REQUIRED_FIELDS = [
+    :service_entity_id,
+    :matching_service_entity_id,
+    :matching_service_url,
+    :service_homepage_url,
+    :assertion_consumer_services_https_url,
+    :signature_verification_certificate_transaction,
+    :signature_verification_certificate_match,
+    :encryption_certificate_transaction,
+    :encryption_certificate_match,
+    :service_display_name,
+    :other_ways_display_name,
+    :other_ways_complete_transaction,
+    :contact_details_name,
+    :contact_details_email,
+    :contact_details_service,
+    :contact_details_department
+  ]
+
+  (REQUIRED_FIELDS + OPTIONAL_FIELDS).each {|field_name| attr_accessor field_name }
+  REQUIRED_FIELDS.each {|field_name| validates field_name, :presence => true}
 
   def initialize(hash)
     @service_entity_id = hash['service_entity_id']

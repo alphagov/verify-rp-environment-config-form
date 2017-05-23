@@ -7,6 +7,10 @@ class EnvironmentConfigFormController < ApplicationController
 
   def submit
     @onboarding_form = OnboardingForm.new(params['onboarding_form'])
-    render 'environment_config_form', :layout => 'application'
+    if @onboarding_form.valid?
+      redirect_to '/confirmation'
+    else
+      render 'environment_config_form', :layout => 'application'
+    end
   end
 end

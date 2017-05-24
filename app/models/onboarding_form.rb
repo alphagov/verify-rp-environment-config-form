@@ -78,4 +78,8 @@ class OnboardingForm
     }
   end
 
+  def hashed_password
+    "TODO"
+  end
+
 end

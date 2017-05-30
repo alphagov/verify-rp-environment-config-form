@@ -99,4 +99,35 @@ RSpec.describe 'The start page', :type => :feature do
     expect(page).to have_content('Matching service encryption certificate is malformed')
   end
 
+  it 'should show confirmation page after a succesful form submit' do
+    stub_request(:post, "https://example.com/tickets").to_return(:status => 201, :body => {"ticket":{"id": 123, "subject":"Test","comment":{"value":"some comment"}}}.to_json, :headers => {})
+
+    visit '/'
+    fill_in('Service entity ID', with: 'http://example.com')
+    fill_in('Matching service entity ID', with: 'http://example.com/msa')
+    fill_in('Matching service URL', with: 'http://example.com/msa')
+    fill_in('Service start page URL', with: 'http://example.com')
+    fill_in('Assertion consumer services HTTPS URL', with: 'http://example.com')
+
+    fill_in 'Service signature validation certificate', with: GOOD_CERT
+    fill_in 'Matching service signature validation certificate', with: GOOD_CERT
+    fill_in 'Service encryption certificate', with: GOOD_CERT
+    fill_in 'Matching service encryption certificate', with: GOOD_CERT
+
+    fill_in 'Matching service user account creation URL', with: 'http://example.com/msa/create-account'
+    fill_in 'Service display name', with: 'something'
+    fill_in 'Other ways to... display name', with: 'something'
+    fill_in 'Other ways to complete the transaction', with: 'something'
+    fill_in 'Name', with: 'something'
+    fill_in 'Email address', with: 'email@example.com'
+    fill_in 'Service', with: 'something'
+    fill_in 'Department or Agency', with: 'something'
+
+    click_button 'Request access'
+
+    expect(page).to have_content('Your request has been submitted')
+  end
+
+  it 'should show an error if zendesk submit fails'
+
 end

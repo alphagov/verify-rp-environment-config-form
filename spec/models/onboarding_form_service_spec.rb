@@ -5,7 +5,7 @@ describe OnboardingFormService do
   context 'save the form' do
 
     it 'should construct a new zendesk ticket' do
-      form = OnboardingForm.new({
+      form = instance_double(OnboardingForm, {
         environment_access: 'Integration access request',
         service_entity_id: 'https://example.com',
         matching_service_entity_id: 'https://example.com/msa',
@@ -32,7 +32,8 @@ describe OnboardingFormService do
         contact_details_name: 'username',
         contact_details_email: 'example@example.com',
         contact_details_service: 'Example service',
-        contact_details_department: 'Example department'
+        contact_details_department: 'Example department',
+        hashed_password: 'hashed-password',
       })
 
       tickets = instance_double('ZendeskAPI::Collection')
@@ -110,7 +111,7 @@ describe OnboardingFormService do
               Example department
               
               Hashed password for stub idp:
-              TODO
+              hashed-password
                           
               Follow this guide on how to onboard an RP: https://github.digital.cabinet-office.gov.uk/gds/ida-hub/wiki/Onboarding-an-rp
           EOF

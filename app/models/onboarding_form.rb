@@ -1,8 +1,12 @@
+require 'bcrypt'
+
 class OnboardingForm
   include ActiveModel::Model
 
+  ENVIRONMENT_ACCESS_INTEGRATION = 'integration-access-request'
+  ENVIRONMENT_ACCESS_PRODUCTION = 'production-access-request'
+
   OPTIONAL_FIELDS = [
-    :environment_access,
     :cycle3_attribute_name,
     :user_account_creation_uri,
     :user_account_first_name,
@@ -12,10 +16,13 @@ class OnboardingForm
     :user_account_current_address,
     :user_account_cycle_3,
     :contact_details_phone,
-    :contact_details_message
+    :contact_details_message,
+    :stub_idp_username,
+    :stub_idp_password
   ]
 
   REQUIRED_FIELDS = [
+    :environment_access,
     :service_entity_id,
     :matching_service_entity_id,
     :matching_service_url,
@@ -31,7 +38,9 @@ class OnboardingForm
     :contact_details_name,
     :contact_details_email,
     :contact_details_service,
-    :contact_details_department
+    :contact_details_department,
+    :matching_service_adapter_ip,
+    :testing_devices_ips
   ]
 
   URL_FIELDS = [
@@ -56,6 +65,8 @@ class OnboardingForm
   REQUIRED_FIELDS.each {|field_name| validates field_name, :presence => true}
   URL_FIELDS.each {|field_name| validates field_name, format: { with: /\Ahttps?:\/\//, message: "must be a url" }}
 
+  validates :stub_idp_username, presence: true, if: :is_integration_access_form?
+  validates :stub_idp_password, presence: true, length: { minimum: 8 }, if: :is_integration_access_form?
   validate :validate_entity_ids_are_different, :validate_certificate_is_well_formed
 
   def initialize(attributes)
@@ -78,8 +89,12 @@ class OnboardingForm
     }
   end
 
+  def is_integration_access_form?
+    environment_access == ENVIRONMENT_ACCESS_INTEGRATION
+  end
+
   def hashed_password
-    "TODO"
+    BCrypt::Password.create(stub_idp_password)
   end
 
 end

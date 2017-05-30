@@ -12,11 +12,11 @@
       <div class="form-group">
         <h2 class="heading-small">Select the environment you wish to access</h2><legend class="visually-hidden">Select the environment you wish to access</legend>
         <div class="multiple-choice">
-          <%= f.radio_button :environment_access, 'integration-access-request' %>
+          <%= f.radio_button :environment_access, OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION %>
           <label for="onboarding_form_environment_access_integration-access-request">Integration</label>
         </div>
         <div class="multiple-choice">
-          <%= f.radio_button :environment_access, 'production-access-request' %>
+          <%= f.radio_button :environment_access, OnboardingForm::ENVIRONMENT_ACCESS_PRODUCTION %>
           <label for="onboarding_form_environment_access_production-access-request">Production</label>
         </div>
       </div>
@@ -111,6 +111,9 @@
       </div>
     </fieldset>
 
+    <%= render 'question', value: @onboarding_form.matching_service_adapter_ip, errors: @onboarding_form.errors['matching_service_adapter_ip'], title: 'IP address of the Matching Service Adapter (MSA)', id: 'matching_service_adapter_ip', input_type: 'text', information: 'Enter the IP address of the host running the Matching Service Adapter (MSA). This allows GOV.UK Verify to put in place firewall rules so the hub can communicate with the MSA.' %>
+    <%= render 'question', value: @onboarding_form.testing_devices_ips, errors: @onboarding_form.errors['testing_devices_ips'], title: 'IP addresses of the devices used for testing', id: 'testing_devices_ips', input_type: 'text', information: '<p>Please provide the IP addresses of the browsers that you will use when testing in the integration environment. Access to the hub and test identity providers in the integration environment is restricted by IP address. </p><p>This is a comma separated list of IP addresses or <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">IP address ranges</a> for Verify to whitelist. For example: </p><pre><code>10.1.2.3,10.1.2.4</code></pre>or<pre><code>10.39.34.15/30</code></pre><p></p><p></p>' %>
+
     <div class="form-group">
       <h2 class="heading-medium">Service description</h2>
       <%= render 'question', value: @onboarding_form.service_display_name, errors: @onboarding_form.errors['service_display_name'], title: 'Service display name', id: 'service_display_name', input_type: 'text', information: 'Enter the service name that appears to the user throughout
@@ -123,6 +126,16 @@
             For example: <em>If you can’t verify your identity using GOV.UK Verify, request Government Gateway user ID and password replacements from HMRC. This can take about 10 working days
             (or longer if you live abroad). For help, contact the HMRC Online Self Assessment helpline.</em>'%>
     </div>
+
+    <fieldset class="stub-api-details">
+
+      <h2 class="heading-medium">Create account for managing test users</h2>
+
+      <%= render 'question', value: @onboarding_form.stub_idp_username, errors: @onboarding_form.errors['stub_idp_username'], title: 'Username', id: 'stub_idp_username', input_type: 'text', information: 'In order to manage test users in the integration environment, you need basic auth credentials to access to the API. This will be your username for the API requests.' %>
+      <%= render 'question', value: @onboarding_form.stub_idp_password, errors: @onboarding_form.errors['stub_idp_password'], title: 'Password', id: 'stub_idp_password', input_type: 'password', information: 'In order to manage test users in the integration environment, you need basic auth credentials to access to the API. This will be your password for the API. Please use at least 8 characters.' %>
+
+    </fieldset>
+
     <fieldset class="contact-details">
       <div class="contact-detail-title">
         <h2 class="heading-medium">Your contact details</h2>

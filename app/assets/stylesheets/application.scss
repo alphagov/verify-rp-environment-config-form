@@ -77,3 +77,12 @@ $toolkit-font-stack-tabular: "HelveticaNeue", "Helvetica Neue", "Arial", "Helvet
   0% { opacity: 0.4; }
   100% { opacity: 1; }
 }
+
+pre, code {
+  background-color: $highlight-colour;
+  font-size: 13px;
+  line-height: 19px;
+  color: $black;
+  border: 1px solid $border-colour;
+  padding: 3px 7px;
+}

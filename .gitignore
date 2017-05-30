@@ -4,6 +4,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+**/*.swp
 
 # Ignore Byebug command history file.
 .byebug_history

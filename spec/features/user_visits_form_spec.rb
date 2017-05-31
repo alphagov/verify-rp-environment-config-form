@@ -1,9 +1,8 @@
-
 require 'rails_helper'
 
 RSpec.describe 'The start page', :type => :feature do
 
-  ZENDESK_TICKETS_URL = 'https://example.com:443/api/v2/tickets.json'
+  ZENDESK_TICKETS_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}tickets.json"
 
   it 'should show the form' do
     visit '/'

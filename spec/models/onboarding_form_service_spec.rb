@@ -39,80 +39,86 @@ describe OnboardingFormService do
       zendesk_client = instance_double(ZendeskClient)
 
       expect(zendesk_client).to receive(:create_ticket).with({
-        subject: 'Example service: Integration access request [requestor: username]',
-        comment: {
-          value: <<~EOF
-              Environment access: 
-              Integration access request
-              
-              Service entity id: 
-              https://example.com
-              
-              Matching service entity id: 
-              https://example.com/msa
-              
-              Matching service url: 
-              https://example.com/msa
+        ticket: {
+          requester: {
+            name: 'username',
+            email: 'example@example.com'
+          },
+          subject: 'Example service: Integration access request [requestor: username]',
+          comment: {
+            body: <<~EOF
+                Environment access:
+                Integration access request
+                
+                Service entity id:
+                https://example.com
+                
+                Matching service entity id:
+                https://example.com/msa
+                
+                Matching service url:
+                https://example.com/msa
+  
+                Service start page URL:
+                https://example.com/start
+                
+                Assertion consumer services https url:
+                https://example.com/process-response
+  
+                Requested cycle 3 attribute name (if applicable):
+                cycle3attr
+  
+                Matching service user account creation URL:
+                https://example.com
+                
+                Transaction signature verification certificate:
+                #{GOOD_CERT}
+                
+                Transaction encryption certificate:
+                #{GOOD_CERT}
+                
+                Matching Service signature verification certificate:
+                #{GOOD_CERT}
+                
+                Matching Service encryption certificate:
+                #{GOOD_CERT}
+                
+                Requested attributes for creating user account:
+                FIRST_NAME, FIRST_NAME_VERIFIED, MIDDLE_NAME, MIDDLE_NAME_VERIFIED, SURNAME, SURNAME_VERIFIED, DATE_OF_BIRTH, DATE_OF_BIRTH_VERIFIED, CURRENT_ADDRESS, CURRENT_ADDRESS_VERIFIED, CYCLE_3
+  
+                Service display name:
+                Example service
+                
+                Other ways display name:
+                Example service
+                
+                Other ways complete transaction:
+                Some text
+                
+                Name:
+                username
+                
+                Email:
+                example@example.com
+                
+                Phone:
+                012345 678 912
+                
+                Message:
+                Some text
+                
+                Service:
+                Example service
+                
+                Department:
+                Example department
+                
+                Hashed password for stub idp:
+                hashed-password
 
-              Service start page URL:
-              https://example.com/start
-              
-              Assertion consumer services https url: 
-              https://example.com/process-response
-
-              Requested cycle 3 attribute name (if applicable):
-              cycle3attr
-
-              Matching service user account creation URL:
-              https://example.com
-              
-              Transaction signature verification certificate:
-              #{GOOD_CERT}
-              
-              Transaction encryption certificate:
-              #{GOOD_CERT}
-              
-              Matching Service signature verification certificate:
-              #{GOOD_CERT}
-              
-              Matching Service encryption certificate:
-              #{GOOD_CERT}
-              
-              Requested attributes for creating user account:
-              FIRST_NAME, FIRST_NAME_VERIFIED, MIDDLE_NAME, MIDDLE_NAME_VERIFIED, SURNAME, SURNAME_VERIFIED, DATE_OF_BIRTH, DATE_OF_BIRTH_VERIFIED, CURRENT_ADDRESS, CURRENT_ADDRESS_VERIFIED, CYCLE_3
-
-              Service display name:
-              Example service
-              
-              Other ways display name:
-              Example service
-              
-              Other ways complete transaction:
-              Some text
-              
-              Name:
-              username
-              
-              Email:
-              example@example.com
-              
-              Phone:
-              012345 678 912
-              
-              Message:
-              Some text
-              
-              Service:
-              Example service
-              
-              Department:
-              Example department
-              
-              Hashed password for stub idp:
-              hashed-password
-                          
-              Follow this guide on how to onboard an RP: https://github.digital.cabinet-office.gov.uk/gds/ida-hub/wiki/Onboarding-an-rp
-          EOF
+                Follow this guide on how to onboard an RP: https://github.digital.cabinet-office.gov.uk/gds/ida-hub/wiki/Onboarding-an-rp
+            EOF
+          }
         }
       }).and_return :created_ticket
 

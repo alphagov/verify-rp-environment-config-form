@@ -44,7 +44,7 @@
           https://identity.service-ms.gov.uk. Several services can use the same matching service.' %>
     <%= render 'question', value: @onboarding_form.matching_service_url, errors: @onboarding_form.errors['matching_service_url'], title: 'Matching service URL', id: 'matching_service_url', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will
           make matching service requests. For example https://identity.service-integration.gov.uk/msa.' %>
-    <%= render 'question', value: '', errors: @onboarding_form.errors['service_homepage_url'], title: 'Service start page URL', id: 'service_homepage_url', input_type: 'url', information: 'Enter the fully qualified URL used to access your service.
+    <%= render 'question', value: @onboarding_form.service_homepage_url, errors: @onboarding_form.errors['service_homepage_url'], title: 'Service start page URL', id: 'service_homepage_url', input_type: 'url', information: 'Enter the fully qualified URL used to access your service.
           This is usually a page on GOV.UK, for example <a href=\'https://www.gov.uk/update-company-car-details\'>https://www.gov.uk/update-company-car-details</a>. For a private
           beta service this will not be on GOV.UK and is likely to be locally hosted.' %>
     <%= render 'question', value: @onboarding_form.assertion_consumer_services_https_url, errors: @onboarding_form.errors['assertion_consumer_services_https_url'], title: 'Assertion consumer services HTTPS URL', id: 'assertion_consumer_services_https_url', input_type: 'url', information: 'Enter the fully qualified URL

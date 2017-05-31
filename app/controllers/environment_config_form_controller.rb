@@ -12,13 +12,13 @@ class EnvironmentConfigFormController < ApplicationController
       return render 'environment_config_form'
     end
 
-    @ticket = OnboardingFormService.new(ZendeskClientFactory.create).save @onboarding_form
-    if !@ticket.errors.nil? && @ticket.errors.any?
-      @onboarding_form.errors[:base] << 'Something happened with zendesk'
+    begin
+      @ticket = OnboardingFormService.new(ZendeskClientFactory.create).save @onboarding_form
+      render 'confirmation'
+    rescue RuntimeError => err
+      @error = 'Something happened with zendesk'
       return render 'environment_config_form'
     end
-
-    render 'confirmation'
   end
 
 end

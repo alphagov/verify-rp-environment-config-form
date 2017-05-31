@@ -1,5 +1,12 @@
 <% content_for(:page_title, 'Environment Config') %>
 
+<% if @error %>
+  <div class="error-summary">
+    <h1 class="heading-medium error-summary-heading"> There has been a problem </h1>
+    <p>Please try again later, or contact the Verify Support Team.</p>
+  </div>
+<% end %>
+
 <div class="inner-block">
   <%= form_for @onboarding_form, :url => { :action => 'submit' }, :html => { :id => 'onboarding', :novalidate => 'novalidate' } do |f| %>
 

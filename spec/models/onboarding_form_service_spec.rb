@@ -36,11 +36,9 @@ describe OnboardingFormService do
         hashed_password: 'hashed-password',
       })
 
-      tickets = instance_double('ZendeskAPI::Collection')
-      zendesk_client = double('ZendeskAPI::Client', :tickets => tickets)
-      created_ticket = instance_double('ZendeskAPI::Ticket')
+      zendesk_client = instance_double(ZendeskClient)
 
-      expect(tickets).to receive(:create).with({
+      expect(zendesk_client).to receive(:create_ticket).with({
         subject: 'Example service: Integration access request [requestor: username]',
         comment: {
           value: <<~EOF
@@ -116,9 +114,9 @@ describe OnboardingFormService do
               Follow this guide on how to onboard an RP: https://github.digital.cabinet-office.gov.uk/gds/ida-hub/wiki/Onboarding-an-rp
           EOF
         }
-      }).and_return created_ticket
+      }).and_return :created_ticket
 
-      expect(OnboardingFormService.new(zendesk_client).save(form)).to eq(created_ticket)
+      expect(OnboardingFormService.new(zendesk_client).save(form)).to eq(:created_ticket)
     end
 
   end

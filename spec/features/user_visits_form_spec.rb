@@ -3,6 +3,8 @@ require 'rails_helper'
 
 RSpec.describe 'The start page', :type => :feature do
 
+  ZENDESK_TICKETS_URL = 'https://example.com:443/api/v2/tickets.json'
+
   it 'should show the form' do
     visit '/'
     expect(page).to have_content 'Request access to an environment'
@@ -35,8 +37,18 @@ RSpec.describe 'The start page', :type => :feature do
   end
 
   it 'should show confirmation page after a succesful form submit' do
-    stub_request(:post, "https://example.com/tickets").to_return(:status => 201, :body => {"ticket":{"id": 123, "subject":"Test","comment":{"value":"some comment"}}}.to_json, :headers => {})
+    stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 201, :body => {"ticket":{"id": 123, "subject":"Test","comment":{"value":"some comment"}}}.to_json, :headers => {})
+    submit_valid_form
+    expect(page).to have_content('Your request has been submitted')
+  end
 
+  it 'should show an error if zendesk submit fails' do
+    stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 500)
+    submit_valid_form
+    expect(page).to have_content('There has been a problem')
+  end
+
+  def submit_valid_form
     visit '/'
     fill_in('Service entity ID', with: 'http://example.com')
     fill_in('Matching service entity ID', with: 'http://example.com/msa')
@@ -65,10 +77,5 @@ RSpec.describe 'The start page', :type => :feature do
     fill_in 'Department or Agency', with: 'something'
 
     click_button 'Request access'
-
-    expect(page).to have_content('Your request has been submitted')
   end
-
-  it 'should show an error if zendesk submit fails'
-
 end

@@ -22,8 +22,6 @@ gem 'govuk_template', '~> 0.20.0'
 gem 'govuk_frontend_toolkit', '5.2.0'
 gem 'govuk_elements_rails', '3.0.2'
 
-gem 'zendesk_api', '1.14.0'
-
 gem 'bcrypt', '3.1.11'
 
 group :development, :test do

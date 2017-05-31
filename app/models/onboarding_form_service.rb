@@ -16,7 +16,7 @@ class OnboardingFormService
   end
 
   def save(onboarding_form)
-    @zendesk_client.tickets.create(
+    @zendesk_client.create_ticket(
         :subject => "#{onboarding_form.service_display_name}: #{onboarding_form.environment_access} [requestor: #{onboarding_form.contact_details_name}]",
         :comment => {
             :value => <<~EOF

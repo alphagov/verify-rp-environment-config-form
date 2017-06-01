@@ -94,7 +94,7 @@ class OnboardingForm
   end
 
   def hashed_password
-    BCrypt::Password.create(stub_idp_password)
+    @hashed_password ||= BCrypt::Password.create(stub_idp_password)
   end
 
 end

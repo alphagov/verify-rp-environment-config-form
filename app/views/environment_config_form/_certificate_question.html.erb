@@ -10,7 +10,7 @@
   <textarea class="form-control block svc-attachment <%= 'form-control-error' if errors.any? %>" name="onboarding_form[<%= id %>]" id="<%= id %>" rows="10"><%= value %></textarea>
   <div>
     Or attach as file (extensions .pem or .crt permitted)
-  </div><input class="attachment svc-attachment" name="<%= id %>-attachment" type="file">
+  </div><input class="attachment svc-attachment" name="<%= id %>-attachment" type="file" accept=".crt, .pem">
   <details>
     <summary>
       <span class="summary">More Information</span>

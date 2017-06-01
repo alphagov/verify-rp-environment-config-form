@@ -1,8 +1,19 @@
 require 'rails_helper'
+require 'tempfile'
 
 RSpec.describe 'The start page', :type => :feature do
 
   ZENDESK_TICKETS_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}tickets.json"
+
+  before(:all) do
+    @cert_file = Tempfile.new('good-cert')
+    @cert_file.write(GOOD_CERT)
+    @cert_file.close
+  end
+
+  after(:all) do
+    @cert_file.unlink
+  end
 
   it 'should show the form' do
     visit '/'
@@ -51,6 +62,21 @@ RSpec.describe 'The start page', :type => :feature do
     stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 500)
     submit_valid_form
     expect(page).to have_content('There has been a problem')
+  end
+
+  it 'should upload a file for certificate field' do
+    visit '/'
+
+    attach_file 'signature_verification_certificate_transaction-attachment', @cert_file.path
+    attach_file 'signature_verification_certificate_match-attachment', @cert_file.path
+    attach_file 'encryption_certificate_transaction-attachment', @cert_file.path
+    attach_file 'encryption_certificate_match-attachment', @cert_file.path
+    click_button 'Request access'
+
+    expect(find_field(id: 'signature_verification_certificate_transaction').value).to eq(GOOD_CERT)
+    expect(find_field(id: 'signature_verification_certificate_match').value).to eq(GOOD_CERT)
+    expect(find_field(id: 'encryption_certificate_transaction').value).to eq(GOOD_CERT)
+    expect(find_field(id: 'encryption_certificate_match').value).to eq(GOOD_CERT)
   end
 
   def submit_valid_form

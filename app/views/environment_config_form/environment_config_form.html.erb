@@ -8,7 +8,7 @@
 <% end %>
 
 <div class="inner-block">
-  <%= form_for @onboarding_form, :url => { :action => 'submit' }, :html => { :id => 'onboarding', :novalidate => 'novalidate' } do |f| %>
+  <%= form_for @onboarding_form, :url => { :action => 'submit' }, :html => { :id => 'onboarding', :novalidate => 'novalidate', :multipart => true } do |f| %>
 
     <h1 class="form-title heading-large">Request access to an environment</h1>
     <div class="form-group">

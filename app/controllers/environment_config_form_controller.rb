@@ -6,7 +6,7 @@ class EnvironmentConfigFormController < ApplicationController
   end
 
   def submit
-    @onboarding_form = OnboardingForm.new(params['onboarding_form'].permit(OnboardingForm::ALL_FIELDS))
+    @onboarding_form = OnboardingForm.new(get_onboarding_form_params)
 
     if !@onboarding_form.valid?
       return render 'environment_config_form'
@@ -21,4 +21,16 @@ class EnvironmentConfigFormController < ApplicationController
     end
   end
 
+  private
+
+  def get_onboarding_form_params
+    user_input = params['onboarding_form'].permit(OnboardingForm::ALL_FIELDS)
+
+    OnboardingForm::CERTIFICATE_FIELDS.each {|field_name|
+      cert = params["#{field_name}-attachment"]
+      user_input[field_name] = cert.read if cert
+    }
+
+    user_input
+  end
 end

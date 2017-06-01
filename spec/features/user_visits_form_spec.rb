@@ -41,6 +41,12 @@ RSpec.describe 'The start page', :type => :feature do
     expect(page).to have_content('Your ticket has been created with the id #123')
   end
 
+  it 'should show confirmation page after a succesful form submit even if there\'s no ticket id' do
+    stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 201, :body => {"ticket":{"subject":"Test","comment":{"value":"some comment"}}}.to_json, :headers => {})
+    submit_valid_form
+    expect(page).to have_content('Your ticket has been created with the id #unknown')
+  end
+
   it 'should show an error if zendesk submit fails' do
     stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 500)
     submit_valid_form

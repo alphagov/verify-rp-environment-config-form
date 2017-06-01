@@ -38,7 +38,7 @@ RSpec.describe 'The start page', :type => :feature do
   it 'should show confirmation page after a succesful form submit' do
     stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 201, :body => {"ticket":{"id": 123, "subject":"Test","comment":{"value":"some comment"}}}.to_json, :headers => {})
     submit_valid_form
-    expect(page).to have_content('Your request has been submitted')
+    expect(page).to have_content('Your ticket has been created with the id #123')
   end
 
   it 'should show an error if zendesk submit fails' do

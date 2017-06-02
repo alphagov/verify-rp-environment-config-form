@@ -33,7 +33,3 @@ GOOD_CERT = <<~EOF
     WAgWh/LCQgDC+3z6SMSyiip7qi1qWWmx7C1NScqLvPQ=
     -----END CERTIFICATE-----
 EOF
-
-ENV['ZENDESK_BASE_URL'] = 'https://example.com/api/v2/'
-ENV['ZENDESK_TOKEN'] = 'some-token'
-ENV['ZENDESK_USERNAME'] = 'idasupport@example.com'

@@ -1,0 +1,5 @@
+---
+applications:
+- name: verify-rp-onboarding-form
+  memory: 512M
+  buildpack: ruby_buildpack

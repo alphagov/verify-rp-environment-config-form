@@ -129,4 +129,8 @@ describe OnboardingForm do
 
   end
 
+  it 'should fail in jenkins' do
+    assert(false)
+  end
+
 end

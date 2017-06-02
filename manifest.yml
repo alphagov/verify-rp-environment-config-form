@@ -1,5 +1,5 @@
 ---
 applications:
-- name: verify-rp-onboarding-form
+- name: verify-environment-access
   memory: 512M
   buildpack: ruby_buildpack

@@ -24,6 +24,7 @@ RSpec.describe 'The start page', :type => :feature do
     visit '/'
     click_button 'Request access'
     expect(page).to have_content "Service entity ID can't be blank"
+    expect(page).to have_content "Unfortunately the form does not seem to be valid."
     expect(find_field(id: 'service_entity_id')).to match_selector('.form-control-error')
     expect(find_field(id: 'signature_verification_certificate_transaction')).to match_selector('.form-control-error')
     expect(find_field(id: 'other_ways_complete_transaction')).to match_selector('.form-control-error')

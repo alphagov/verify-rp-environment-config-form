@@ -7,6 +7,13 @@
   </div>
 <% end %>
 
+<% if @onboarding_form.errors.any? %>
+  <div class="error-summary">
+    <h1 class="heading-medium error-summary-heading">Unfortunately the form does not seem to be valid.</h1>
+    <p>Please fix the errors below.</p>
+  </div>
+<% end %>
+
 <div class="inner-block">
   <%= form_for @onboarding_form, :url => { :action => 'submit' }, :html => { :id => 'onboarding', :novalidate => 'novalidate', :multipart => true } do |f| %>
 

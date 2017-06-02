@@ -18,7 +18,8 @@ class OnboardingForm
     :contact_details_phone,
     :contact_details_message,
     :stub_idp_username,
-    :stub_idp_password
+    :stub_idp_password,
+    :testing_devices_ips
   ]
 
   REQUIRED_FIELDS = [
@@ -39,8 +40,7 @@ class OnboardingForm
     :contact_details_email,
     :contact_details_service,
     :contact_details_department,
-    :matching_service_adapter_ip,
-    :testing_devices_ips
+    :matching_service_adapter_ip
   ]
 
   URL_FIELDS = [
@@ -63,10 +63,12 @@ class OnboardingForm
 
   ALL_FIELDS.each {|field_name| attr_accessor field_name }
   REQUIRED_FIELDS.each {|field_name| validates field_name, :presence => true}
-  URL_FIELDS.each {|field_name| validates field_name, format: { with: /\Ahttps?:\/\//, message: "must be a url" }}
+  URL_FIELDS.each {|field_name| validates field_name, format: { with: /\Ahttps?:\/\//, message: 'must be a url' }, allow_blank: true}
 
   validates :stub_idp_username, presence: true, if: :is_integration_access_form?
   validates :stub_idp_password, presence: true, length: { minimum: 8 }, if: :is_integration_access_form?
+  validates :testing_devices_ips, presence: true, if: :is_integration_access_form?
+  validates :contact_details_email, format: { with: /.+@.+/, message: 'is not properly formatted' }
   validate :validate_entity_ids_are_different, :validate_certificate_is_well_formed
 
   def initialize(attributes)

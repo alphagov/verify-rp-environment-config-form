@@ -25,7 +25,7 @@ describe OnboardingForm do
         :stub_idp_username => 'something',
         :stub_idp_password => 'password',
         :contact_details_name => 'something',
-        :contact_details_email => 'something',
+        :contact_details_email => 'something@email.com',
         :contact_details_service => 'something',
         :contact_details_department => 'something'   ,
         :user_account_creation_uri => 'http://example.com'
@@ -56,7 +56,6 @@ describe OnboardingForm do
       expect(form.errors['contact_details_email']).to include("can't be blank")
       expect(form.errors['contact_details_service']).to include("can't be blank")
       expect(form.errors['contact_details_department']).to include("can't be blank")
-      expect(form.errors['user_account_creation_uri']).to include("must be a url")
     end
 
     it 'should require urls to be urls' do

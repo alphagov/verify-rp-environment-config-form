@@ -73,12 +73,12 @@
         information you want the hub to send for <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3\'>matching cycle 3</a>, for example, driving
         licence number. Matching cycle 3 is used if <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc1\'>matching cycle 1</a>
         fails. Make sure that your GOV.UK Verify engagement lead pre-approves this field as it requires development.' %>
-    <%= render 'question', value: @onboarding_form.user_account_creation_uri, errors: @onboarding_form.errors['user_account_creation_uri'], title: 'Matching service user account creation URL', id: 'user_account_creation_uri', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will make unknown user attribute query requests. This is optional. It is required only if you want to enable <a href=
+    <%= render 'question', value: @onboarding_form.user_account_creation_uri, errors: @onboarding_form.errors['user_account_creation_uri'], title: 'Matching service user account creation URL (optional)', id: 'user_account_creation_uri', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will make unknown user attribute query requests. This is optional. It is required only if you want to enable <a href=
           \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msCua.html#ms-cua\'>user account creation</a> in your service.' %>
 
     <fieldset class="form-group">
       <div class="provide-option">
-        <label class="form-label"> Attributes for creating user account</label>
+        <label class="form-label"> Attributes for creating user account (optional)</label>
         <div class="personal-attributes form-group">
           <div class="multiple-choice">
             <%= f.check_box :user_account_first_name %>

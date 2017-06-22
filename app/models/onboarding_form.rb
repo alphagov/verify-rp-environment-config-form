@@ -84,7 +84,12 @@ class OnboardingForm
   def validate_certificate_is_well_formed
     CERTIFICATE_FIELDS.each {|certificate_field|
       begin
-        OpenSSL::X509::Certificate.new(self.send(certificate_field))
+        certificate = OpenSSL::X509::Certificate.new(self.send(certificate_field))
+        if @environment_access == ENVIRONMENT_ACCESS_INTEGRATION && !certificate.issuer.to_s.include?('IDAP Relying Party Test CA')
+          errors.add(certificate_field, 'Certificates for the integration environment must be issued by IDAP Relying Party Test CA')
+        elsif @environment_access == ENVIRONMENT_ACCESS_PRODUCTION && !certificate.issuer.to_s.include?('IDAP Relying Party CA G2')
+          errors.add(certificate_field, 'Certificates for the production environment must be issued by IDAP Relying Party CA G2')
+        end
       rescue
         errors[certificate_field] << 'is malformed'
       end

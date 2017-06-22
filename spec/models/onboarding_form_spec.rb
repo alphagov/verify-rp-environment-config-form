@@ -15,10 +15,10 @@ describe OnboardingForm do
         :testing_devices_ips => 'something',
         :service_homepage_url => 'http://example.com',
         :assertion_consumer_services_https_url => 'http://example.com',
-        :signature_verification_certificate_transaction => GOOD_CERT,
-        :signature_verification_certificate_match => GOOD_CERT,
-        :encryption_certificate_transaction => GOOD_CERT,
-        :encryption_certificate_match => GOOD_CERT,
+        :signature_verification_certificate_transaction => GOOD_CERT_GOOD_ISSUER_INTEGRATION,
+        :signature_verification_certificate_match => GOOD_CERT_GOOD_ISSUER_INTEGRATION,
+        :encryption_certificate_transaction => GOOD_CERT_GOOD_ISSUER_INTEGRATION,
+        :encryption_certificate_match => GOOD_CERT_GOOD_ISSUER_INTEGRATION,
         :service_display_name => 'something',
         :other_ways_display_name => 'something',
         :other_ways_complete_transaction => 'something',
@@ -95,6 +95,36 @@ describe OnboardingForm do
       expect(form.errors['signature_verification_certificate_match']).to include("is malformed")
       expect(form.errors['encryption_certificate_transaction']).to include("is malformed")
       expect(form.errors['encryption_certificate_match']).to include("is malformed")
+    end
+
+    it 'should validate that the issuer of the certificate is correct for Integration' do
+      form = OnboardingForm.new({
+        :environment_access => OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION,
+        :signature_verification_certificate_transaction => GOOD_CERT_BAD_ISSUER,
+        :signature_verification_certificate_match => GOOD_CERT_BAD_ISSUER,
+        :encryption_certificate_transaction => GOOD_CERT_BAD_ISSUER,
+        :encryption_certificate_match => GOOD_CERT_BAD_ISSUER,
+      })
+      form.valid?
+      expect(form.errors['signature_verification_certificate_transaction']).to include("Certificates for the integration environment must be issued by IDAP Relying Party Test CA")
+      expect(form.errors['signature_verification_certificate_match']).to include("Certificates for the integration environment must be issued by IDAP Relying Party Test CA")
+      expect(form.errors['encryption_certificate_transaction']).to include("Certificates for the integration environment must be issued by IDAP Relying Party Test CA")
+      expect(form.errors['encryption_certificate_match']).to include("Certificates for the integration environment must be issued by IDAP Relying Party Test CA")
+    end
+
+    it 'should validate that the issuer of the certificate is correct for Production' do
+      form = OnboardingForm.new({
+        :environment_access => OnboardingForm::ENVIRONMENT_ACCESS_PRODUCTION,
+        :signature_verification_certificate_transaction => GOOD_CERT_BAD_ISSUER,
+        :signature_verification_certificate_match => GOOD_CERT_BAD_ISSUER,
+        :encryption_certificate_transaction => GOOD_CERT_BAD_ISSUER,
+        :encryption_certificate_match => GOOD_CERT_BAD_ISSUER,
+      })
+      form.valid?
+      expect(form.errors['signature_verification_certificate_transaction']).to include("Certificates for the production environment must be issued by IDAP Relying Party CA G2")
+      expect(form.errors['signature_verification_certificate_match']).to include("Certificates for the production environment must be issued by IDAP Relying Party CA G2")
+      expect(form.errors['encryption_certificate_transaction']).to include("Certificates for the production environment must be issued by IDAP Relying Party CA G2")
+      expect(form.errors['encryption_certificate_match']).to include("Certificates for the production environment must be issued by IDAP Relying Party CA G2")
     end
 
     it 'should require service entity id and matching service entity id to be different' do

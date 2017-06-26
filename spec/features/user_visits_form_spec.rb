@@ -7,7 +7,7 @@ RSpec.describe 'The start page', :type => :feature do
 
   before(:all) do
     @cert_file = Tempfile.new('good-cert')
-    @cert_file.write(GOOD_CERT)
+    @cert_file.write(GOOD_CERT_GOOD_ISSUER_INTEGRATION)
     @cert_file.close
   end
 
@@ -74,10 +74,10 @@ RSpec.describe 'The start page', :type => :feature do
     attach_file 'encryption_certificate_match-attachment', @cert_file.path
     click_button 'Request access'
 
-    expect(find_field(id: 'signature_verification_certificate_transaction').value).to eq(GOOD_CERT)
-    expect(find_field(id: 'signature_verification_certificate_match').value).to eq(GOOD_CERT)
-    expect(find_field(id: 'encryption_certificate_transaction').value).to eq(GOOD_CERT)
-    expect(find_field(id: 'encryption_certificate_match').value).to eq(GOOD_CERT)
+    expect(find_field(id: 'signature_verification_certificate_transaction').value).to eq(GOOD_CERT_GOOD_ISSUER_INTEGRATION)
+    expect(find_field(id: 'signature_verification_certificate_match').value).to eq(GOOD_CERT_GOOD_ISSUER_INTEGRATION)
+    expect(find_field(id: 'encryption_certificate_transaction').value).to eq(GOOD_CERT_GOOD_ISSUER_INTEGRATION)
+    expect(find_field(id: 'encryption_certificate_match').value).to eq(GOOD_CERT_GOOD_ISSUER_INTEGRATION)
   end
 
   def submit_valid_form
@@ -88,10 +88,10 @@ RSpec.describe 'The start page', :type => :feature do
     fill_in('Service start page URL', with: 'http://example.com')
     fill_in('Assertion consumer services HTTPS URL', with: 'http://example.com')
 
-    fill_in 'Service signature validation certificate', with: GOOD_CERT
-    fill_in 'Matching service signature validation certificate', with: GOOD_CERT
-    fill_in 'Service encryption certificate', with: GOOD_CERT
-    fill_in 'Matching service encryption certificate', with: GOOD_CERT
+    fill_in 'Service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
+    fill_in 'Matching service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
+    fill_in 'Service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
+    fill_in 'Matching service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
 
     fill_in 'Matching service user account creation URL', with: 'http://example.com/msa/create-account'
     fill_in 'IP address of the Matching Service Adapter (MSA)', with: 'some IP address'

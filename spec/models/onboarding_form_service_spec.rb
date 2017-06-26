@@ -13,10 +13,10 @@ describe OnboardingFormService do
         service_homepage_url: 'https://example.com/start',
         assertion_consumer_services_https_url: 'https://example.com/process-response',
         cycle3_attribute_name: 'cycle3attr',
-        signature_verification_certificate_transaction: GOOD_CERT,
-        signature_verification_certificate_match: GOOD_CERT,
-        encryption_certificate_transaction: GOOD_CERT,
-        encryption_certificate_match: GOOD_CERT,
+        signature_verification_certificate_transaction: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
+        signature_verification_certificate_match: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
+        encryption_certificate_transaction: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
+        encryption_certificate_match: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
         user_account_creation_uri: 'https://example.com',
         user_account_first_name: true,
         user_account_middle_name: true,
@@ -73,16 +73,16 @@ describe OnboardingFormService do
                 https://example.com
                 
                 Transaction signature verification certificate:
-                #{GOOD_CERT}
+                #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
                 
                 Transaction encryption certificate:
-                #{GOOD_CERT}
+                #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
                 
                 Matching Service signature verification certificate:
-                #{GOOD_CERT}
+                #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
                 
                 Matching Service encryption certificate:
-                #{GOOD_CERT}
+                #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
                 
                 Requested attributes for creating user account:
                 FIRST_NAME, FIRST_NAME_VERIFIED, MIDDLE_NAME, MIDDLE_NAME_VERIFIED, SURNAME, SURNAME_VERIFIED, DATE_OF_BIRTH, DATE_OF_BIRTH_VERIFIED, CURRENT_ADDRESS, CURRENT_ADDRESS_VERIFIED, CYCLE_3

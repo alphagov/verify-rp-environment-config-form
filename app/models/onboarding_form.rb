@@ -6,6 +6,9 @@ class OnboardingForm
   ENVIRONMENT_ACCESS_INTEGRATION = 'integration-access-request'
   ENVIRONMENT_ACCESS_PRODUCTION = 'production-access-request'
 
+  CERTIFICATE_ISSUER_INTEGRATION = 'IDAP Relying Party Test CA'
+  CERTIFICATE_ISSUER_PRODUCTION = 'IDAP Relying Party CA G2'
+
   OPTIONAL_FIELDS = [
     :cycle3_attribute_name,
     :user_account_creation_uri,
@@ -69,7 +72,7 @@ class OnboardingForm
   validates :stub_idp_password, presence: true, length: { minimum: 8 }, if: :is_integration_access_form?
   validates :testing_devices_ips, presence: true, if: :is_integration_access_form?
   validates :contact_details_email, format: { with: /.+@.+/, message: 'is not properly formatted' }
-  validate :validate_entity_ids_are_different, :validate_certificate_is_well_formed
+  validate :validate_entity_ids_are_different, :validate_certificate
 
   def initialize(attributes)
     super
@@ -81,14 +84,25 @@ class OnboardingForm
     end
   end
 
-  def validate_certificate_is_well_formed
+  def validate_certificate
     CERTIFICATE_FIELDS.each {|certificate_field|
       begin
-        OpenSSL::X509::Certificate.new(self.send(certificate_field))
+        certificate = OpenSSL::X509::Certificate.new(self.send(certificate_field))
+        if is_integration_access_form?
+          validate_certificate_issuer(certificate, CERTIFICATE_ISSUER_INTEGRATION, certificate_field, 'integration')
+        else
+          validate_certificate_issuer(certificate, CERTIFICATE_ISSUER_PRODUCTION, certificate_field, 'production')
+        end
       rescue
         errors[certificate_field] << 'is malformed'
       end
     }
+  end
+
+  def validate_certificate_issuer(certificate, issuer, certificate_field, environment)
+    if !certificate.issuer.to_s.include?("CN=#{issuer}")
+      errors.add(certificate_field, "Certificates for the #{environment} environment must be issued by #{issuer}")
+    end
   end
 
   def is_integration_access_form?

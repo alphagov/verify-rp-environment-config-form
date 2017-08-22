@@ -1,15 +1,19 @@
-<% content_for(:page_title, 'Environment Config') %>
+<% content_for(
+       :page_title,
+       "#{'Error - ' if (@error || @onboarding_form.errors.any?)}Verify Environment Configuration - GOV.UK"
+   )
+%>
 
 <% if @error %>
   <div class="error-summary">
-    <h1 class="heading-medium error-summary-heading"> There has been a problem </h1>
+    <h2 class="heading-medium error-summary-heading"> There has been a problem </h2>
     <p>Please try again later, or contact the Verify Support Team.</p>
   </div>
 <% end %>
 
 <% if @onboarding_form.errors.any? %>
   <div class="error-summary">
-    <h1 class="heading-medium error-summary-heading">Unfortunately the form does not seem to be valid.</h1>
+    <h2 class="heading-medium error-summary-heading">Unfortunately the form does not seem to be valid.</h2>
     <p>Please fix the errors below.</p>
   </div>
 <% end %>
@@ -19,12 +23,15 @@
 
     <h1 class="form-title heading-large">Request access to an environment</h1>
     <div class="form-group">
-      <span class="bold">Note:</span> <span>Access to the environment form will be given subject to successful gate reviews. Environment set up and configuration will take the GOV.UK Verify
-      team 5 working days.</span>
+      <p>You must complete all fields and submit your request in a single session.  Data is not stored if you leave this page before submitting this form.</p>
+
+      <span class="bold">Note:</span> <span>Environment set up and configuration will take the GOV.UK Verify team 5 working days.</span>
     </div>
-    <fieldset>
-      <div class="form-group">
-        <h2 class="heading-small">Select the environment you wish to access</h2><legend class="visually-hidden">Select the environment you wish to access</legend>
+
+    <div class="form-group">
+      <h2 class="heading-small">Select the environment you require</h2>
+      <fieldset>
+        <legend class="visually-hidden">Select the environment you require</legend>
         <div class="multiple-choice">
           <%= f.radio_button :environment_access, OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION %>
           <label for="onboarding_form_environment_access_integration-access-request">Integration</label>
@@ -33,8 +40,8 @@
           <%= f.radio_button :environment_access, OnboardingForm::ENVIRONMENT_ACCESS_PRODUCTION %>
           <label for="onboarding_form_environment_access_production-access-request">Production</label>
         </div>
-      </div>
-    </fieldset>
+      </fieldset>
+    </div>
 
     <%= render 'question',
                title: 'Service entity ID',

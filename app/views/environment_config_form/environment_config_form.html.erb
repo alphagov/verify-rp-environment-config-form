@@ -88,12 +88,23 @@
                </p>
                '
     %>
+    <%= render 'question',
+               value: @onboarding_form.assertion_consumer_services_https_url,
+               errors: @onboarding_form.errors['assertion_consumer_services_https_url'],
+               title: 'Verify SAML response URL',
+               id: 'assertion_consumer_services_https_url',
+               input_type: 'url',
+               information: '<p>To receive Verify SAML responses you must provide a unique URL
+               (The Assertion Consumer Service URL), for each connection that you request.
+               </p>
+               <p>You cannot reuse your existing Integration environment URLs in the Production environment.</p>
+               <p>Enter the URL that will receive your Verify SAML responses, for example:</p>
+               <p>Integration: <code>https://{your-service-name}.{your-integration-domain}/verify/response</code></p>
+               <p>Production: <code>https://{your-service-name}.service.gov.uk/verify/response</code></p>
+               '
+    %>
     <%= render 'question', value: @onboarding_form.matching_service_url, errors: @onboarding_form.errors['matching_service_url'], title: 'Matching service URL', id: 'matching_service_url', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will
           make matching service requests. For example https://identity.service-integration.gov.uk/msa.' %>
-    <%= render 'question', value: @onboarding_form.assertion_consumer_services_https_url, errors: @onboarding_form.errors['assertion_consumer_services_https_url'], title: 'Assertion consumer services HTTPS URL', id: 'assertion_consumer_services_https_url', input_type: 'url', information: 'Enter the fully qualified URL
-          to which the hub will send its responses. For example <a href=\'https://test-rp.service.signin.gov.uk/authentication_endpoint\'>
-          https://test-rp.service.signin.gov.uk/authentication_endpoint</a>. This field must be unique for each connection you
-          request for the integration or production environment.' %>
     <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
           valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
           present on all messages sent from your service. It must correspond to the private key for your service. See <a href=

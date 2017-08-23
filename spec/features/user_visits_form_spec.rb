@@ -86,7 +86,7 @@ RSpec.describe 'The start page', :type => :feature do
     fill_in('Matching Service Adapter entity ID', with: 'http://example.com/msa')
     fill_in('Matching service URL', with: 'http://example.com/msa')
     fill_in('Service start page URL', with: 'http://example.com')
-    fill_in('Assertion consumer services HTTPS URL', with: 'http://example.com')
+    fill_in('Verify SAML response URL', with: 'http://example.com')
 
     fill_in 'Service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
     fill_in 'Matching service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION

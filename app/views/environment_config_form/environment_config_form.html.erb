@@ -55,11 +55,19 @@
                service and department, using the form: </p>
                <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}</code></p>
                <p>You must use different entity IDs in the Integration and Production environments.</p>
-                '
+               '
     %>
-    <%= render 'question', value: @onboarding_form.matching_service_entity_id, errors: @onboarding_form.errors['matching_service_entity_id'], title: 'Matching service entity ID', id: 'matching_service_entity_id', input_type: 'url', information: 'Your matching service is a unique entity within the
-          federation. It therefore needs a matching service entityID, which must be different from your service entityID. For example
-          https://identity.service-ms.gov.uk. Several services can use the same matching service.' %>
+    <%= render 'question',
+               value: @onboarding_form.matching_service_entity_id,
+               errors: @onboarding_form.errors['matching_service_entity_id'],
+               title: 'Matching Service Adapter entity ID',
+               id: 'matching_service_entity_id',
+               input_type: 'url',
+               information: '<p>Your Verify Service entity ID and Matching Service Adapter entity IDs must be different.</p>
+               <p>Where possible, make your Matching Service Adapter entity ID descriptive, by including the name of your service and department, using the form:</p>
+               <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}/msa</code></p>
+               '
+    %>
     <%= render 'question', value: @onboarding_form.matching_service_url, errors: @onboarding_form.errors['matching_service_url'], title: 'Matching service URL', id: 'matching_service_url', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will
           make matching service requests. For example https://identity.service-integration.gov.uk/msa.' %>
     <%= render 'question', value: @onboarding_form.service_homepage_url, errors: @onboarding_form.errors['service_homepage_url'], title: 'Service start page URL', id: 'service_homepage_url', input_type: 'url', information: 'Enter the fully qualified URL used to access your service.

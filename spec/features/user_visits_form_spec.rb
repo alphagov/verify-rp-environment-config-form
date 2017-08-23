@@ -83,7 +83,7 @@ RSpec.describe 'The start page', :type => :feature do
   def submit_valid_form
     visit '/'
     fill_in('Verify service entity ID', with: 'http://example.com')
-    fill_in('Matching service entity ID', with: 'http://example.com/msa')
+    fill_in('Matching Service Adapter entity ID', with: 'http://example.com/msa')
     fill_in('Matching service URL', with: 'http://example.com/msa')
     fill_in('Service start page URL', with: 'http://example.com')
     fill_in('Assertion consumer services HTTPS URL', with: 'http://example.com')

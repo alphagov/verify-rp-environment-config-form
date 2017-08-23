@@ -133,7 +133,7 @@ describe OnboardingForm do
         matching_service_entity_id: 'foo',
       })
       form.valid?
-      expect(form.errors['matching_service_entity_id']).to include('Entity IDs need to be different')
+      expect(form.errors['matching_service_entity_id']).to include('needs to be different from the Verify service entity ID')
     end
 
     it 'should require at least 8 chars on password' do

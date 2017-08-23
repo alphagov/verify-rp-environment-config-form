@@ -44,14 +44,18 @@
     </div>
 
     <%= render 'question',
-               title: 'Service entity ID',
+               title: 'Verify service entity ID',
                id: 'service_entity_id',
                errors: @onboarding_form.errors['service_entity_id'],
                input_type: 'url',
                value: @onboarding_form.service_entity_id,
-               information: 'Enter the entityID for the service you want to connect to the
-                integration environment. This is a globally unique identifier for your service within the environment. It\'s typically in URL format, for example
-                https://identity.service.gov.uk. For every service and connection to both integration and production make sure each has a unique entityID.'
+               information: '<p>The Verify service entity ID must be a globally unique URL. When you contact us, our service support
+               engineers use this ID to identify your specific service.</p>
+               <p>When possible, please make your Verify service entity ID descriptive, by including the name of your
+               service and department, using the form: </p>
+               <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}</code></p>
+               <p>You must use different entity IDs in the Integration and Production environments.</p>
+                '
     %>
     <%= render 'question', value: @onboarding_form.matching_service_entity_id, errors: @onboarding_form.errors['matching_service_entity_id'], title: 'Matching service entity ID', id: 'matching_service_entity_id', input_type: 'url', information: 'Your matching service is a unique entity within the
           federation. It therefore needs a matching service entityID, which must be different from your service entityID. For example

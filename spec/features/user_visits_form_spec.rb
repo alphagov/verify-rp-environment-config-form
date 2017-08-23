@@ -23,8 +23,8 @@ RSpec.describe 'The start page', :type => :feature do
   it 'should show errors for required fields' do
     visit '/'
     click_button 'Request access'
-    expect(page).to have_content "Service entity ID can't be blank"
-    expect(page).to have_content "Unfortunately the form does not seem to be valid."
+    expect(page).to have_content "Verify service entity ID can't be blank"
+    expect(page).to have_content 'Unfortunately the form does not seem to be valid.'
     expect(find_field(id: 'service_entity_id')).to match_selector('.form-control-error')
     expect(find_field(id: 'signature_verification_certificate_transaction')).to match_selector('.form-control-error')
     expect(find_field(id: 'other_ways_complete_transaction')).to match_selector('.form-control-error')
@@ -33,7 +33,7 @@ RSpec.describe 'The start page', :type => :feature do
   it 'should maintain the input values after validation fails' do
     visit '/'
     choose 'Production'
-    fill_in('Service entity ID', with: 'some-bad-input')
+    fill_in('Verify service entity ID', with: 'some-bad-input')
     fill_in('Service signature validation certificate', with: 'some-bad-input')
     fill_in('Message (optional)', with: 'some-bad-input')
     check('First name')
@@ -82,7 +82,7 @@ RSpec.describe 'The start page', :type => :feature do
 
   def submit_valid_form
     visit '/'
-    fill_in('Service entity ID', with: 'http://example.com')
+    fill_in('Verify service entity ID', with: 'http://example.com')
     fill_in('Matching service entity ID', with: 'http://example.com/msa')
     fill_in('Matching service URL', with: 'http://example.com/msa')
     fill_in('Service start page URL', with: 'http://example.com')

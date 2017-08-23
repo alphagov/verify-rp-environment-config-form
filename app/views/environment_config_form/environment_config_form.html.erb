@@ -68,11 +68,28 @@
                <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}/msa</code></p>
                '
     %>
+    <h2 class="heading-medium">URLs</h2>
+    <p>You must supply details of the URLs you will use for your matching service requests and service assertions.</p>
+    <%= render 'question',
+               value: @onboarding_form.service_homepage_url,
+               errors: @onboarding_form.errors['service_homepage_url'],
+               title: 'Service start page URL',
+               id: 'service_homepage_url',
+               input_type: 'url',
+               information: '<p>This is the URL that gives users access to your service.</p>
+               <p>Your service start page might be a:
+               <ul class="list-bullet">
+               <li>page on GOV.UK, for example https://www.gov.uk/update-company-car-details</li>
+               <li>similar landing page in your testing environment</li>
+               </ul>
+               </p>
+               <p>Do not host private beta services on GOV.UK. (Refer:
+               <a href="https://www.gov.uk/service-manual/design/start-pages">https://www.gov.uk/service-manual/design/start-pages</a>)
+               </p>
+               '
+    %>
     <%= render 'question', value: @onboarding_form.matching_service_url, errors: @onboarding_form.errors['matching_service_url'], title: 'Matching service URL', id: 'matching_service_url', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will
           make matching service requests. For example https://identity.service-integration.gov.uk/msa.' %>
-    <%= render 'question', value: @onboarding_form.service_homepage_url, errors: @onboarding_form.errors['service_homepage_url'], title: 'Service start page URL', id: 'service_homepage_url', input_type: 'url', information: 'Enter the fully qualified URL used to access your service.
-          This is usually a page on GOV.UK, for example <a href=\'https://www.gov.uk/update-company-car-details\'>https://www.gov.uk/update-company-car-details</a>. For a private
-          beta service this will not be on GOV.UK and is likely to be locally hosted.' %>
     <%= render 'question', value: @onboarding_form.assertion_consumer_services_https_url, errors: @onboarding_form.errors['assertion_consumer_services_https_url'], title: 'Assertion consumer services HTTPS URL', id: 'assertion_consumer_services_https_url', input_type: 'url', information: 'Enter the fully qualified URL
           to which the hub will send its responses. For example <a href=\'https://test-rp.service.signin.gov.uk/authentication_endpoint\'>
           https://test-rp.service.signin.gov.uk/authentication_endpoint</a>. This field must be unique for each connection you

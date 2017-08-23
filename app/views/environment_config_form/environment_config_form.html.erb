@@ -103,8 +103,18 @@
                <p>Production: <code>https://{your-service-name}.service.gov.uk/verify/response</code></p>
                '
     %>
-    <%= render 'question', value: @onboarding_form.matching_service_url, errors: @onboarding_form.errors['matching_service_url'], title: 'Matching service URL', id: 'matching_service_url', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will
-          make matching service requests. For example https://identity.service-integration.gov.uk/msa.' %>
+    <%= render 'question',
+               value: @onboarding_form.matching_service_url,
+               errors: @onboarding_form.errors['matching_service_url'],
+               title: 'Matching service: matching URL',
+               id: 'matching_service_url',
+               input_type: 'url',
+               information: '<p>To maintain security, GOV.UK Verify servers only communicate with whitelisted IP addresses.</p>
+               <p>Enter the URL that you will use to receive Verify Hub matching service requests, for example:</p>
+               <p>Integration: <code>https://{your-integration-domain}/matching-service/POST</code></p>
+               <p>Production: <code>https://{your-production-domain}.gov.uk/matching-service/POST</code></p>
+               '
+    %>
     <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
           valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
           present on all messages sent from your service. It must correspond to the private key for your service. See <a href=

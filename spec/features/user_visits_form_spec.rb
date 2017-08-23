@@ -84,7 +84,7 @@ RSpec.describe 'The start page', :type => :feature do
     visit '/'
     fill_in('Verify service entity ID', with: 'http://example.com')
     fill_in('Matching Service Adapter entity ID', with: 'http://example.com/msa')
-    fill_in('Matching service URL', with: 'http://example.com/msa')
+    fill_in('Matching service: matching URL', with: 'http://example.com/msa')
     fill_in('Service start page URL', with: 'http://example.com')
     fill_in('Verify SAML response URL', with: 'http://example.com')
 

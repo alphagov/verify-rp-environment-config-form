@@ -106,13 +106,28 @@
     <%= render 'question',
                value: @onboarding_form.matching_service_url,
                errors: @onboarding_form.errors['matching_service_url'],
-               title: 'Matching service: matching URL',
+               title: 'Matching Service: matching URL',
                id: 'matching_service_url',
                input_type: 'url',
                information: '<p>To maintain security, GOV.UK Verify servers only communicate with whitelisted IP addresses.</p>
                <p>Enter the URL that you will use to receive Verify Hub matching service requests, for example:</p>
                <p>Integration: <code>https://{your-integration-domain}/matching-service/POST</code></p>
                <p>Production: <code>https://{your-production-domain}.gov.uk/matching-service/POST</code></p>
+               '
+    %>
+    <%= render 'question',
+               value: @onboarding_form.user_account_creation_uri,
+               errors: @onboarding_form.errors['user_account_creation_uri'],
+               title: 'Matching Service: User account creation URL',
+               id: 'user_account_creation_uri',
+               input_type: 'url',
+               information: '<p>
+               If your service needs to create User accounts: enter the URL that will accept
+               Verify Hub <em>‘Unknown User Attribute’</em> query requests, for example:
+               </p>
+               <p>Integration: <code>https://{your-integration-domain}/unknown-user-attribute-query</code></p>
+               <p>Production: <code>https://{your-production-domain}.gov.uk/unknown-user-attribute-query</code></p>
+               <p>You only need to do this if you have User account creation enabled for your service.</p>
                '
     %>
     <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
@@ -137,8 +152,6 @@
         information you want the hub to send for <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3\'>matching cycle 3</a>, for example, driving
         licence number. Matching cycle 3 is used if <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc1\'>matching cycle 1</a>
         fails. Make sure that your GOV.UK Verify engagement lead pre-approves this field as it requires development.' %>
-    <%= render 'question', value: @onboarding_form.user_account_creation_uri, errors: @onboarding_form.errors['user_account_creation_uri'], title: 'Matching service user account creation URL (optional)', id: 'user_account_creation_uri', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will make unknown user attribute query requests. This is optional. It is required only if you want to enable <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msCua.html#ms-cua\'>user account creation</a> in your service.' %>
 
     <fieldset class="form-group">
       <div class="provide-option">

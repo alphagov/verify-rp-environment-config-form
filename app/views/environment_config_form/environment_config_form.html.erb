@@ -157,7 +157,14 @@
                <p>If more than one address, please enter as a comma separated list.</p>
                '
     %>
-    <%= render 'question', value: @onboarding_form.matching_service_adapter_ip, errors: @onboarding_form.errors['matching_service_adapter_ip'], title: 'IP address of the Matching Service Adapter (MSA)', id: 'matching_service_adapter_ip', input_type: 'text', information: 'Enter the IP address of the host running the Matching Service Adapter (MSA). This allows GOV.UK Verify to put in place firewall rules so the hub can communicate with the MSA.' %>
+    <%= render 'question',
+               value: @onboarding_form.matching_service_adapter_ip,
+               errors: @onboarding_form.errors['matching_service_adapter_ip'],
+               title: 'Matching Service Adapter IP address',
+               id: 'matching_service_adapter_ip',
+               input_type: 'text',
+               information: '<p>The IP address of the domain that will host your matching service adapter</p>'
+    %>
 
     <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
           valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature

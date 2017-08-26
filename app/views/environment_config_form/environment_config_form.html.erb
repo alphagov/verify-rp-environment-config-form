@@ -237,24 +237,93 @@
     </div>
     <p>See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">request certificates</a></p>
 
-    <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
-          valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
-          present on all messages sent from your service. It must correspond to the private key for your service. See <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_match, errors: @onboarding_form.errors['signature_verification_certificate_match'], title: 'Matching service signature validation certificate', id: 'signature_verification_certificate_match', input_type: 'textarea', information: 'Upload a valid
-          X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
-          present on all responses sent from the Matching Service Adapter. It must correspond to the private key for the Matching Service Adapter. You can retrieve the certificate
-          from your Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'certificate_question', value: @onboarding_form.encryption_certificate_transaction, errors: @onboarding_form.errors['encryption_certificate_transaction'], title: 'Service encryption certificate', id: 'encryption_certificate_transaction', input_type: 'textarea', information: 'Upload a valid X509 public
-          certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
-          assertions within the responses that it sends to your service. Your service decrypts the assertions using your corresponding private key. See <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'certificate_question', value: @onboarding_form.encryption_certificate_match, errors: @onboarding_form.errors['encryption_certificate_match'], title: 'Matching service encryption certificate', id: 'encryption_certificate_match', input_type: 'textarea', information: 'Upload a valid X509
-          public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
-          assertions within the requests that it sends to the Matching Service Adapter. The Matching Service Adapter decrypts the the assertions using the corresponding private key.
-          You can retrieve this certificate from your Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
+    <%= render 'certificate_question',
+               value: @onboarding_form.signature_verification_certificate_transaction,
+               errors: @onboarding_form.errors['signature_verification_certificate_transaction'],
+               title: 'Service signature validation certificate',
+               id: 'signature_verification_certificate_transaction',
+               input_type: 'textarea',
+               information: '
+               <p>
+               Upload a valid X509 public certificate signed by either the IDAP test certificate authority
+               or the IDAP certificate authority. This certificate validates the digital signature
+               present on all messages sent from your service. It must correspond to the private key
+               for your service.
+               </p>
+               <p>
+               See
+               <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               request certificates</a>.
+               </p>
+               '
+    %>
+    <%= render 'certificate_question',
+               value: @onboarding_form.signature_verification_certificate_match,
+               errors: @onboarding_form.errors['signature_verification_certificate_match'],
+               title: 'Matching service signature validation certificate',
+               id: 'signature_verification_certificate_match',
+               input_type: 'textarea',
+               information: '
+               <p>
+               Upload a valid X509 public certificate signed by either the IDAP test
+               certificate authority or the IDAP certificate authority. This certificate validates
+               the digital signature present on all responses sent from the Matching Service Adapter.
+               It must correspond to the private key for the Matching Service Adapter.
+               You can retrieve the certificate from your Matching Service Adapter by accessing:
+               <br>
+               <code>/matching-service/SAML2/metadata</code>
+               </p>
+               <p>See
+               <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               request certificates</a>.
+               </p>
+               '
+    %>
+    <%= render 'certificate_question',
+               value: @onboarding_form.encryption_certificate_transaction,
+               errors: @onboarding_form.errors['encryption_certificate_transaction'],
+               title: 'Service encryption certificate',
+               id: 'encryption_certificate_transaction',
+               input_type: 'textarea',
+               information: '
+               <p>
+               Upload a valid X509 public certificate signed by either the IDAP test certificate
+               authority or the IDAP certificate authority. The hub uses this certificate to encrypt
+               the assertions within the responses that it sends to your service.
+               Your service decrypts the assertions using your corresponding private key.
+               </p>
+               <p>See
+               <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               request certificates</a>.
+               </p>
+               '
+    %>
+    <%= render 'certificate_question',
+               value: @onboarding_form.encryption_certificate_match,
+               errors: @onboarding_form.errors['encryption_certificate_match'],
+               title: 'Matching service encryption certificate',
+               id: 'encryption_certificate_match',
+               input_type: 'textarea',
+               information: '
+               <p>
+               Upload a valid X509 public certificate signed by either the IDAP test certificate
+               authority or the IDAP certificate authority. The hub uses this certificate to encrypt
+               the assertions within the requests that it sends to the Matching Service Adapter.
+               The Matching Service Adapter decrypts the the assertions using the corresponding private key.
+               You can retrieve this certificate from your Matching Service Adapter by accessing:
+               <br>
+               <code>/matching-service/SAML2/metadata</code>
+               </p>
+               <p>See
+               <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               request certificates</a>.
+               </p>
+               '
+    %>
+
+
+
+
     <%= render 'question', value: @onboarding_form.cycle3_attribute_name, errors: @onboarding_form.errors['cycle3_attribute_name'], title: 'Requested cycle 3 attribute name (if applicable)', id: 'cycle3_attribute_name', input_type: 'text', information: 'Enter the name of the additional
         information you want the hub to send for <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3\'>matching cycle 3</a>, for example, driving
         licence number. Matching cycle 3 is used if <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc1\'>matching cycle 1</a>

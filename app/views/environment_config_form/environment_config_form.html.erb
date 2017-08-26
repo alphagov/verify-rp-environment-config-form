@@ -291,14 +291,18 @@
                id: 'encryption_certificate_transaction',
                input_type: 'textarea',
                information: '
+               <p>This certificate will be used to encrypt SAML assertions sent to your service from the GOV.UK Verify Hub.</p>
+               <div>It must:
+               <ul class="list-bullet">
+               <li>be a valid X.509 certificate</li>
+               <li>be signed by the correct IDAP certificate authority for Integration or Production</li>
+               <li>correspond to your service\'s encryption private key</li>
+               <li>be different to your Matching Service Adapter encryption certificate</li>
+               </ul>
+               </div>
                <p>
-               Upload a valid X509 public certificate signed by either the IDAP test certificate
-               authority or the IDAP certificate authority. The hub uses this certificate to encrypt
-               the assertions within the responses that it sends to your service.
-               Your service decrypts the assertions using your corresponding private key.
-               </p>
-               <p>See
-               <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               See
+               <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
                request certificates</a>.
                </p>
                '

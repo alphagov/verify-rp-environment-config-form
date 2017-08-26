@@ -136,8 +136,28 @@
       addresses.
     </p>
 
+    <%= render 'question',
+               value: @onboarding_form.testing_devices_ips,
+               errors: @onboarding_form.errors['testing_devices_ips'],
+               title: 'Test device browser IP addresses',
+               id: 'testing_devices_ips',
+               input_type: 'text',
+               information: '
+               <p>Within the Integration environment, Verify Hub webpages are only visible to whitelisted IP addresses. The Production environment is open access.</p>
+               <p>Your IP addresses should either:
+               <ul class="list-bullet">
+               <li>be static</li>
+               <li>fall within a narrow address range</li>
+               </ul>
+               </p>
+               <p>
+               Enter the browser IP address(es) you will use to access the GOV.UK Verify Integration Hub,
+               using the form:  <code>10.1.2.3,10.1.2.4</code> or <code>10.39.34.15/30</code>.
+               </p>
+               <p>If more than one address, please enter as a comma separated list.</p>
+               '
+    %>
     <%= render 'question', value: @onboarding_form.matching_service_adapter_ip, errors: @onboarding_form.errors['matching_service_adapter_ip'], title: 'IP address of the Matching Service Adapter (MSA)', id: 'matching_service_adapter_ip', input_type: 'text', information: 'Enter the IP address of the host running the Matching Service Adapter (MSA). This allows GOV.UK Verify to put in place firewall rules so the hub can communicate with the MSA.' %>
-    <%= render 'question', value: @onboarding_form.testing_devices_ips, errors: @onboarding_form.errors['testing_devices_ips'], title: 'IP addresses of the devices used for testing', id: 'testing_devices_ips', input_type: 'text', information: '<p>Please provide the IP addresses of the browsers that you will use when testing in the integration environment. Access to the hub and test identity providers in the integration environment is restricted by IP address. </p><p>This is a comma separated list of IP addresses or <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">IP address ranges</a> for Verify to whitelist. For example: </p><pre><code>10.1.2.3,10.1.2.4</code></pre>or<pre><code>10.39.34.15/30</code></pre><p></p><p></p>' %>
 
     <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
           valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature

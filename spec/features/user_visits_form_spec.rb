@@ -95,7 +95,7 @@ RSpec.describe 'The start page', :type => :feature do
 
     fill_in 'Matching Service: User account creation URL', with: 'http://example.com/msa/create-account'
     fill_in 'IP address of the Matching Service Adapter (MSA)', with: 'some IP address'
-    fill_in 'IP addresses of the devices used for testing', with: 'some IP address'
+    fill_in 'Test device browser IP addresses', with: 'some IP address'
     fill_in 'Service display name', with: 'something'
     fill_in 'Other ways to... display name', with: 'something'
     fill_in 'Other ways to complete the transaction', with: 'something'

@@ -166,6 +166,50 @@
                information: '<p>The IP address of the domain that will host your matching service adapter</p>'
     %>
 
+    <h2 class="heading-medium">Verify user webpage texts</h2>
+    <p>
+      Specific signposting webpages are displayed during the user’s journey.
+      Please confirm the exact text you would like to appear, in the following locations:
+    </p>
+
+    <div class="form-group">
+      <%= render 'question',
+                 value: @onboarding_form.service_display_name,
+                 errors: @onboarding_form.errors['service_display_name'],
+                 title: 'Service display name',
+                 id: 'service_display_name',
+                 input_type: 'text',
+                 information: '
+                 Enter the service name that appears to the user throughout
+                 their hub journey. Use a sentence starting with a verb, for example <em>Sign in to your personal tax account</em>,
+                 rather than a title like <em>Self Assessment tax return</em>.
+                 '
+      %>
+      <%= render 'question',
+                 value: @onboarding_form.other_ways_display_name,
+                 errors: @onboarding_form.errors['other_ways_display_name'],
+                 title: 'Other ways to... display name',
+                 id: 'other_ways_display_name',
+                 input_type: 'text',
+                 information: 'Enter an alternative service name,
+                 for example <em>access your personal tax account</em>. This appears on the <em>Other ways to...</em> content in the hub, which appears when a
+                 user can’t prove their identity using GOV.UK Verify. If you don’t provide an alternative service name, the GOV.UK Verify team sets it to the service display name by default.
+                 '
+      %>
+      <%= render 'textarea_question',
+                 value: @onboarding_form.other_ways_complete_transaction,
+                 errors: @onboarding_form.errors['other_ways_complete_transaction'],
+                 title: 'Other ways to complete the transaction',
+                 id: 'other_ways_complete_transaction',
+                 input_type: 'textarea',
+                 information: '
+                 Enter valid HTML content, including URLs, that displays on the <em>Other ways to...</em> content in the hub. This informs the user of alternative methods of using your service.
+                 For example: <em>If you can’t verify your identity using GOV.UK Verify, request Government Gateway user ID and password replacements from HMRC. This can take about 10 working days
+                 (or longer if you live abroad). For help, contact the HMRC Online Self Assessment helpline.</em>
+                 '
+      %>
+    </div>
+
     <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
           valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
           present on all messages sent from your service. It must correspond to the private key for your service. See <a href=
@@ -234,19 +278,6 @@
         </details>
       </div>
     </fieldset>
-
-    <div class="form-group">
-      <h2 class="heading-medium">Service description</h2>
-      <%= render 'question', value: @onboarding_form.service_display_name, errors: @onboarding_form.errors['service_display_name'], title: 'Service display name', id: 'service_display_name', input_type: 'text', information: 'Enter the service name that appears to the user throughout
-            their hub journey. Use a sentence starting with a verb, for example <em>Sign in to your personal tax account</em>,
-            rather than a title like <em>Self Assessment tax return</em>.' %>
-      <%= render 'question', value: @onboarding_form.other_ways_display_name, errors: @onboarding_form.errors['other_ways_display_name'], title: 'Other ways to... display name', id: 'other_ways_display_name', input_type: 'text', information: 'Enter an alternative service name,
-            for example <em>access your personal tax account</em>. This appears on the <em>Other ways to...</em> content in the hub, which appears when a
-            user can’t prove their identity using GOV.UK Verify. If you don’t provide an alternative service name, the GOV.UK Verify team sets it to the service display name by default.'%>
-      <%= render 'textarea_question', value: @onboarding_form.other_ways_complete_transaction, errors: @onboarding_form.errors['other_ways_complete_transaction'], title: 'Other ways to complete the transaction', id: 'other_ways_complete_transaction', input_type: 'textarea', information: 'Enter valid HTML content, including URLs, that displays on the <em>Other ways to...</em> content in the hub. This informs the user of alternative methods of using your service.
-            For example: <em>If you can’t verify your identity using GOV.UK Verify, request Government Gateway user ID and password replacements from HMRC. This can take about 10 working days
-            (or longer if you live abroad). For help, contact the HMRC Online Self Assessment helpline.</em>'%>
-    </div>
 
     <fieldset class="stub-api-details">
 

@@ -223,6 +223,20 @@
       %>
     </div>
 
+    <h2 class="heading-medium">Certificates</h2>
+    <p>
+      You must supply GOV.UK Verify with copies of the valid X.509 encryption and signature validation
+      certificates you intend to use with your matching service adapter and service.
+    </p>
+    <div class="panel panel-border-narrow">
+      <p>Note: Certificate issuing authorities are environment specific. For the:</p>
+      <ul class="list-bullet">
+        <li>Integration environment, use the "IDAP Test Certificate Authority"</li>
+        <li>Production environment, use the "IDAP Certificate Authority"</li>
+      </ul>
+    </div>
+    <p>See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">request certificates</a></p>
+
     <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
           valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
           present on all messages sent from your service. It must correspond to the private key for your service. See <a href=

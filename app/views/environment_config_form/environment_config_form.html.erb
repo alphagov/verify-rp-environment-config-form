@@ -267,17 +267,19 @@
                id: 'signature_verification_certificate_match',
                input_type: 'textarea',
                information: '
+               <p>This certificate will be used to validate SAML responses sent from your Matching
+               Service Adapter to the GOV.UK Verify Hub.</p>
+               <div>It must:
+               <ul class="list-bullet">
+               <li>be a valid X.509 certificate</li>
+               <li>be signed by the correct IDAP certificate authority for Integration or Production</li>
+               <li>correspond to your Matching Service Adapter\'s signing private key</li>
+               <li>be different to your service signature validation certificate</li>
+               </ul>
+               </div>
                <p>
-               Upload a valid X509 public certificate signed by either the IDAP test
-               certificate authority or the IDAP certificate authority. This certificate validates
-               the digital signature present on all responses sent from the Matching Service Adapter.
-               It must correspond to the private key for the Matching Service Adapter.
-               You can retrieve the certificate from your Matching Service Adapter by accessing:
-               <br>
-               <code>/matching-service/SAML2/metadata</code>
-               </p>
-               <p>See
-               <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               See
+               <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
                request certificates</a>.
                </p>
                '

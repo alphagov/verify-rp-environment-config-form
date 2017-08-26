@@ -244,12 +244,15 @@
                id: 'signature_verification_certificate_transaction',
                input_type: 'textarea',
                information: '
-               <p>
-               Upload a valid X509 public certificate signed by either the IDAP test certificate authority
-               or the IDAP certificate authority. This certificate validates the digital signature
-               present on all messages sent from your service. It must correspond to the private key
-               for your service.
-               </p>
+               <p>This certificate will be used to validate SAML messages sent from your service to the GOV.UK Verify Hub.</p>
+               <div>It must:
+               <ul class="list-bullet">
+               <li>be a valid X.509 certificate</li>
+               <li>be signed by the correct IDAP certificate authority for Integration or Production</li>
+               <li>correspond to your service\'s signing private key</li>
+               <li>be different to your matching service adapter signature validation certificate</li>
+               </ul>
+               </div>
                <p>
                See
                <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">

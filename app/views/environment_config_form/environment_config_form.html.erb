@@ -332,17 +332,13 @@
                '
     %>
 
+    <h2 class="heading-medium">User account creation attributes</h2>
 
-
-
-    <%= render 'question', value: @onboarding_form.cycle3_attribute_name, errors: @onboarding_form.errors['cycle3_attribute_name'], title: 'Requested cycle 3 attribute name (if applicable)', id: 'cycle3_attribute_name', input_type: 'text', information: 'Enter the name of the additional
-        information you want the hub to send for <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3\'>matching cycle 3</a>, for example, driving
-        licence number. Matching cycle 3 is used if <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc1\'>matching cycle 1</a>
-        fails. Make sure that your GOV.UK Verify engagement lead pre-approves this field as it requires development.' %>
-
-    <fieldset class="form-group">
+    <div class="form-group">
       <div class="provide-option">
         <label class="form-label"> Attributes for creating user account (optional)</label>
+        <fieldset>
+        <legend class="visually-hidden">User account creation attributes</legend>
         <div class="personal-attributes form-group">
           <div class="multiple-choice">
             <%= f.check_box :user_account_first_name %>
@@ -373,6 +369,7 @@
             <label for="onboarding_form_user_account_cycle_3">Cycle 3</label>
           </div>
         </div>
+        </fieldset>
 
         <details>
           <summary>
@@ -384,7 +381,24 @@
           </div>
         </details>
       </div>
-    </fieldset>
+    </div>
+
+    <h2 class="heading-medium">Cycle 3 attribute name</h2>
+
+    <%= render 'question',
+               value: @onboarding_form.cycle3_attribute_name,
+               errors: @onboarding_form.errors['cycle3_attribute_name'],
+               title: 'Requested cycle 3 attribute name (if applicable)',
+               id: 'cycle3_attribute_name',
+               input_type: 'text',
+               information: '
+               Enter the name of the additional
+               information you want the hub to send for <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3\'>matching cycle 3</a>, for example, driving
+               licence number. Matching cycle 3 is used if <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc1\'>matching cycle 1</a>
+               fails. Make sure that your GOV.UK Verify engagement lead pre-approves this field as it requires development.
+               '
+    %>
+
 
     <fieldset class="stub-api-details">
 

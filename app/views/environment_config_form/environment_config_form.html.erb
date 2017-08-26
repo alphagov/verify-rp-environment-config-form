@@ -452,12 +452,41 @@
         <h2 class="heading-medium">Your contact details</h2>
       </div>
 
-      <%= render 'question', value: @onboarding_form.contact_details_name, errors: @onboarding_form.errors['contact_details_name'], title: 'Name', id: 'contact_details_name', input_type: 'text' %>
-      <%= render 'question', value: @onboarding_form.contact_details_email, errors: @onboarding_form.errors['contact_details_email'], title: 'Email address', id: 'contact_details_email', input_type: 'email' %>
-      <%= render 'question', value: @onboarding_form.contact_details_phone, errors: @onboarding_form.errors['contact_details_phone'], title: 'Phone number (optional)', id: 'contact_details_phone', input_type: 'tel' %>
-      <%= render 'textarea_question', value: @onboarding_form.contact_details_message, errors: @onboarding_form.errors['contact_details_message'], title: 'Message (optional)', id: 'contact_details_message'%>
-      <%= render 'question', value: @onboarding_form.contact_details_service, errors: @onboarding_form.errors['contact_details_service'], title: 'Service', id: 'contact_details_service', input_type: 'text' %>
-      <%= render 'question', value: @onboarding_form.contact_details_department, errors: @onboarding_form.errors['contact_details_department'], title: 'Department or Agency', id: 'contact_details_department', input_type: 'text' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_name,
+                 errors: @onboarding_form.errors['contact_details_name'],
+                 title: 'Name',
+                 id: 'contact_details_name',
+                 input_type: 'text' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_email,
+                 errors: @onboarding_form.errors['contact_details_email'],
+                 title: 'Email address',
+                 id: 'contact_details_email',
+                 input_type: 'email' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_phone,
+                 errors: @onboarding_form.errors['contact_details_phone'],
+                 title: 'Phone number (optional)',
+                 id: 'contact_details_phone',
+                 input_type: 'tel' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_service,
+                 errors: @onboarding_form.errors['contact_details_service'],
+                 title: 'Service',
+                 id: 'contact_details_service',
+                 input_type: 'text' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_department,
+                 errors: @onboarding_form.errors['contact_details_department'],
+                 title: 'Department or Agency',
+                 id: 'contact_details_department',
+                 input_type: 'text' %>
+      <%= render 'textarea_question',
+                 value: @onboarding_form.contact_details_message,
+                 errors: @onboarding_form.errors['contact_details_message'],
+                 title: 'Any other information you would like to provide (optional)',
+                 id: 'contact_details_message'%>
 
     </fieldset><input class="button button-get-started" type="submit" value="Request access">
     <div class="form-group">

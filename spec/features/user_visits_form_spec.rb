@@ -35,7 +35,7 @@ RSpec.describe 'The start page', :type => :feature do
     choose 'Production'
     fill_in('Verify service entity ID', with: 'some-bad-input')
     fill_in('Service signature validation certificate', with: 'some-bad-input')
-    fill_in('Message (optional)', with: 'some-bad-input')
+    fill_in('Any other information you would like to provide (optional)', with: 'some-bad-input')
     check('First name')
 
     click_button 'Request access'

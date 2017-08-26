@@ -399,10 +399,51 @@
 
     <fieldset class="stub-api-details">
 
-      <h2 class="heading-medium">Create account for managing test users</h2>
+      <h2 class="heading-medium">Manage your Integration environment test user data</h2>
 
-      <%= render 'question', value: @onboarding_form.stub_idp_username, errors: @onboarding_form.errors['stub_idp_username'], title: 'Username', id: 'stub_idp_username', input_type: 'text', information: 'In order to manage test users in the integration environment, you need basic auth credentials to access to the API. This will be your username for the API requests.' %>
-      <%= render 'question', value: @onboarding_form.stub_idp_password, errors: @onboarding_form.errors['stub_idp_password'], title: 'Password', id: 'stub_idp_password', input_type: 'password', information: 'In order to manage test users in the integration environment, you need basic auth credentials to access to the API. This will be your password for the API. Please use at least 8 characters.' %>
+      <p>
+        When you develop and test your Integration environment service,
+        you will need to manage password-protected pseudo personal data (test user) records.
+      </p>
+
+      <p>Please create a username and password to access this feature.</p>
+
+      <p>
+        See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/env/envEndToEndTests.html#createtestusers">create test users</a>.
+      </p>
+
+      <%= render 'question',
+                 value: @onboarding_form.stub_idp_username,
+                 errors: @onboarding_form.errors['stub_idp_username'],
+                 title: 'Username',
+                 id: 'stub_idp_username',
+                 input_type: 'text',
+                 information: '
+                 <p>
+                 To manage test users in the integration environment,
+                 you need basic auth credentials to access to the API.
+                 This will be your username for the API requests.
+                 </p>
+                 '
+      %>
+      <%= render 'question',
+                 value: @onboarding_form.stub_idp_password,
+                 errors: @onboarding_form.errors['stub_idp_password'],
+                 title: 'Password',
+                 id: 'stub_idp_password',
+                 input_type: 'password',
+                 information: '
+                 <p>
+                 To manage test users in the integration environment,
+                 you need basic auth credentials to access to the API.
+                 This will be your password for the API. Please use at least 8 characters.
+                 </p>
+                 <p>
+                 Please contact idasupport+onboarding@digital.cabinet-office.gov.uk if you
+                 need to reset your password.
+                 </p>
+                 '
+      %>
 
     </fieldset>
 

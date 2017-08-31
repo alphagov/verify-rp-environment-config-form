@@ -23,6 +23,7 @@ describe OnboardingFormService do
         user_account_surname: true,
         user_account_dob: true,
         user_account_current_address: true,
+        user_account_address_history: true,
         user_account_cycle_3: true,
         contact_details_phone: '012345 678 912',
         contact_details_message: 'Some text',
@@ -50,73 +51,73 @@ describe OnboardingFormService do
             body: <<~EOF
                 Environment access:
                 Integration access request
-                
+
                 Service entity id:
                 https://example.com
-                
+
                 Matching service entity id:
                 https://example.com/msa
-                
+
                 Matching service url:
                 https://example.com/msa
-  
+
                 Service start page URL:
                 https://example.com/start
-                
+
                 Assertion consumer services https url:
                 https://example.com/process-response
-  
+
                 Requested cycle 3 attribute name (if applicable):
                 cycle3attr
-  
+
                 Matching service user account creation URL:
                 https://example.com
-                
+
                 Transaction signature verification certificate:
                 #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
-                
+
                 Transaction encryption certificate:
                 #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
-                
+
                 Matching Service signature verification certificate:
                 #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
-                
+
                 Matching Service encryption certificate:
                 #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
-                
+
                 Requested attributes for creating user account:
-                FIRST_NAME, FIRST_NAME_VERIFIED, MIDDLE_NAME, MIDDLE_NAME_VERIFIED, SURNAME, SURNAME_VERIFIED, DATE_OF_BIRTH, DATE_OF_BIRTH_VERIFIED, CURRENT_ADDRESS, CURRENT_ADDRESS_VERIFIED, CYCLE_3
-  
+                FIRST_NAME, FIRST_NAME_VERIFIED, MIDDLE_NAME, MIDDLE_NAME_VERIFIED, SURNAME, SURNAME_VERIFIED, DATE_OF_BIRTH, DATE_OF_BIRTH_VERIFIED, CURRENT_ADDRESS, CURRENT_ADDRESS_VERIFIED, ADDRESS_HISTORY, ADDRESS_HISTORY_VERIFIED, CYCLE_3
+
                 Service display name:
                 Example service
-                
+
                 Other ways display name:
                 Example service
-                
+
                 Other ways complete transaction:
                 Some text
-                
+
                 Name:
                 username
-                
+
                 Email:
                 example@example.com
-                
+
                 Phone:
                 012345 678 912
-                
+
                 Message:
                 Some text
-                
+
                 Service:
                 Example service
-                
+
                 Department:
                 Example department
-                
+
                 Username for stub idp:
                 stub-idp-username
-      
+
                 Hashed password for stub idp:
                 #{form.hashed_password}
 
@@ -148,6 +149,7 @@ describe OnboardingFormService do
         user_account_surname: '0',
         user_account_dob: '0',
         user_account_current_address: '0',
+        user_account_address_history: '0',
         user_account_cycle_3: '0',
         contact_details_phone: '',
         contact_details_message: '',
@@ -175,76 +177,76 @@ describe OnboardingFormService do
           body: <<~EOF
             Environment access:
             -
-            
+
             Service entity id:
             -
-            
+
             Matching service entity id:
             -
-            
+
             Matching service url:
             -
-  
+
             Service start page URL:
             -
-            
+
             Assertion consumer services https url:
             -
-  
+
             Requested cycle 3 attribute name (if applicable):
             -
-  
+
             Matching service user account creation URL:
             -
-            
+
             Transaction signature verification certificate:
             -
-            
+
             Transaction encryption certificate:
             -
-            
+
             Matching Service signature verification certificate:
             -
-            
+
             Matching Service encryption certificate:
             -
-            
+
             Requested attributes for creating user account:
             -
-  
+
             Service display name:
             -
-            
+
             Other ways display name:
             -
-            
+
             Other ways complete transaction:
             -
-            
+
             Name:
             -
-            
+
             Email:
             -
-            
+
             Phone:
             -
-            
+
             Message:
             -
-            
+
             Service:
             -
-            
+
             Department:
             -
-            
+
             Username for stub idp:
             -
-  
+
             Hashed password for stub idp:
             #{form.hashed_password}
-  
+
             Follow this guide on how to onboard an RP: https://github.digital.cabinet-office.gov.uk/gds/ida-hub/wiki/Onboarding-an-rp
           EOF
           }

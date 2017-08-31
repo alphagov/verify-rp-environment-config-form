@@ -17,7 +17,6 @@ class OnboardingForm
     :user_account_surname,
     :user_account_dob,
     :user_account_current_address,
-    :user_account_address_history,
     :user_account_cycle_3,
     :contact_details_phone,
     :contact_details_message,

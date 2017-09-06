@@ -23,9 +23,8 @@
 
     <h1 class="form-title heading-large">Request access to an environment</h1>
     <div class="form-group">
-      <p>You must complete all fields and submit your request in a single session.  Data is not stored if you leave this page before submitting this form.</p>
-
-      <span class="bold">Note:</span> <span>Environment set up and configuration will take the GOV.UK Verify team 5 working days.</span>
+      <p>You must complete ALL required fields and submit your request in a single session, data is not stored if you leave this page before you select the ‘Request Access’ button.</p>
+      <p>You should be able to access your environment within 5 working days of submitting your completed form.  Please contact us if you cannot gain access and more than 5 working days have passed since your request.</p>
     </div>
 
     <div class="form-group">
@@ -52,7 +51,7 @@
                information: '<p>The Verify service entity ID must be a globally unique URL. When you contact us, our service support
                engineers use this ID to identify your specific service.</p>
                <p>When possible, please make your Verify service entity ID descriptive, by including the name of your
-               service and department, using the form: </p>
+               service and department, for example: </p>
                <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}</code></p>
                <p>You must use different entity IDs in the Integration and Production environments.</p>
                '
@@ -64,7 +63,7 @@
                id: 'matching_service_entity_id',
                input_type: 'url',
                information: '<p>Your Verify Service entity ID and Matching Service Adapter entity IDs must be different.</p>
-               <p>Where possible, make your Matching Service Adapter entity ID descriptive, by including the name of your service and department, using the form:</p>
+               <p>Where possible, make your Matching Service Adapter entity ID descriptive, by including the name of your service and department, for example:</p>
                <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}/msa</code></p>
                '
     %>
@@ -152,7 +151,7 @@
                </p>
                <p>
                Enter the browser IP address(es) you will use to access the GOV.UK Verify Integration Hub,
-               using the form:  <code>10.1.2.3,10.1.2.4</code> or <code>10.39.34.15/30</code>.
+               for example:  <code>10.1.2.3,10.1.2.4</code> or <code>10.39.34.15/30</code>.
                </p>
                <p>If more than one address, please enter as a comma separated list.</p>
                '
@@ -211,8 +210,9 @@
                  input_type: 'textarea',
                  information: '
                  <p>
-                 Enter valid HTML content, including URLs, that displays on the <em>Other ways to...</em>
-                 content in the hub. This informs the user of alternative methods of using your service.
+                 This content is displayed as text on the Verify Hub “Other ways to apply” page and will be used
+                 to guide users to any alternate ways they can access your service.  Please type or paste the valid
+                 HTML content that you need to be displayed, including URLs.
                  </p>
                  <p>
                  For example: <em>If you can’t verify your identity using GOV.UK Verify, request Government
@@ -371,7 +371,7 @@
             <span class="summary">More Information</span>
           </summary>
           <div class="panel panel-border-narrow">
-            <p>If your service needs to create user accounts, select the attributes you require from the GOV.UK Verify Hub.</p>
+            <p>If your service needs to create user accounts, select any attributes you require in the GOV.UK Verify responses.</p>
             <p>See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msCua.html#ms-cua">user account creation</a>.</p>
           </div>
         </details>
@@ -420,9 +420,8 @@
                  input_type: 'text',
                  information: '
                  <p>
-                 To manage test users in the integration environment,
-                 you need basic auth credentials to access to the API.
-                 This will be your username for the API requests.
+                 You need basic authentication credentials to access and manage the Integration environment
+                 test user data API. Please enter your preferred Username.
                  </p>
                  '
       %>
@@ -434,12 +433,11 @@
                  input_type: 'password',
                  information: '
                  <p>
-                 To manage test users in the integration environment,
-                 you need basic auth credentials to access to the API.
-                 This will be your password for the API. Please use at least 8 characters.
+                 You need basic authentication credentials to access and manage the Integration environment
+                 test user data API.  Your password must be at least 8 characters long.
                  </p>
                  <p>
-                 Please contact idasupport+onboarding@digital.cabinet-office.gov.uk if you
+                 Please contact <em>idasupport+onboarding@digital.cabinet-office.gov.uk</em> if you
                  need to reset your password.
                  </p>
                  '
@@ -488,7 +486,11 @@
                  title: 'Any other information you would like to provide (optional)',
                  id: 'contact_details_message'%>
 
-    </fieldset><input class="button button-get-started" type="submit" value="Request access">
+    </fieldset>
+
+    <p>Please allow GOV.UK Verify up to 5 working days to set up your environment.</p>
+
+    <input class="button button-get-started" type="submit" value="Request access">
   <% end %>
 </div>
 

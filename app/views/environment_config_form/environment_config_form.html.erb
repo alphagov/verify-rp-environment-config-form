@@ -105,7 +105,7 @@
     <%= render 'question',
                value: @onboarding_form.matching_service_url,
                errors: @onboarding_form.errors['matching_service_url'],
-               title: 'Matching Service: matching URL',
+               title: 'Matching Service Adapter: matching URL',
                id: 'matching_service_url',
                input_type: 'url',
                information: '<p>To maintain security, GOV.UK Verify servers only communicate with whitelisted IP addresses.</p>
@@ -117,7 +117,7 @@
     <%= render 'question',
                value: @onboarding_form.user_account_creation_uri,
                errors: @onboarding_form.errors['user_account_creation_uri'],
-               title: 'Matching Service: User account creation URL',
+               title: 'Matching Service Adapter: User account creation URL',
                id: 'user_account_creation_uri',
                input_type: 'url',
                information: '<p>

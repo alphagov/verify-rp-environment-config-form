@@ -84,7 +84,7 @@ RSpec.describe 'The start page', :type => :feature do
     visit '/'
     fill_in('Verify service entity ID', with: 'http://example.com')
     fill_in('Matching Service Adapter entity ID', with: 'http://example.com/msa')
-    fill_in('Matching Service: matching URL', with: 'http://example.com/msa')
+    fill_in('Matching Service Adapter: matching URL', with: 'http://example.com/msa')
     fill_in('Service start page URL', with: 'http://example.com')
     fill_in('Verify SAML response URL', with: 'http://example.com')
 
@@ -93,11 +93,11 @@ RSpec.describe 'The start page', :type => :feature do
     fill_in 'Service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
     fill_in 'Matching service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
 
-    fill_in 'Matching Service: User account creation URL', with: 'http://example.com/msa/create-account'
+    fill_in 'Matching Service Adapter: User account creation URL', with: 'http://example.com/msa/create-account'
     fill_in 'Matching Service Adapter IP address', with: 'some IP address'
     fill_in 'Test device browser IP addresses', with: 'some IP address'
     fill_in 'Verify service display name', with: 'something'
-    fill_in 'Other ways to... display name', with: 'something'
+    fill_in 'Other ways to apply display name', with: 'something'
     fill_in 'Other ways to complete the transaction', with: 'something'
 
     fill_in 'Username', with: 'username'

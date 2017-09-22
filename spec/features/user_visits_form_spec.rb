@@ -23,8 +23,8 @@ RSpec.describe 'The start page', :type => :feature do
   it 'should show errors for required fields' do
     visit '/'
     click_button 'Request access'
-    expect(page).to have_content "Service entity ID can't be blank"
-    expect(page).to have_content "Unfortunately the form does not seem to be valid."
+    expect(page).to have_content "Verify service entity ID can't be blank"
+    expect(page).to have_content 'Unfortunately the form does not seem to be valid.'
     expect(find_field(id: 'service_entity_id')).to match_selector('.form-control-error')
     expect(find_field(id: 'signature_verification_certificate_transaction')).to match_selector('.form-control-error')
     expect(find_field(id: 'other_ways_complete_transaction')).to match_selector('.form-control-error')
@@ -33,9 +33,9 @@ RSpec.describe 'The start page', :type => :feature do
   it 'should maintain the input values after validation fails' do
     visit '/'
     choose 'Production'
-    fill_in('Service entity ID', with: 'some-bad-input')
+    fill_in('Verify service entity ID', with: 'some-bad-input')
     fill_in('Service signature validation certificate', with: 'some-bad-input')
-    fill_in('Message (optional)', with: 'some-bad-input')
+    fill_in('Any other information you would like to provide (optional)', with: 'some-bad-input')
     check('First name')
 
     click_button 'Request access'
@@ -82,22 +82,22 @@ RSpec.describe 'The start page', :type => :feature do
 
   def submit_valid_form
     visit '/'
-    fill_in('Service entity ID', with: 'http://example.com')
-    fill_in('Matching service entity ID', with: 'http://example.com/msa')
-    fill_in('Matching service URL', with: 'http://example.com/msa')
+    fill_in('Verify service entity ID', with: 'http://example.com')
+    fill_in('Matching Service Adapter entity ID', with: 'http://example.com/msa')
+    fill_in('Matching Service Adapter: matching URL', with: 'http://example.com/msa')
     fill_in('Service start page URL', with: 'http://example.com')
-    fill_in('Assertion consumer services HTTPS URL', with: 'http://example.com')
+    fill_in('Verify SAML response URL', with: 'http://example.com')
 
     fill_in 'Service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
     fill_in 'Matching service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
     fill_in 'Service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
     fill_in 'Matching service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
 
-    fill_in 'Matching service user account creation URL', with: 'http://example.com/msa/create-account'
-    fill_in 'IP address of the Matching Service Adapter (MSA)', with: 'some IP address'
-    fill_in 'IP addresses of the devices used for testing', with: 'some IP address'
-    fill_in 'Service display name', with: 'something'
-    fill_in 'Other ways to... display name', with: 'something'
+    fill_in 'Matching Service Adapter: User account creation URL', with: 'http://example.com/msa/create-account'
+    fill_in 'Matching Service Adapter IP address', with: 'some IP address'
+    fill_in 'Test device browser IP addresses', with: 'some IP address'
+    fill_in 'Verify service display name', with: 'something'
+    fill_in 'Other ways to apply display name', with: 'something'
     fill_in 'Other ways to complete the transaction', with: 'something'
 
     fill_in 'Username', with: 'username'

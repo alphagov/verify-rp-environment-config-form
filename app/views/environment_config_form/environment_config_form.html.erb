@@ -1,15 +1,19 @@
-<% content_for(:page_title, 'Environment Config') %>
+<% content_for(
+       :page_title,
+       "#{'Error - ' if (@error || @onboarding_form.errors.any?)}Verify Environment Configuration - GOV.UK"
+   )
+%>
 
 <% if @error %>
   <div class="error-summary">
-    <h1 class="heading-medium error-summary-heading"> There has been a problem </h1>
+    <h2 class="heading-medium error-summary-heading"> There has been a problem </h2>
     <p>Please try again later, or contact the Verify Support Team.</p>
   </div>
 <% end %>
 
 <% if @onboarding_form.errors.any? %>
   <div class="error-summary">
-    <h1 class="heading-medium error-summary-heading">Unfortunately the form does not seem to be valid.</h1>
+    <h2 class="heading-medium error-summary-heading">Unfortunately the form does not seem to be valid.</h2>
     <p>Please fix the errors below.</p>
   </div>
 <% end %>
@@ -19,12 +23,14 @@
 
     <h1 class="form-title heading-large">Request access to an environment</h1>
     <div class="form-group">
-      <span class="bold">Note:</span> <span>Access to the environment form will be given subject to successful gate reviews. Environment set up and configuration will take the GOV.UK Verify
-      team 5 working days.</span>
+      <p>You must complete all required fields and submit your request in a single session.  Data is not stored if you leave this page before you select the ‘Request Access’ button.</p>
+      <p>You should be able to access your environment within 5 working days of submitting your completed form.  Please contact us if you cannot gain access and more than 5 working days have passed since your request.</p>
     </div>
-    <fieldset>
-      <div class="form-group">
-        <h2 class="heading-small">Select the environment you wish to access</h2><legend class="visually-hidden">Select the environment you wish to access</legend>
+
+    <div class="form-group">
+      <h2 class="heading-small">Select the environment you require</h2>
+      <fieldset>
+        <legend class="visually-hidden">Select the environment you require</legend>
         <div class="multiple-choice">
           <%= f.radio_button :environment_access, OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION %>
           <label for="onboarding_form_environment_access_integration-access-request">Integration</label>
@@ -33,124 +39,409 @@
           <%= f.radio_button :environment_access, OnboardingForm::ENVIRONMENT_ACCESS_PRODUCTION %>
           <label for="onboarding_form_environment_access_production-access-request">Production</label>
         </div>
-      </div>
-    </fieldset>
+      </fieldset>
+    </div>
 
     <%= render 'question',
-               title: 'Service entity ID',
+               title: 'Verify service entity ID',
                id: 'service_entity_id',
                errors: @onboarding_form.errors['service_entity_id'],
                input_type: 'url',
                value: @onboarding_form.service_entity_id,
-               information: 'Enter the entityID for the service you want to connect to the
-                integration environment. This is a globally unique identifier for your service within the environment. It\'s typically in URL format, for example
-                https://identity.service.gov.uk. For every service and connection to both integration and production make sure each has a unique entityID.'
+               information: '<p>The Verify service entity ID must be a globally unique URL. When you contact us, our service support
+               engineers use this ID to identify your specific service.</p>
+               <p>When possible, please make your Verify service entity ID descriptive, by including the name of your
+               service and department, for example: </p>
+               <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}</code></p>
+               <p>You must use different entity IDs in the Integration and Production environments.</p>
+               '
     %>
-    <%= render 'question', value: @onboarding_form.matching_service_entity_id, errors: @onboarding_form.errors['matching_service_entity_id'], title: 'Matching service entity ID', id: 'matching_service_entity_id', input_type: 'url', information: 'Your matching service is a unique entity within the
-          federation. It therefore needs a matching service entityID, which must be different from your service entityID. For example
-          https://identity.service-ms.gov.uk. Several services can use the same matching service.' %>
-    <%= render 'question', value: @onboarding_form.matching_service_url, errors: @onboarding_form.errors['matching_service_url'], title: 'Matching service URL', id: 'matching_service_url', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will
-          make matching service requests. For example https://identity.service-integration.gov.uk/msa.' %>
-    <%= render 'question', value: @onboarding_form.service_homepage_url, errors: @onboarding_form.errors['service_homepage_url'], title: 'Service start page URL', id: 'service_homepage_url', input_type: 'url', information: 'Enter the fully qualified URL used to access your service.
-          This is usually a page on GOV.UK, for example <a href=\'https://www.gov.uk/update-company-car-details\'>https://www.gov.uk/update-company-car-details</a>. For a private
-          beta service this will not be on GOV.UK and is likely to be locally hosted.' %>
-    <%= render 'question', value: @onboarding_form.assertion_consumer_services_https_url, errors: @onboarding_form.errors['assertion_consumer_services_https_url'], title: 'Assertion consumer services HTTPS URL', id: 'assertion_consumer_services_https_url', input_type: 'url', information: 'Enter the fully qualified URL
-          to which the hub will send its responses. For example <a href=\'https://test-rp.service.signin.gov.uk/authentication_endpoint\'>
-          https://test-rp.service.signin.gov.uk/authentication_endpoint</a>. This field must be unique for each connection you
-          request for the integration or production environment.' %>
-    <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_transaction, errors: @onboarding_form.errors['signature_verification_certificate_transaction'], title: 'Service signature validation certificate', id: 'signature_verification_certificate_transaction', input_type: 'textarea', information: 'Upload a
-          valid X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
-          present on all messages sent from your service. It must correspond to the private key for your service. See <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'certificate_question', value: @onboarding_form.signature_verification_certificate_match, errors: @onboarding_form.errors['signature_verification_certificate_match'], title: 'Matching service signature validation certificate', id: 'signature_verification_certificate_match', input_type: 'textarea', information: 'Upload a valid
-          X509 public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. This certificate validates the digital signature
-          present on all responses sent from the Matching Service Adapter. It must correspond to the private key for the Matching Service Adapter. You can retrieve the certificate
-          from your Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'certificate_question', value: @onboarding_form.encryption_certificate_transaction, errors: @onboarding_form.errors['encryption_certificate_transaction'], title: 'Service encryption certificate', id: 'encryption_certificate_transaction', input_type: 'textarea', information: 'Upload a valid X509 public
-          certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
-          assertions within the responses that it sends to your service. Your service decrypts the assertions using your corresponding private key. See <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'certificate_question', value: @onboarding_form.encryption_certificate_match, errors: @onboarding_form.errors['encryption_certificate_match'], title: 'Matching service encryption certificate', id: 'encryption_certificate_match', input_type: 'textarea', information: 'Upload a valid X509
-          public certificate signed by either the IDAP test certificate authority or the IDAP certificate authority. The hub uses this certificate to encrypt the
-          assertions within the requests that it sends to the Matching Service Adapter. The Matching Service Adapter decrypts the the assertions using the corresponding private key.
-          You can retrieve this certificate from your Matching Service Adapter by accessing: /matching-service/SAML2/metadata. See <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert\'>Request certificates</a>.' %>
-    <%= render 'question', value: @onboarding_form.cycle3_attribute_name, errors: @onboarding_form.errors['cycle3_attribute_name'], title: 'Requested cycle 3 attribute name (if applicable)', id: 'cycle3_attribute_name', input_type: 'text', information: 'Enter the name of the additional
-        information you want the hub to send for <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3\'>matching cycle 3</a>, for example, driving
-        licence number. Matching cycle 3 is used if <a href=\'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc1\'>matching cycle 1</a>
-        fails. Make sure that your GOV.UK Verify engagement lead pre-approves this field as it requires development.' %>
-    <%= render 'question', value: @onboarding_form.user_account_creation_uri, errors: @onboarding_form.errors['user_account_creation_uri'], title: 'Matching service user account creation URL (optional)', id: 'user_account_creation_uri', input_type: 'url', information: 'Enter the fully qualified URL to which the hub will make unknown user attribute query requests. This is optional. It is required only if you want to enable <a href=
-          \'http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msCua.html#ms-cua\'>user account creation</a> in your service.' %>
+    <%= render 'question',
+               value: @onboarding_form.matching_service_entity_id,
+               errors: @onboarding_form.errors['matching_service_entity_id'],
+               title: 'Matching Service Adapter entity ID',
+               id: 'matching_service_entity_id',
+               input_type: 'url',
+               information: '<p>Your Verify Service entity ID and Matching Service Adapter entity IDs must be different.</p>
+               <p>Where possible, make your Matching Service Adapter entity ID descriptive, by including the name of your service and department, for example:</p>
+               <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}/msa</code></p>
+               '
+    %>
+    <h2 class="heading-medium">URLs</h2>
+    <p>Please supply details of the URLs you will use to receive your matching service requests and service assertions.</p>
+    <%= render 'question',
+               value: @onboarding_form.service_homepage_url,
+               errors: @onboarding_form.errors['service_homepage_url'],
+               title: 'Service start page URL',
+               id: 'service_homepage_url',
+               input_type: 'url',
+               information: '<p>This is the URL that gives users access to your service.</p>
+               <p>Your service start page might be a:
+               <ul class="list-bullet">
+               <li>page on GOV.UK, for example https://www.gov.uk/update-company-car-details</li>
+               <li>similar landing page in your testing environment</li>
+               </ul>
+               </p>
+               <p>Do not host private beta services on GOV.UK. (Refer:
+               <a href="https://www.gov.uk/service-manual/design/start-pages">https://www.gov.uk/service-manual/design/start-pages</a>)
+               </p>
+               '
+    %>
+    <%= render 'question',
+               value: @onboarding_form.assertion_consumer_services_https_url,
+               errors: @onboarding_form.errors['assertion_consumer_services_https_url'],
+               title: 'Verify SAML response URL',
+               id: 'assertion_consumer_services_https_url',
+               input_type: 'url',
+               information: '<p>For each connection that you request: Provide a unique URL
+               (The Assertion Consumer Service URL), to receive your Verify SAML responses, for example:</p>
+               <p>Integration: <code>https://{your-service-name}.{your-integration-domain}/verify/response</code></p>
+               <p>Production: <code>https://{your-service-name}.service.gov.uk/verify/response</code></p>
+               </p>
+               <p>You cannot reuse your existing Integration environment URLs in the Production environment.</p>
+               '
+    %>
+    <%= render 'question',
+               value: @onboarding_form.matching_service_url,
+               errors: @onboarding_form.errors['matching_service_url'],
+               title: 'Matching Service Adapter: matching URL',
+               id: 'matching_service_url',
+               input_type: 'url',
+               information: '<p>Tell us which URL you will use to receive your Verify matching service requests, for example:</p>
+               <p>Integration: <code>https://{your-integration-domain}/matching-service/POST</code></p>
+               <p>Production: <code>https://{your-production-domain}.gov.uk/matching-service/POST</code></p>
+               <p>To maintain security, GOV.UK Verify servers only communicate with whitelisted IP addresses.</p>'
+    %>
+    <%= render 'question',
+               value: @onboarding_form.user_account_creation_uri,
+               errors: @onboarding_form.errors['user_account_creation_uri'],
+               title: 'Matching Service Adapter: User account creation URL',
+               id: 'user_account_creation_uri',
+               input_type: 'url',
+               information: '<p>
+               If your service needs to create user accounts: enter the URL that will accept
+               Verify <em>‘Unknown User Attribute’</em> query requests, for example:
+               </p>
+               <p>Integration: <code>https://{your-integration-domain}/unknown-user-attribute-query</code></p>
+               <p>Production: <code>https://{your-production-domain}.gov.uk/unknown-user-attribute-query</code></p>
+               <p>You only need to do this if you have user account creation enabled for your service.</p>
+               '
+    %>
+    <h2 class="heading-medium">IP addresses</h2>
+    <p>
+      To ensure correct message exchange, between your service and GOV.UK Verify, we need to know which IP
+      addresses you will use for:
+    </p>
 
-    <fieldset class="form-group">
+    <%= render 'question',
+               value: @onboarding_form.testing_devices_ips,
+               errors: @onboarding_form.errors['testing_devices_ips'],
+               title: 'Test device browser IP addresses',
+               id: 'testing_devices_ips',
+               input_type: 'text',
+               information: '
+               <p>Within the Integration environment, Verify webpages are only visible to whitelisted IP addresses.
+               The Production environment is open access.</p>
+               <p>Your IP addresses should be either:
+               <ul class="list-bullet">
+               <li>static, or</li>
+               <li>fall within a narrow address range</li>
+               </ul>
+               </p>
+               <p>
+               Enter the browser IP addresses you will use to access the GOV.UK Verify Integration environment,
+               for example:  <code>10.1.2.3,10.1.2.4</code> or <code>10.39.34.15/30</code>.
+               </p>
+               <p>If more than one address, please enter as a comma separated list.</p>
+               '
+    %>
+    <%= render 'question',
+               value: @onboarding_form.matching_service_adapter_ip,
+               errors: @onboarding_form.errors['matching_service_adapter_ip'],
+               title: 'Matching Service Adapter IP address',
+               id: 'matching_service_adapter_ip',
+               input_type: 'text',
+               information: '<p>The IP address of the domain that will host your Matching Service Adapter</p>'
+    %>
+
+    <h2 class="heading-medium">Verify user webpage texts</h2>
+    <p>
+      Specific signposting webpages are displayed during the user’s journey.
+      Your Content Designer should provide the following text:
+    </p>
+
+    <div class="form-group">
+      <%= render 'question',
+                 value: @onboarding_form.service_display_name,
+                 errors: @onboarding_form.errors['service_display_name'],
+                 title: 'Verify service display name',
+                 id: 'service_display_name',
+                 input_type: 'text',
+                 information: '
+                 <p>
+                 Enter your service name, as you need it to appear to the user throughout
+                 their Verify journey.</p>
+
+                 <p> Use a sentence starting with a verb, for example
+                 <em>"Sign in to your personal tax account"</em>,
+                 rather than <em>"Self Assessment tax return"</em>.
+                 </p>
+                 '
+      %>
+      <%= render 'question',
+                 value: @onboarding_form.other_ways_display_name,
+                 errors: @onboarding_form.errors['other_ways_display_name'],
+                 title: 'Other ways to apply display name',
+                 id: 'other_ways_display_name',
+                 input_type: 'text',
+                 information: '
+                 <p>This text defaults to your service display name and is used on the
+                 Verify <em>"Other ways to apply"</em> webpage.  This text is displayed when a
+                 user is unable to prove their identity using your GOV.UK Verify service.</p>
+                 <p>
+                 If required, enter an alternative service name here, for example <em>"Access your personal tax account"</em>.
+                 </p>
+                 '
+      %>
+      <%= render 'textarea_question',
+                 value: @onboarding_form.other_ways_complete_transaction,
+                 errors: @onboarding_form.errors['other_ways_complete_transaction'],
+                 title: 'Other ways to complete the transaction',
+                 id: 'other_ways_complete_transaction',
+                 input_type: 'textarea',
+                 information: '
+                 <p>
+                 This content is displayed as text on the Verify “Other ways to apply” page and is used
+                 to show users the alternative routes to access your service.</p>
+
+                 <p>
+                 For example: <em>"If you can’t verify your identity using GOV.UK Verify, request Government
+                 Gateway user ID and password replacements from HMRC. This can take about 10 working days
+                 (or longer if you live abroad). For help, contact the HMRC Online Self Assessment helpline."
+                 </em>
+                 </p>
+
+                 <p>Please type or paste valid HTML content, including URLs here.
+                 </p>'
+      %>
+    </div>
+
+    <h2 class="heading-medium">Certificates</h2>
+    <p>
+      You must supply GOV.UK Verify with copies of the valid X.509 encryption and signature validation
+      certificates you will use for your Matching Service Adapter and service.
+    </p>
+    <div class="panel panel-border-narrow">
+      <p>Note: Certificate issuing authorities are environment specific. For the:</p>
+      <ul class="list-bullet">
+        <li>Integration environment, use the "IDAP Test Certificate Authority"</li>
+        <li>Production environment, use the "IDAP Certificate Authority"</li>
+      </ul>
+    </div>
+    <p>See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">request certificates</a></p>
+
+    <%= render 'certificate_question',
+               value: @onboarding_form.signature_verification_certificate_transaction,
+               errors: @onboarding_form.errors['signature_verification_certificate_transaction'],
+               title: 'Service signature validation certificate',
+               id: 'signature_verification_certificate_transaction',
+               input_type: 'textarea',
+               information: '
+               <p>This certificate is used to validate the SAML messages sent from your service to GOV.UK Verify.</p>
+               <div>This certificate must correspond to the signing private key for your service, and be:
+               <ul class="list-bullet">
+               <li>a valid X.509 certificate</li>
+               <li>signed by the correct IDAP certificate authority for the environment (Integration or Production)</li>
+               <li>different to your Matching Service Adapter signature validation certificate</li>
+               </ul>
+               </div>
+               <p>
+               See
+               <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               request certificates</a>.
+               </p>
+               '
+    %>
+    <%= render 'certificate_question',
+               value: @onboarding_form.signature_verification_certificate_match,
+               errors: @onboarding_form.errors['signature_verification_certificate_match'],
+               title: 'Matching service signature validation certificate',
+               id: 'signature_verification_certificate_match',
+               input_type: 'textarea',
+               information: '
+               <p>This certificate is used to validate the SAML responses sent from your Matching
+               Service Adapter to GOV.UK Verify.</p>
+               <div>This certificate must correspond to the signing private key for your Matching Service Adapter, and be:
+               <ul class="list-bullet">
+               <li>a valid X.509 certificate</li>
+               <li>signed by the correct IDAP certificate authority for the environment (Integration or Production)</li>
+               <li>different to your service signature validation certificate</li>
+               </ul>
+               </div>
+               <p>
+               See
+               <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               request certificates</a>.
+               </p>
+               '
+    %>
+    <%= render 'certificate_question',
+               value: @onboarding_form.encryption_certificate_transaction,
+               errors: @onboarding_form.errors['encryption_certificate_transaction'],
+               title: 'Service encryption certificate',
+               id: 'encryption_certificate_transaction',
+               input_type: 'textarea',
+               information: '
+               <p>This certificate is used to encrypt the SAML assertions sent from GOV.UK Verify to your service.</p>
+               <div>This certificate must correspond to the encryption private key for your service, and be:
+               <ul class="list-bullet">
+               <li>a valid X.509 certificate</li>
+               <li>signed by the correct IDAP certificate authority for the environment (Integration or Production)</li>
+               <li>different to your Matching Service Adapter encryption certificate</li>
+               </ul>
+               </div>
+               <p>
+               See
+               <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               request certificates</a>.
+               </p>
+               '
+    %>
+    <%= render 'certificate_question',
+               value: @onboarding_form.encryption_certificate_match,
+               errors: @onboarding_form.errors['encryption_certificate_match'],
+               title: 'Matching service encryption certificate',
+               id: 'encryption_certificate_match',
+               input_type: 'textarea',
+               information: '
+               <p>This certificate is used to encrypt the SAML assertions sent from GOV.UK Verify to your Matching
+               Service Adapter.</p>
+               <div>This certificate must correspond to the encryption private key for your Matching Service Adapter, and be:
+               <ul class="list-bullet">
+               <li>a valid X.509 certificate</li>
+               <li>signed by the correct IDAP certificate authority for the environment (Integration or Production)</li>
+               <li>different to your service encryption validation certificate</li>
+               </ul>
+               </div>
+               <p>
+               See
+               <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+               request certificates</a>.
+               </p>
+               '
+    %>
+
+    <h2 class="heading-medium">User account creation attributes</h2>
+    <p>Select any attributes you need your GOV.UK Verify responses to contain:
+
+    <div class="form-group">
       <div class="provide-option">
-        <label class="form-label"> Attributes for creating user account (optional)</label>
-        <div class="personal-attributes form-group">
-          <div class="multiple-choice">
-            <%= f.check_box :user_account_first_name %>
-            <label for="onboarding_form_user_account_first_name">First name</label>
+        <fieldset>
+          <legend class="visually-hidden">User account creation attributes</legend>
+          <div class="personal-attributes form-group">
+            <div class="multiple-choice">
+              <%= f.check_box :user_account_first_name %>
+              <label for="onboarding_form_user_account_first_name">First name</label>
+            </div>
+            <div class="multiple-choice">
+              <%= f.check_box :user_account_middle_name %>
+              <label for="onboarding_form_user_account_middle_name">Middle name</label>
+            </div>
+            <div class="multiple-choice">
+              <%= f.check_box :user_account_surname %>
+              <label for="onboarding_form_user_account_surname">Surname</label>
+            </div>
+            <div class="multiple-choice">
+              <%= f.check_box :user_account_dob %>
+              <label for="onboarding_form_user_account_dob">Date of birth</label>
+            </div>
+            <div class="multiple-choice">
+              <%= f.check_box :user_account_current_address %>
+              <label for="onboarding_form_user_account_current_address">Current address</label>
+            </div>
+            <div class="multiple-choice">
+              <%= f.check_box :user_account_cycle_3 %>
+              <label for="onboarding_form_user_account_cycle_3">Cycle 3</label>
+            </div>
           </div>
-          <div class="multiple-choice">
-            <%= f.check_box :user_account_middle_name %>
-            <label for="onboarding_form_user_account_middle_name">Middle name</label>
-          </div>
-          <div class="multiple-choice">
-            <%= f.check_box :user_account_surname %>
-            <label for="onboarding_form_user_account_surname">Surname</label>
-          </div>
-          <div class="multiple-choice">
-            <%= f.check_box :user_account_dob %>
-            <label for="onboarding_form_user_account_dob">Date of birth</label>
-          </div>
-          <div class="multiple-choice">
-            <%= f.check_box :user_account_current_address %>
-            <label for="onboarding_form_user_account_current_address">Current address</label>
-          </div>
-          <div class="multiple-choice">
-            <%= f.check_box :user_account_address_history%>
-            <label for="onboarding_form_user_account_address_history">Address history</label>
-          </div>
-          <div class="multiple-choice">
-            <%= f.check_box :user_account_cycle_3 %>
-            <label for="onboarding_form_user_account_cycle_3">Cycle 3</label>
-          </div>
-        </div>
+        </fieldset>
 
         <details>
           <summary>
             <span class="summary">More Information</span>
           </summary>
           <div class="panel panel-border-narrow">
-            <p>This applies if you have implemented <a href='http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msCua.html#ms-cua'>user account creation</a> in your service. Select the
-            attributes you want the hub to send back to your service.</p>
+            <p>If your service creates user accounts, select any attributes you need.</p>
+            <p>See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msCua.html#ms-cua">user account creation</a>.</p>
           </div>
         </details>
       </div>
-    </fieldset>
-
-    <%= render 'question', value: @onboarding_form.matching_service_adapter_ip, errors: @onboarding_form.errors['matching_service_adapter_ip'], title: 'IP address of the Matching Service Adapter (MSA)', id: 'matching_service_adapter_ip', input_type: 'text', information: 'Enter the IP address of the host running the Matching Service Adapter (MSA). This allows GOV.UK Verify to put in place firewall rules so the hub can communicate with the MSA.' %>
-    <%= render 'question', value: @onboarding_form.testing_devices_ips, errors: @onboarding_form.errors['testing_devices_ips'], title: 'IP addresses of the devices used for testing', id: 'testing_devices_ips', input_type: 'text', information: '<p>Please provide the IP addresses of the browsers that you will use when testing in the integration environment. Access to the hub and test identity providers in the integration environment is restricted by IP address. </p><p>This is a comma separated list of IP addresses or <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">IP address ranges</a> for Verify to whitelist. For example: </p><pre><code>10.1.2.3,10.1.2.4</code></pre>or<pre><code>10.39.34.15/30</code></pre><p></p><p></p>' %>
-
-    <div class="form-group">
-      <h2 class="heading-medium">Service description</h2>
-      <%= render 'question', value: @onboarding_form.service_display_name, errors: @onboarding_form.errors['service_display_name'], title: 'Service display name', id: 'service_display_name', input_type: 'text', information: 'Enter the service name that appears to the user throughout
-            their hub journey. Use a sentence starting with a verb, for example <em>Sign in to your personal tax account</em>,
-            rather than a title like <em>Self Assessment tax return</em>.' %>
-      <%= render 'question', value: @onboarding_form.other_ways_display_name, errors: @onboarding_form.errors['other_ways_display_name'], title: 'Other ways to... display name', id: 'other_ways_display_name', input_type: 'text', information: 'Enter an alternative service name,
-            for example <em>access your personal tax account</em>. This appears on the <em>Other ways to...</em> content in the hub, which appears when a
-            user can’t prove their identity using GOV.UK Verify. If you don’t provide an alternative service name, the GOV.UK Verify team sets it to the service display name by default.'%>
-      <%= render 'textarea_question', value: @onboarding_form.other_ways_complete_transaction, errors: @onboarding_form.errors['other_ways_complete_transaction'], title: 'Other ways to complete the transaction', id: 'other_ways_complete_transaction', input_type: 'textarea', information: 'Enter valid HTML content, including URLs, that displays on the <em>Other ways to...</em> content in the hub. This informs the user of alternative methods of using your service.
-            For example: <em>If you can’t verify your identity using GOV.UK Verify, request Government Gateway user ID and password replacements from HMRC. This can take about 10 working days
-            (or longer if you live abroad). For help, contact the HMRC Online Self Assessment helpline.</em>'%>
     </div>
+
+    <h2 class="heading-medium">Cycle 3 attribute name</h2>
+
+    <%= render 'question',
+               value: @onboarding_form.cycle3_attribute_name,
+               errors: @onboarding_form.errors['cycle3_attribute_name'],
+               title: 'Requested Cycle 3 attribute name (if applicable)',
+               id: 'cycle3_attribute_name',
+               input_type: 'text',
+               information: '
+               <p>Cycle 3 matching is an optional service feature that requires
+               additional service development. Contact your GOV.UK Verify
+               engagement lead for more information.</p>
+               <p>See
+               <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/ms/msWorks.html#ms-mc3">cycle 3 matching</a>.
+               </p>
+               '
+    %>
+
 
     <fieldset class="stub-api-details">
 
-      <h2 class="heading-medium">Create account for managing test users</h2>
+      <h2 class="heading-medium">Manage your Integration environment test user data</h2>
 
-      <%= render 'question', value: @onboarding_form.stub_idp_username, errors: @onboarding_form.errors['stub_idp_username'], title: 'Username', id: 'stub_idp_username', input_type: 'text', information: 'In order to manage test users in the integration environment, you need basic auth credentials to access to the API. This will be your username for the API requests.' %>
-      <%= render 'question', value: @onboarding_form.stub_idp_password, errors: @onboarding_form.errors['stub_idp_password'], title: 'Password', id: 'stub_idp_password', input_type: 'password', information: 'In order to manage test users in the integration environment, you need basic auth credentials to access to the API. This will be your password for the API. Please use at least 8 characters.' %>
+      <p>
+        When you develop and test your service in the Integration environment, you will need to manage
+        password-protected pseudo personal data (test user) records.</p>
+
+      <p>Please create a memorable username and password to access this feature.</p>
+
+      <p>You can reset your password by contacting: <em>idasupport+onboarding@digital.cabinet-office.gov.uk</em>.</p>
+
+      <p>
+        See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/env/envEndToEndTests.html#createtestusers">create test users</a>.
+      </p>
+
+      <%= render 'question',
+                 value: @onboarding_form.stub_idp_username,
+                 errors: @onboarding_form.errors['stub_idp_username'],
+                 title: 'Username',
+                 id: 'stub_idp_username',
+                 input_type: 'text',
+                 information: '
+                 <p>
+                 You need basic authentication credentials to access and manage the
+                 test user data API. Please enter your preferred username.
+                 </p>
+                 '
+      %>
+      <%= render 'question',
+                 value: @onboarding_form.stub_idp_password,
+                 errors: @onboarding_form.errors['stub_idp_password'],
+                 title: 'Password',
+                 id: 'stub_idp_password',
+                 input_type: 'password',
+                 information: '
+                 <p>
+                 You need basic authentication credentials to access and manage the
+                 test user data API.  Your password must be at least 8 characters long.
+                 </p>
+                 <p>
+                 To reset your password, please contact: <em>idasupport+onboarding@digital.cabinet-office.gov.uk</em>.
+                 </p>
+                 '
+      %>
 
     </fieldset>
 
@@ -159,18 +450,47 @@
         <h2 class="heading-medium">Your contact details</h2>
       </div>
 
-      <%= render 'question', value: @onboarding_form.contact_details_name, errors: @onboarding_form.errors['contact_details_name'], title: 'Name', id: 'contact_details_name', input_type: 'text' %>
-      <%= render 'question', value: @onboarding_form.contact_details_email, errors: @onboarding_form.errors['contact_details_email'], title: 'Email address', id: 'contact_details_email', input_type: 'email' %>
-      <%= render 'question', value: @onboarding_form.contact_details_phone, errors: @onboarding_form.errors['contact_details_phone'], title: 'Phone number (optional)', id: 'contact_details_phone', input_type: 'tel' %>
-      <%= render 'textarea_question', value: @onboarding_form.contact_details_message, errors: @onboarding_form.errors['contact_details_message'], title: 'Message (optional)', id: 'contact_details_message'%>
-      <%= render 'question', value: @onboarding_form.contact_details_service, errors: @onboarding_form.errors['contact_details_service'], title: 'Service', id: 'contact_details_service', input_type: 'text' %>
-      <%= render 'question', value: @onboarding_form.contact_details_department, errors: @onboarding_form.errors['contact_details_department'], title: 'Department or Agency', id: 'contact_details_department', input_type: 'text' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_name,
+                 errors: @onboarding_form.errors['contact_details_name'],
+                 title: 'Name',
+                 id: 'contact_details_name',
+                 input_type: 'text' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_email,
+                 errors: @onboarding_form.errors['contact_details_email'],
+                 title: 'Email address',
+                 id: 'contact_details_email',
+                 input_type: 'email' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_phone,
+                 errors: @onboarding_form.errors['contact_details_phone'],
+                 title: 'Phone number (optional)',
+                 id: 'contact_details_phone',
+                 input_type: 'tel' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_service,
+                 errors: @onboarding_form.errors['contact_details_service'],
+                 title: 'Service',
+                 id: 'contact_details_service',
+                 input_type: 'text' %>
+      <%= render 'question',
+                 value: @onboarding_form.contact_details_department,
+                 errors: @onboarding_form.errors['contact_details_department'],
+                 title: 'Department or Agency',
+                 id: 'contact_details_department',
+                 input_type: 'text' %>
+      <%= render 'textarea_question',
+                 value: @onboarding_form.contact_details_message,
+                 errors: @onboarding_form.errors['contact_details_message'],
+                 title: 'Any other information you would like to provide (optional)',
+                 id: 'contact_details_message'%>
 
-    </fieldset><input class="button button-get-started" type="submit" value="Request access">
-    <div class="form-group">
-      <span class="bold">Note:</span> <span>Access to the environment form will be given subject to successful gate reviews. Environment set up and configuration will take the GOV.UK Verify
-      team 5 working days.</span>
-    </div>
+    </fieldset>
+
+    <p>Please allow GOV.UK Verify up to 5 working days to set up your environment.</p>
+
+    <input class="button button-get-started" type="submit" value="Request access">
   <% end %>
 </div>
 

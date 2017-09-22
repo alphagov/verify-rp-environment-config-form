@@ -81,7 +81,7 @@ class OnboardingForm
 
   def validate_entity_ids_are_different
     if (@service_entity_id == @matching_service_entity_id)
-      errors['matching_service_entity_id'] << 'Entity IDs need to be different'
+      errors['matching_service_entity_id'] << 'needs to be different from the Verify service entity ID'
     end
   end
 

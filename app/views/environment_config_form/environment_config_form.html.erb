@@ -23,7 +23,7 @@
 
     <h1 class="form-title heading-large">Request access to an environment</h1>
     <div class="form-group">
-      <p>You must complete ALL required fields and submit your request in a single session.  Data is not stored if you leave this page before you select the ‘Request Access’ button.</p>
+      <p>You must complete all required fields and submit your request in a single session.  Data is not stored if you leave this page before you select the ‘Request Access’ button.</p>
       <p>You should be able to access your environment within 5 working days of submitting your completed form.  Please contact us if you cannot gain access and more than 5 working days have passed since your request.</p>
     </div>
 
@@ -107,11 +107,10 @@
                title: 'Matching Service Adapter: matching URL',
                id: 'matching_service_url',
                input_type: 'url',
-               information: '<p>To maintain security, GOV.UK Verify servers only communicate with whitelisted IP addresses.</p>
-               <p>Tell us which URL you will use to receive your Verify matching service requests, for example:</p>
+               information: '<p>Tell us which URL you will use to receive your Verify matching service requests, for example:</p>
                <p>Integration: <code>https://{your-integration-domain}/matching-service/POST</code></p>
                <p>Production: <code>https://{your-production-domain}.gov.uk/matching-service/POST</code></p>
-               '
+               <p>To maintain security, GOV.UK Verify servers only communicate with whitelisted IP addresses.</p>'
     %>
     <%= render 'question',
                value: @onboarding_form.user_account_creation_uri,

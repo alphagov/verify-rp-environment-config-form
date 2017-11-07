@@ -1,4 +1,7 @@
-# Make sure ZendeskClient can be initialized.
-# ZendeskClientFactory will require env variables to be set in order to work.
-# It will raise an error if something is missing
-ZendeskClientFactory.create
+require 'zendesk_api'
+
+ZENDESK_CLIENT = ZendeskAPI::Client.new do |config|
+  config.url = ENV.fetch('ZENDESK_BASE_URL')
+  config.username = ENV.fetch('ZENDESK_USERNAME')
+  config.token = ENV.fetch('ZENDESK_TOKEN')
+end

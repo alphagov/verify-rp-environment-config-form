@@ -55,11 +55,6 @@ RSpec.describe 'The start page', :type => :feature do
     stub_request(:put, "#{ZENDESK_TICKETS_URL}/#{ticket_number}").to_return(:status => 200, :body => {"ticket":{"id":ticket_number}}.to_json, :headers => { "Content-Type": "application/json" })
     submit_valid_form
     expect(page).to have_content('Your ticket has been created with the id #123456')
-
-    File.delete('./tmp/something-something.yml')
-    File.delete('./tmp/something-something-msa.yml')
-    File.delete('./tmp/experian-something-something.yml')
-    File.delete('./tmp/post-office-something-something.yml')
   end
 
   it 'should show an error if zendesk submit fails' do

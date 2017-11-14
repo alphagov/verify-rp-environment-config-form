@@ -20,7 +20,7 @@ class ConfigFileService
     transaction_yaml['matchingServiceEntityId'] = @form.matching_service_entity_id
     transaction_yaml['matchingProcess']['cycle3AttributeName'] = @form.cycle3_attribute_name
     transaction_yaml['serviceHomepage'] = @form.service_homepage_url
-    transaction_yaml['userAccountCreationAttributes'] = TransformUserAccountAttributes.new().get_array(@form)
+    transaction_yaml['userAccountCreationAttributes'] = @form.get_user_account_attributes_array
     transaction_yaml['simpleId'] = @simple_id
 
     transaction_config_filename = "./tmp/#{@simple_id}.yml"

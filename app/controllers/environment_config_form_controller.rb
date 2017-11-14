@@ -13,15 +13,15 @@ class EnvironmentConfigFormController < ApplicationController
     end
 
     begin
-      onboarding_form_service = OnboardingFormService.new()
-      ticket_body = onboarding_form_service.generate_ticket_body(@onboarding_form)
-      @ticket = onboarding_form_service.save(ticket_body)
+      ticket_body = OnboardingFormService.generate_ticket_body(@onboarding_form)
+      @ticket = OnboardingFormService.save(ticket_body)
 
-      if !@ticket; raise 'problem creating ticket' end
+      raise 'problem creating ticket' if @ticket.nil?
 
       begin
-        config_files = onboarding_form_service.generate_config_files(@onboarding_form)
-        onboarding_form_service.upload_config_files(@ticket, config_files)
+        config_files = OnboardingFormService.generate_config_files(@onboarding_form)
+        OnboardingFormService.upload_config_files(@ticket, config_files)
+        OnboardingFormService.delete_config_files(config_files)
 
       rescue RuntimeError => err
         Rails.logger.error(err)

@@ -1,0 +1,12 @@
+entityId: http://stub_idp.acme.org/stub-idp-test-rp/SSO/POST
+
+simpleId: stub-idp
+
+enabled: true
+onboardingTransactionEntityIds:
+  - http://www.test-rp.gov.uk/SAML2/MD
+
+supportedLevelsOfAssurance:
+  - LEVEL_2
+useExactComparisonType: false
+

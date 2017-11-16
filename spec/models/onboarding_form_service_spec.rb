@@ -1,11 +1,10 @@
 require 'rails_helper'
+require 'zendesk_api'
 
 describe OnboardingFormService do
 
-  context 'save the form' do
-
-    it 'should construct a new zendesk ticket' do
-      form = OnboardingForm.new({
+  def create_valid_form
+    OnboardingForm.new({
         environment_access: 'Integration access request',
         service_entity_id: 'https://example.com',
         matching_service_entity_id: 'https://example.com/msa',
@@ -38,19 +37,23 @@ describe OnboardingFormService do
         contact_details_department: 'Example department',
         stub_idp_username: 'stub-idp-username',
         stub_idp_password: 'stup-idp-password'
-      })
+    })
+  end
 
-      zendesk_client = instance_double(ZendeskClient)
+  context 'prepare the zendesk ticket' do
 
-      expect(zendesk_client).to receive(:create_ticket).with({
-        ticket: {
+    it 'should generate a valid zendesk ticket' do
+
+      form = create_valid_form
+
+      expect(OnboardingFormService.generate_ticket_body(form)).to eq({
           requester: {
-            name: 'username',
-            email: 'example@example.com'
+              name: 'username',
+              email: 'example@example.com'
           },
           subject: 'Example service: Integration access request [requestor: username]',
           comment: {
-            body: <<~EOF
+              body: <<~EOF
                 Environment access:
                 Integration access request
 
@@ -129,147 +132,175 @@ describe OnboardingFormService do
                 Hashed password for stub idp:
                 #{form.hashed_password}
 
-                Follow this guide on how to onboard an RP: https://github.digital.cabinet-office.gov.uk/gds/ida-hub/wiki/Onboarding-an-rp
-            EOF
+                Follow this guide on how to onboard an RP: https://github.com/alphagov/ida-hub/wiki/Onboarding-an-rp
+          EOF
           }
-        }
-      }).and_return :created_ticket
-
-      expect(OnboardingFormService.new(zendesk_client).save(form)).to eq(:created_ticket)
+      })
     end
 
-    it 'should construct a new zendesk ticket' do
+    it 'should generate an empty zendesk ticket' do
       form = OnboardingForm.new({
-        environment_access: '',
-        service_entity_id: '',
-        matching_service_entity_id: '',
-        matching_service_url: '',
-        service_homepage_url: '',
-        assertion_consumer_services_https_url: '',
-        cycle3_attribute_name: '',
-        testing_devices_ips: '',
-        matching_service_adapter_ip: '',
-        signature_verification_certificate_transaction: '',
-        signature_verification_certificate_match: '',
-        encryption_certificate_transaction: '',
-        encryption_certificate_match: '',
-        user_account_creation_uri: '',
-        user_account_first_name: '0',
-        user_account_middle_name: '0',
-        user_account_surname: '0',
-        user_account_dob: '0',
-        user_account_current_address: '0',
-        user_account_address_history: '0',
-        user_account_cycle_3: '0',
-        contact_details_phone: '',
-        contact_details_message: '',
-        service_display_name: '',
-        other_ways_display_name: '',
-        other_ways_complete_transaction: '',
-        contact_details_name: '',
-        contact_details_email: '',
-        contact_details_service: '',
-        contact_details_department: '',
-        stub_idp_username: '',
-        stub_idp_password: ''
+          environment_access: '',
+          service_entity_id: '',
+          matching_service_entity_id: '',
+          matching_service_url: '',
+          service_homepage_url: '',
+          assertion_consumer_services_https_url: '',
+          cycle3_attribute_name: '',
+          testing_devices_ips: '',
+          matching_service_adapter_ip: '',
+          signature_verification_certificate_transaction: '',
+          signature_verification_certificate_match: '',
+          encryption_certificate_transaction: '',
+          encryption_certificate_match: '',
+          user_account_creation_uri: '',
+          user_account_first_name: '0',
+          user_account_middle_name: '0',
+          user_account_surname: '0',
+          user_account_dob: '0',
+          user_account_current_address: '0',
+          user_account_address_history: '0',
+          user_account_cycle_3: '0',
+          contact_details_phone: '',
+          contact_details_message: '',
+          service_display_name: '',
+          other_ways_display_name: '',
+          other_ways_complete_transaction: '',
+          contact_details_name: '',
+          contact_details_email: '',
+          contact_details_service: '',
+          contact_details_department: '',
+          stub_idp_username: '',
+          stub_idp_password: ''
       })
-
-      zendesk_client = instance_double(ZendeskClient)
-
-      expect(zendesk_client).to receive(:create_ticket).with({
-        ticket: {
+      expect(OnboardingFormService.generate_ticket_body(form)).to eq({
           requester: {
-            name: '-',
-            email: '-'
+              name: '-',
+              email: '-'
           },
           subject: '-: - [requestor: -]',
           comment: {
-          body: <<~EOF
-            Environment access:
-            -
+              body: <<~EOF
+                Environment access:
+                -
 
-            Service entity id:
-            -
+                Service entity id:
+                -
 
-            Matching service entity id:
-            -
+                Matching service entity id:
+                -
 
-            Matching service url:
-            -
+                Matching service url:
+                -
 
-            Service start page URL:
-            -
+                Service start page URL:
+                -
 
-            Assertion consumer services https url:
-            -
+                Assertion consumer services https url:
+                -
 
-            Requested cycle 3 attribute name (if applicable):
-            -
+                Requested cycle 3 attribute name (if applicable):
+                -
 
-            Matching service user account creation URL:
-            -
+                Matching service user account creation URL:
+                -
 
-            IP address of devices used for testing:
-            -
+                IP address of devices used for testing:
+                -
 
-            Matching Service Adapter IP address:
-            -
+                Matching Service Adapter IP address:
+                -
 
-            Transaction signature verification certificate:
-            -
+                Transaction signature verification certificate:
+                -
 
-            Transaction encryption certificate:
-            -
+                Transaction encryption certificate:
+                -
 
-            Matching Service signature verification certificate:
-            -
+                Matching Service signature verification certificate:
+                -
 
-            Matching Service encryption certificate:
-            -
+                Matching Service encryption certificate:
+                -
 
-            Requested attributes for creating user account:
-            -
+                Requested attributes for creating user account:
+                -
 
-            Service display name:
-            -
+                Service display name:
+                -
 
-            Other ways display name:
-            -
+                Other ways display name:
+                -
 
-            Other ways complete transaction:
-            -
+                Other ways complete transaction:
+                -
 
-            Name:
-            -
+                Name:
+                -
 
-            Email:
-            -
+                Email:
+                -
 
-            Phone:
-            -
+                Phone:
+                -
 
-            Message:
-            -
+                Message:
+                -
 
-            Service:
-            -
+                Service:
+                -
 
-            Department:
-            -
+                Department:
+                -
 
-            Username for stub idp:
-            -
+                Username for stub idp:
+                -
 
-            Hashed password for stub idp:
-            #{form.hashed_password}
+                Hashed password for stub idp:
+                #{form.hashed_password}
 
-            Follow this guide on how to onboard an RP: https://github.digital.cabinet-office.gov.uk/gds/ida-hub/wiki/Onboarding-an-rp
+                Follow this guide on how to onboard an RP: https://github.com/alphagov/ida-hub/wiki/Onboarding-an-rp
           EOF
           }
-        }
-      }).and_return :created_ticket
+      })
+    end
 
-      expect(OnboardingFormService.new(zendesk_client).save(form)).to eq(:created_ticket)
+  end
+
+  context 'manage config files' do
+
+    it 'should delete newly created config files' do
+
+      testFiles = ['./tmp/newTestFile1', './tmp/newTestFile2']
+
+      testFiles.each { |file| File.new(file, 'w') }
+
+      testFiles.each do |file|
+        expect(File.exist?(file)).to eq(true)
+      end
+
+      OnboardingFormService.delete_config_files(testFiles)
+
+      testFiles.each do |file|
+        expect(File.exist?(file)).to eq(false)
+      end
+    end
+
+    it 'should generate config files for a valid form' do
+      form = create_valid_form
+
+      expected_config_files = [
+          './tmp/example-department-example-service.yml',
+          './tmp/example-department-example-service-msa.yml',
+          './tmp/post-office-example-department-example-service.yml',
+          './tmp/experian-example-department-example-service.yml'
+      ]
+
+      generated_config_files = OnboardingFormService.generate_config_files(form)
+
+      expect(generated_config_files).to eq(expected_config_files)
+
+      OnboardingFormService.delete_config_files(generated_config_files)
     end
 
   end

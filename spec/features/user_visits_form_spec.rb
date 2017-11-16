@@ -3,7 +3,8 @@ require 'tempfile'
 
 RSpec.describe 'The start page', :type => :feature do
 
-  ZENDESK_TICKETS_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}tickets.json"
+  ZENDESK_TICKETS_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}tickets"
+  ZENDESK_UPLOADS_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}uploads"
 
   before(:all) do
     @cert_file = Tempfile.new('good-cert')
@@ -48,15 +49,12 @@ RSpec.describe 'The start page', :type => :feature do
   end
 
   it 'should show confirmation page after a succesful form submit' do
-    stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 201, :body => {"ticket":{"id": 123, "subject":"Test","comment":{"value":"some comment"}}}.to_json, :headers => {})
+    ticket_number = 123456
+    stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 201, :body => {"ticket":{"id":ticket_number}}.to_json, :headers => { "Content-Type": "application/json" })
+    stub_request(:post, ZENDESK_UPLOADS_URL).to_return(:status => 201, :body => {"upload":{"token":ticket_number}}.to_json, :headers => { "Content-Type": "text/plain" })
+    stub_request(:put, "#{ZENDESK_TICKETS_URL}/#{ticket_number}").to_return(:status => 200, :body => {"ticket":{"id":ticket_number}}.to_json, :headers => { "Content-Type": "application/json" })
     submit_valid_form
-    expect(page).to have_content('Your ticket has been created with the id #123')
-  end
-
-  it 'should show confirmation page after a succesful form submit even if there\'s no ticket id' do
-    stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 201, :body => {"ticket":{"subject":"Test","comment":{"value":"some comment"}}}.to_json, :headers => {})
-    submit_valid_form
-    expect(page).to have_content('Your ticket has been created with the id #unknown')
+    expect(page).to have_content('Your ticket has been created with the id #123456')
   end
 
   it 'should show an error if zendesk submit fails' do

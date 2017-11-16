@@ -1,138 +1,142 @@
+require 'zendesk_api'
+
 class OnboardingFormService
+  class << self
 
-  attr_reader :zendesk_client
+    def save(ticket_body)
+      ZendeskAPI::Ticket.create(ZENDESK_CLIENT, ticket_body)
+    end
 
-  USER_ACCOUNT_CREATION_ATTRIBUTES = {
-      user_account_first_name: 'FIRST_NAME',
-      user_account_middle_name: 'MIDDLE_NAME',
-      user_account_surname: 'SURNAME',
-      user_account_dob: 'DATE_OF_BIRTH',
-      user_account_current_address: 'CURRENT_ADDRESS',
-      user_account_address_history: 'ADDRESS_HISTORY',
-      user_account_cycle_3: 'CYCLE_3'
-  }
+    def upload_config_files(ticket, config_files)
+      # if the ticket's body isn't overwritten, the entire form is re-posted
+      ticket.comment.body = 'automatically generated config files:'
 
-  def initialize(zendesk_client)
-    @zendesk_client = zendesk_client
-  end
+      config_files.each do |file|
+        ticket.comment.uploads << file
+      end
+      ticket.save!
+    end
 
-  def save(onboarding_form)
-    @zendesk_client.create_ticket(
-      ticket: {
-        requester: {
-          name: value_or_default(onboarding_form.contact_details_name),
-          email: value_or_default(onboarding_form.contact_details_email)
-        },
-        :subject => "#{value_or_default(onboarding_form.service_display_name)}: #{value_or_default(onboarding_form.environment_access)} [requestor: #{value_or_default(onboarding_form.contact_details_name)}]",
-        :comment => {
-            :body => <<~EOF
-              Environment access:
-              #{ value_or_default(onboarding_form.environment_access) }
+    def generate_config_files(onboarding_form)
+      config_file_service = ConfigFileService.new(onboarding_form)
 
-              Service entity id:
-              #{ value_or_default(onboarding_form.service_entity_id) }
+      [
+          config_file_service.generate_transaction_config_file,
+          config_file_service.generate_msa_config_file,
+          config_file_service.generate_stub_idp_file('post-office'),
+          config_file_service.generate_stub_idp_file('experian'),
+      ]
 
-              Matching service entity id:
-              #{ value_or_default(onboarding_form.matching_service_entity_id) }
+    end
 
-              Matching service url:
-              #{ value_or_default(onboarding_form.matching_service_url) }
+    def generate_ticket_body(onboarding_form)
 
-              Service start page URL:
-              #{ value_or_default(onboarding_form.service_homepage_url) }
+      {
+          requester: {
+              name: value_or_default(onboarding_form.contact_details_name),
+              email: value_or_default(onboarding_form.contact_details_email)
+          },
+          subject: "#{value_or_default(onboarding_form.service_display_name)}: #{value_or_default(onboarding_form.environment_access)} [requestor: #{value_or_default(onboarding_form.contact_details_name)}]",
+          comment: {
+              body: <<~EOF
+                Environment access:
+                #{ value_or_default(onboarding_form.environment_access) }
 
-              Assertion consumer services https url:
-              #{ value_or_default(onboarding_form.assertion_consumer_services_https_url) }
+                Service entity id:
+                #{ value_or_default(onboarding_form.service_entity_id) }
 
-              Requested cycle 3 attribute name (if applicable):
-              #{ value_or_default(onboarding_form.cycle3_attribute_name) }
+                Matching service entity id:
+                #{ value_or_default(onboarding_form.matching_service_entity_id) }
 
-              Matching service user account creation URL:
-              #{ value_or_default(onboarding_form.user_account_creation_uri) }
+                Matching service url:
+                #{ value_or_default(onboarding_form.matching_service_url) }
 
-              IP address of devices used for testing:
-              #{ value_or_default(onboarding_form.testing_devices_ips) }
+                Service start page URL:
+                #{ value_or_default(onboarding_form.service_homepage_url) }
 
-              Matching Service Adapter IP address:
-              #{ value_or_default(onboarding_form.matching_service_adapter_ip) }
+                Assertion consumer services https url:
+                #{ value_or_default(onboarding_form.assertion_consumer_services_https_url) }
 
-              Transaction signature verification certificate:
-              #{ value_or_default(onboarding_form.signature_verification_certificate_transaction) }
+                Requested cycle 3 attribute name (if applicable):
+                #{ value_or_default(onboarding_form.cycle3_attribute_name) }
 
-              Transaction encryption certificate:
-              #{ value_or_default(onboarding_form.encryption_certificate_transaction) }
+                Matching service user account creation URL:
+                #{ value_or_default(onboarding_form.user_account_creation_uri) }
 
-              Matching Service signature verification certificate:
-              #{ value_or_default(onboarding_form.signature_verification_certificate_match) }
+                IP address of devices used for testing:
+                #{ value_or_default(onboarding_form.testing_devices_ips) }
 
-              Matching Service encryption certificate:
-              #{ value_or_default(onboarding_form.encryption_certificate_match) }
+                Matching Service Adapter IP address:
+                #{ value_or_default(onboarding_form.matching_service_adapter_ip) }
 
-              Requested attributes for creating user account:
-              #{ value_or_default(user_account_attributes(onboarding_form).join(', '))}
+                Transaction signature verification certificate:
+                #{ value_or_default(onboarding_form.signature_verification_certificate_transaction) }
 
-              Service display name:
-              #{ value_or_default(onboarding_form.service_display_name) }
+                Transaction encryption certificate:
+                #{ value_or_default(onboarding_form.encryption_certificate_transaction) }
 
-              Other ways display name:
-              #{ value_or_default(onboarding_form.other_ways_display_name) }
+                Matching Service signature verification certificate:
+                #{ value_or_default(onboarding_form.signature_verification_certificate_match) }
 
-              Other ways complete transaction:
-              #{ value_or_default(onboarding_form.other_ways_complete_transaction) }
+                Matching Service encryption certificate:
+                #{ value_or_default(onboarding_form.encryption_certificate_match) }
 
-              Name:
-              #{ value_or_default(onboarding_form.contact_details_name) }
+                Requested attributes for creating user account:
+                #{ value_or_default(onboarding_form.get_user_account_attributes_array.join(', '))}
 
-              Email:
-              #{ value_or_default(onboarding_form.contact_details_email) }
+                Service display name:
+                #{ value_or_default(onboarding_form.service_display_name) }
 
-              Phone:
-              #{ value_or_default(onboarding_form.contact_details_phone) }
+                Other ways display name:
+                #{ value_or_default(onboarding_form.other_ways_display_name) }
 
-              Message:
-              #{ value_or_default(onboarding_form.contact_details_message) }
+                Other ways complete transaction:
+                #{ value_or_default(onboarding_form.other_ways_complete_transaction) }
 
-              Service:
-              #{ value_or_default(onboarding_form.contact_details_service) }
+                Name:
+                #{ value_or_default(onboarding_form.contact_details_name) }
 
-              Department:
-              #{ value_or_default(onboarding_form.contact_details_department) }
+                Email:
+                #{ value_or_default(onboarding_form.contact_details_email) }
 
-              Username for stub idp:
-              #{ value_or_default(onboarding_form.stub_idp_username) }
+                Phone:
+                #{ value_or_default(onboarding_form.contact_details_phone) }
 
-              Hashed password for stub idp:
-              #{ value_or_default(onboarding_form.hashed_password) }
+                Message:
+                #{ value_or_default(onboarding_form.contact_details_message) }
 
-              Follow this guide on how to onboard an RP: https://github.digital.cabinet-office.gov.uk/gds/ida-hub/wiki/Onboarding-an-rp
-            EOF
-        }
+                Service:
+                #{ value_or_default(onboarding_form.contact_details_service) }
+
+                Department:
+                #{ value_or_default(onboarding_form.contact_details_department) }
+
+                Username for stub idp:
+                #{ value_or_default(onboarding_form.stub_idp_username) }
+
+                Hashed password for stub idp:
+                #{ value_or_default(onboarding_form.hashed_password) }
+
+                Follow this guide on how to onboard an RP: https://github.com/alphagov/ida-hub/wiki/Onboarding-an-rp
+          EOF
+          }
       }
-    )
-  end
+    end
 
-  private
+    def delete_config_files(files)
+      files.each do |f|
+        File.delete(f)
+      end
+    end
 
-  def user_account_attributes(onboarding_form)
-    {
-      user_account_first_name: ['FIRST_NAME', 'FIRST_NAME_VERIFIED'],
-      user_account_middle_name: ['MIDDLE_NAME', 'MIDDLE_NAME_VERIFIED'],
-      user_account_surname: ['SURNAME', 'SURNAME_VERIFIED'],
-      user_account_dob: ['DATE_OF_BIRTH', 'DATE_OF_BIRTH_VERIFIED'],
-      user_account_current_address: ['CURRENT_ADDRESS', 'CURRENT_ADDRESS_VERIFIED'],
-      user_account_address_history: ['ADDRESS_HISTORY'],
-      user_account_cycle_3: ['CYCLE_3']
-    }.collect { |attribute_name, attr|
-      onboarding_form.send(attribute_name) != '0' ? attr : []
-    }.flatten
-  end
+    private
 
-  def value_or_default(value, default = '-')
-    if value.nil? || value.empty?
-      default
-    else
-      value
+    def value_or_default(value, default = '-')
+      if value.nil? || value.empty?
+        default
+      else
+        value
+      end
     end
   end
-
 end

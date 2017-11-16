@@ -26,6 +26,8 @@ gem 'govuk_elements_rails', '3.0.2'
 
 gem 'bcrypt', '3.1.11'
 
+gem 'zendesk_api', '1.15.0'
+
 group :development, :test do
   gem 'rspec', '~> 3.5.0'
   gem 'rspec-rails', '~> 3.5.0'

@@ -13,9 +13,24 @@ class EnvironmentConfigFormController < ApplicationController
     end
 
     begin
-      @ticket = OnboardingFormService.new(ZendeskClientFactory.create).save @onboarding_form
+      ticket_body = OnboardingFormService.generate_ticket_body(@onboarding_form)
+      @ticket = OnboardingFormService.save(ticket_body)
+
+      raise 'problem creating ticket' if @ticket.nil?
+
+      begin
+        config_files = OnboardingFormService.generate_config_files(@onboarding_form)
+        OnboardingFormService.upload_config_files(@ticket, config_files)
+        OnboardingFormService.delete_config_files(config_files)
+
+      rescue RuntimeError => err
+        Rails.logger.error(err)
+      end
+
       render 'confirmation'
+
     rescue RuntimeError => err
+      Rails.logger.error(err)
       @error = 'Something happened with zendesk'
       return render 'environment_config_form'
     end

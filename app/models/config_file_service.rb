@@ -66,7 +66,11 @@ class ConfigFileService
   private
 
   def format_certificate(certificate)
-    certificate.gsub("\n",'').gsub('-----BEGIN CERTIFICATE-----','').gsub('-----END CERTIFICATE-----','')
+    certificate
+      .gsub("\n",'')
+      .gsub("\r",'')
+      .gsub('-----BEGIN CERTIFICATE-----','')
+      .gsub('-----END CERTIFICATE-----','')
   end
 
 end

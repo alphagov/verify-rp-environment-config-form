@@ -8,5 +8,7 @@ onboardingTransactionEntityIds:
 
 supportedLevelsOfAssurance:
   - LEVEL_2
+onboardingLevelsOfAssurance:
+  - LEVEL_2
 useExactComparisonType: false
 

@@ -55,6 +55,7 @@ class ConfigFileService
     stub_idp_yml['simpleId'] = idp
     stub_idp_yml['onboardingTransactionEntityIds'][0] = @form.service_entity_id
     stub_idp_yml['supportedLevelsOfAssurance'][0] = @LevelsOfAssurance
+    stub_idp_yml['onboardingLevelsOfAssurance'][0] = @LevelsOfAssurance
 
     stub_idp_filename = "./tmp/#{idp}-#{@simple_id}.yml"
 

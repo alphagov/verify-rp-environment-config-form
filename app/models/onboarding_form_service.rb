@@ -19,23 +19,25 @@ class OnboardingFormService
 
     def generate_config_files(onboarding_form)
       config_file_service = ConfigFileService.new(onboarding_form)
-
       [
           config_file_service.generate_transaction_config_file,
           config_file_service.generate_msa_config_file,
           config_file_service.generate_stub_idp_file('post-office'),
           config_file_service.generate_stub_idp_file('experian'),
       ]
+    end
 
+    def find_group_id()
+      ZENDESK_CLIENT.search({:query => "type:group name:'Connecting to Verify'"}).fetch.first.id
     end
 
     def generate_ticket_body(onboarding_form)
-
       {
           requester: {
               name: value_or_default(onboarding_form.contact_details_name),
               email: value_or_default(onboarding_form.contact_details_email)
           },
+          group_id: find_group_id(),
           subject: "#{value_or_default(onboarding_form.service_display_name)}: #{value_or_default(onboarding_form.environment_access)} [requestor: #{value_or_default(onboarding_form.contact_details_name)}]",
           comment: {
               body: <<~EOF

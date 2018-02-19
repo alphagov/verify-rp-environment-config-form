@@ -51,6 +51,7 @@ describe OnboardingFormService do
               name: 'username',
               email: 'example@example.com'
           },
+          group_id: 360000257114,
           subject: 'Example service: Integration access request [requestor: username]',
           comment: {
               body: <<~EOF
@@ -178,6 +179,7 @@ describe OnboardingFormService do
               name: '-',
               email: '-'
           },
+          group_id: 360000257114,
           subject: '-: - [requestor: -]',
           comment: {
               body: <<~EOF

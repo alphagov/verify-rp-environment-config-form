@@ -109,8 +109,7 @@
                input_type: 'url',
                information: '<p>Tell us which URL you will use to receive your Verify matching service requests, for example:</p>
                <p>Integration: <code>https://{your-integration-domain}/matching-service/POST</code></p>
-               <p>Production: <code>https://{your-production-domain}.gov.uk/matching-service/POST</code></p>
-               <p>To maintain security, GOV.UK Verify servers only communicate with whitelisted IP addresses.</p>'
+               <p>Production: <code>https://{your-production-domain}.gov.uk/matching-service/POST</code></p>'
     %>
     <%= render 'question',
                value: @onboarding_form.user_account_creation_uri,
@@ -127,43 +126,6 @@
                <p>You only need to do this if you have user account creation enabled for your service.</p>
                '
     %>
-    <h2 class="heading-medium">IP addresses</h2>
-    <p>
-      To ensure correct message exchange, between your service and GOV.UK Verify, we need to know which IP
-      addresses you will use for:
-    </p>
-
-    <%= render 'question',
-               value: @onboarding_form.testing_devices_ips,
-               errors: @onboarding_form.errors['testing_devices_ips'],
-               title: 'Test device browser IP addresses',
-               id: 'testing_devices_ips',
-               input_type: 'text',
-               information: '
-               <p>Within the Integration environment, Verify webpages are only visible to whitelisted IP addresses.
-               The Production environment is open access.</p>
-               <p>Your IP addresses should be either:
-               <ul class="list-bullet">
-               <li>static, or</li>
-               <li>fall within a narrow address range</li>
-               </ul>
-               </p>
-               <p>
-               Enter the browser IP addresses you will use to access the GOV.UK Verify Integration environment,
-               for example:  <code>10.1.2.3,10.1.2.4</code> or <code>10.39.34.15/30</code>.
-               </p>
-               <p>If more than one address, please enter as a comma separated list.</p>
-               '
-    %>
-    <%= render 'question',
-               value: @onboarding_form.matching_service_adapter_ip,
-               errors: @onboarding_form.errors['matching_service_adapter_ip'],
-               title: 'Matching Service Adapter IP address',
-               id: 'matching_service_adapter_ip',
-               input_type: 'text',
-               information: '<p>The IP address of the domain that will host your Matching Service Adapter</p>'
-    %>
-
     <h2 class="heading-medium">Verify user webpage texts</h2>
     <p>
       Specific signposting webpages are displayed during the user’s journey.

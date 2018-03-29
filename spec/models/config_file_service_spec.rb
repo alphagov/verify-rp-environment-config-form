@@ -11,8 +11,6 @@ describe 'ConfigFileService' do
     service_homepage_url: 'https://example.com/start',
     assertion_consumer_services_https_url: 'https://example.com/process-response',
     cycle3_attribute_name: 'cycle3attr',
-    testing_devices_ips: 'some-ip-address',
-    matching_service_adapter_ip: 'some-ip-address',
     signature_verification_certificate_transaction: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
     signature_verification_certificate_match: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
     encryption_certificate_transaction: GOOD_CERT_GOOD_ISSUER_INTEGRATION,

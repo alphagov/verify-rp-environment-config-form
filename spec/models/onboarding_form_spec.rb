@@ -11,8 +11,6 @@ describe OnboardingForm do
           :service_entity_id => 'http://example.com',
           :matching_service_entity_id => 'http://example.com/msa',
           :matching_service_url => 'http://example.com/msa',
-          :matching_service_adapter_ip => 'something',
-          :testing_devices_ips => 'something',
           :service_homepage_url => 'http://example.com',
           :assertion_consumer_services_https_url => 'http://example.com',
           :signature_verification_certificate_transaction => GOOD_CERT_GOOD_ISSUER_INTEGRATION,
@@ -39,8 +37,6 @@ describe OnboardingForm do
       expect(form.errors['service_entity_id']).to include("can't be blank")
       expect(form.errors['matching_service_entity_id']).to include("can't be blank")
       expect(form.errors['matching_service_url']).to include("can't be blank")
-      expect(form.errors['matching_service_adapter_ip']).to include("can't be blank")
-      expect(form.errors['testing_devices_ips']).to include("can't be blank")
       expect(form.errors['service_homepage_url']).to include("can't be blank")
       expect(form.errors['assertion_consumer_services_https_url']).to include("can't be blank")
       expect(form.errors['signature_verification_certificate_transaction']).to include("can't be blank")

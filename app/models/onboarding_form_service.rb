@@ -65,12 +65,6 @@ class OnboardingFormService
                 Matching service user account creation URL:
                 #{ value_or_default(onboarding_form.user_account_creation_uri) }
 
-                IP address of devices used for testing:
-                #{ value_or_default(onboarding_form.testing_devices_ips) }
-
-                Matching Service Adapter IP address:
-                #{ value_or_default(onboarding_form.matching_service_adapter_ip) }
-
                 Transaction signature verification certificate:
                 #{ value_or_default(onboarding_form.signature_verification_certificate_transaction) }
 

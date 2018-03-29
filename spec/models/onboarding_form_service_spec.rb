@@ -12,8 +12,6 @@ describe OnboardingFormService do
         service_homepage_url: 'https://example.com/start',
         assertion_consumer_services_https_url: 'https://example.com/process-response',
         cycle3_attribute_name: 'cycle3attr',
-        testing_devices_ips: 'some-ip-address',
-        matching_service_adapter_ip: 'some-ip-address',
         signature_verification_certificate_transaction: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
         signature_verification_certificate_match: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
         encryption_certificate_transaction: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
@@ -79,12 +77,6 @@ describe OnboardingFormService do
                 Matching service user account creation URL:
                 https://example.com
 
-                IP address of devices used for testing:
-                some-ip-address
-
-                Matching Service Adapter IP address:
-                some-ip-address
-
                 Transaction signature verification certificate:
                 #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
 
@@ -148,8 +140,6 @@ describe OnboardingFormService do
           service_homepage_url: '',
           assertion_consumer_services_https_url: '',
           cycle3_attribute_name: '',
-          testing_devices_ips: '',
-          matching_service_adapter_ip: '',
           signature_verification_certificate_transaction: '',
           signature_verification_certificate_match: '',
           encryption_certificate_transaction: '',
@@ -205,12 +195,6 @@ describe OnboardingFormService do
                 -
 
                 Matching service user account creation URL:
-                -
-
-                IP address of devices used for testing:
-                -
-
-                Matching Service Adapter IP address:
                 -
 
                 Transaction signature verification certificate:

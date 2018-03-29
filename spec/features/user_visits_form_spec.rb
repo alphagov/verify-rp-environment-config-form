@@ -98,8 +98,6 @@ RSpec.describe 'The start page', :type => :feature do
     fill_in 'Matching service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
 
     fill_in 'Matching Service Adapter: User account creation URL', with: 'http://example.com/msa/create-account'
-    fill_in 'Matching Service Adapter IP address', with: 'some IP address'
-    fill_in 'Test device browser IP addresses', with: 'some IP address'
     fill_in 'Verify service display name', with: 'something'
     fill_in 'Other ways to apply display name', with: 'something'
     fill_in 'Other ways to complete the transaction', with: 'something'

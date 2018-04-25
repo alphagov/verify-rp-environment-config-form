@@ -5,3 +5,5 @@ ZENDESK_CLIENT = ZendeskAPI::Client.new do |config|
   config.username = ENV.fetch('ZENDESK_USERNAME')
   config.token = ENV.fetch('ZENDESK_TOKEN')
 end
+
+ZENDESK_GROUP_NAME = '3rd Line - Connecting to Verify'

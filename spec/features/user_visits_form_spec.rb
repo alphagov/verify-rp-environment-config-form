@@ -5,7 +5,7 @@ RSpec.describe 'The start page', :type => :feature do
 
   ZENDESK_TICKETS_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}tickets"
   ZENDESK_UPLOADS_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}uploads"
-  ZENDESK_SEARCH_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}search?query=type:group name:'Connecting to Verify'"
+  ZENDESK_SEARCH_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}search?query=type:group name:'#{ZENDESK_GROUP_NAME}'"
 
   before(:all) do
     @cert_file = Tempfile.new('good-cert')

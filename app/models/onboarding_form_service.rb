@@ -28,7 +28,7 @@ class OnboardingFormService
     end
 
     def find_group_id()
-      ZENDESK_CLIENT.search({:query => "type:group name:'Connecting to Verify'"}).fetch.first.id
+      ZENDESK_CLIENT.search({:query => "type:group name:'#{ZENDESK_GROUP_NAME}'"}).fetch.first.id
     end
 
     def generate_ticket_body(onboarding_form)

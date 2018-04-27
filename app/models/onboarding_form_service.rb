@@ -9,11 +9,17 @@ class OnboardingFormService
 
     def upload_config_files(ticket, config_files)
       # if the ticket's body isn't overwritten, the entire form is re-posted
-      ticket.comment.body = 'automatically generated config files:'
+      comment = ZendeskAPI::Ticket::Comment.new(ZENDESK_CLIENT, {
+          body: 'Automatically generated config files:',
+          public: false
+      })
 
       config_files.each do |file|
-        ticket.comment.uploads << file
+        comment.uploads << file
       end
+
+      comment.save!
+      ticket.update(comment: comment)
       ticket.save!
     end
 

@@ -299,6 +299,29 @@ describe OnboardingFormService do
       OnboardingFormService.delete_config_files(generated_config_files)
     end
 
+    it 'should add the config files as an internal note to the Zendesk ticket' do
+      form = create_valid_form
+      generated_config_files = OnboardingFormService.generate_config_files(form)
+
+      ticket = double(ZendeskAPI::Ticket)
+      allow(ticket).to receive(:comments).and_return([])
+      allow(ticket).to receive(:update).with(hash_including(:comment)) do |comment|
+        ticket.comments << comment
+      end
+      allow(ticket).to receive(:save!)
+
+      stub_request(:post, "https://example.com/api/v2/uploads")
+          .to_return(:status => 200, :body => "", :headers => {})
+
+      OnboardingFormService.upload_config_files(ticket, generated_config_files)
+
+      expect(ticket.comments.count).to eq(1)
+      uploads = ticket.comments[0][:comment].uploads.map {| upload | upload.file }
+      expect(uploads.count).to eq(4)
+      expect(uploads).to match_array(generated_config_files)
+
+      OnboardingFormService.delete_config_files(generated_config_files)
+    end
   end
 
 end

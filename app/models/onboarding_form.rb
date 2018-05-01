@@ -43,6 +43,7 @@ class OnboardingForm
     :contact_details_email,
     :contact_details_service,
     :contact_details_department,
+    :level_of_assurance,
   ]
 
   URL_FIELDS = [

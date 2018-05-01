@@ -5,7 +5,7 @@ class ConfigFileService
   def initialize(onboarding_form)
     @form = onboarding_form
     @simple_id = "#{@form.contact_details_department}-#{@form.contact_details_service}".gsub(' ','-').downcase
-    @LevelsOfAssurance = 'LEVEL_2'
+    @level_of_assurance = "#{@form.level_of_assurance}"
   end
 
   def generate_transaction_config_file
@@ -13,7 +13,7 @@ class ConfigFileService
 
     transaction_yaml = YAML.load_file('./app/models/rp-transaction-template.yml')
     transaction_yaml['entityId'] = @form.service_entity_id
-    transaction_yaml['levelsOfAssurance'][0] = @LevelsOfAssurance
+    transaction_yaml['levelsOfAssurance'][0] = @level_of_assurance
     transaction_yaml['assertionConsumerServices'][0]['uri'] = @form.assertion_consumer_services_https_url
     transaction_yaml['signatureVerificationCertificates'][0]['x509'] = format_certificate(@form.signature_verification_certificate_transaction)
     transaction_yaml['encryptionCertificate']['x509'] = format_certificate(@form.encryption_certificate_transaction)
@@ -51,11 +51,12 @@ class ConfigFileService
   def generate_stub_idp_file(idp)
     stub_idp_yml = YAML.load_file('./app/models/stub-idp-template.yml')
 
+
     stub_idp_yml['entityId'] = "http://stub_idp.acme.org/#{idp}-#{@simple_id}/SSO/POST"
     stub_idp_yml['simpleId'] = idp
     stub_idp_yml['onboardingTransactionEntityIds'][0] = @form.service_entity_id
-    stub_idp_yml['supportedLevelsOfAssurance'][0] = @LevelsOfAssurance
-    stub_idp_yml['onboardingLevelsOfAssurance'][0] = @LevelsOfAssurance
+    stub_idp_yml['supportedLevelsOfAssurance'] = ["LEVEL_1"] if @level_of_assurance == "LEVEL_1"
+    stub_idp_yml['onboardingLevelsOfAssurance'] = ["LEVEL_1"] if @level_of_assurance == "LEVEL_1"
 
     stub_idp_filename = "./tmp/#{idp}-#{@simple_id}.yml"
 

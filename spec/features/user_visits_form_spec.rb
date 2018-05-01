@@ -110,6 +110,8 @@ RSpec.describe 'The start page', :type => :feature do
     fill_in 'Service', with: 'something'
     fill_in 'Department or Agency', with: 'something'
 
+    choose 'onboarding_form_level_of_assurance_level_1'
+
     click_button 'Request access'
   end
 end

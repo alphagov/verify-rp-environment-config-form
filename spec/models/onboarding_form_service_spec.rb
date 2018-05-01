@@ -34,7 +34,8 @@ describe OnboardingFormService do
         contact_details_service: 'Example service',
         contact_details_department: 'Example department',
         stub_idp_username: 'stub-idp-username',
-        stub_idp_password: 'stup-idp-password'
+        stub_idp_password: 'stup-idp-password',
+        level_of_assurance: 'LEVEL_1'
     })
   end
 
@@ -59,6 +60,9 @@ describe OnboardingFormService do
               body: <<~EOF
                 Environment access:
                 Integration access request
+
+                Level of assurance:
+                LEVEL_1
 
                 Service entity id:
                 https://example.com
@@ -143,6 +147,7 @@ describe OnboardingFormService do
 
       form = OnboardingForm.new({
           environment_access: '',
+          level_of_assurance: '',
           service_entity_id: '',
           matching_service_entity_id: '',
           matching_service_url: '',
@@ -171,7 +176,7 @@ describe OnboardingFormService do
           contact_details_service: '',
           contact_details_department: '',
           stub_idp_username: '',
-          stub_idp_password: ''
+          stub_idp_password: '',
       })
 
       expect(OnboardingFormService.generate_ticket_body(form)).to eq({
@@ -184,6 +189,9 @@ describe OnboardingFormService do
           comment: {
               body: <<~EOF
                 Environment access:
+                -
+
+                Level of assurance:
                 -
 
                 Service entity id:

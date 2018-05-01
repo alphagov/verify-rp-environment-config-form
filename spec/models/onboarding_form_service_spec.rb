@@ -41,6 +41,10 @@ describe OnboardingFormService do
   context 'prepare the zendesk ticket' do
 
     it 'should generate a valid zendesk ticket' do
+      json = {"results": [{ "name": "Connecting to Verify", "created_at":  "2009-05-13T00:07:08Z", "updated_at": "2011-07-22T00:11:12Z", "id": 360000257114, "result_type": "group", "url": "http://example.com" }], "count": 1}.to_json
+      stub_request(:get, "https://example.com/api/v2/search?query=type:group%20name:'Connecting%20to%20Verify'")
+          .with(:headers => {'Accept'=>'application/json'})
+          .to_return(:status => 200, :body => json, :headers => { :content_type => "application/json", :content_length => json.size })
 
       form = create_valid_form
 
@@ -132,6 +136,11 @@ describe OnboardingFormService do
     end
 
     it 'should generate an empty zendesk ticket' do
+      json = {"results": [{ "name": "Connecting to Verify", "created_at":  "2009-05-13T00:07:08Z", "updated_at": "2011-07-22T00:11:12Z", "id": 360000257114, "result_type": "group", "url": "http://example.com" }], "count": 1}.to_json
+      stub_request(:get, "https://example.com/api/v2/search?query=type:group%20name:'Connecting%20to%20Verify'")
+          .with(:headers => {'Accept'=>'application/json'})
+          .to_return(:status => 200, :body => json, :headers => { :content_type => "application/json", :content_length => json.size })
+
       form = OnboardingForm.new({
           environment_access: '',
           service_entity_id: '',
@@ -164,6 +173,7 @@ describe OnboardingFormService do
           stub_idp_username: '',
           stub_idp_password: ''
       })
+
       expect(OnboardingFormService.generate_ticket_body(form)).to eq({
           requester: {
               name: '-',
@@ -289,6 +299,29 @@ describe OnboardingFormService do
       OnboardingFormService.delete_config_files(generated_config_files)
     end
 
+    it 'should add the config files as an internal note to the Zendesk ticket' do
+      form = create_valid_form
+      generated_config_files = OnboardingFormService.generate_config_files(form)
+
+      ticket = double(ZendeskAPI::Ticket)
+      allow(ticket).to receive(:comments).and_return([])
+      allow(ticket).to receive(:update).with(hash_including(:comment)) do |comment|
+        ticket.comments << comment
+      end
+      allow(ticket).to receive(:save!)
+
+      stub_request(:post, "https://example.com/api/v2/uploads")
+          .to_return(:status => 200, :body => "", :headers => {})
+
+      OnboardingFormService.upload_config_files(ticket, generated_config_files)
+
+      expect(ticket.comments.count).to eq(1)
+      uploads = ticket.comments[0][:comment].uploads.map {| upload | upload.file }
+      expect(uploads.count).to eq(4)
+      expect(uploads).to match_array(generated_config_files)
+
+      OnboardingFormService.delete_config_files(generated_config_files)
+    end
   end
 
 end

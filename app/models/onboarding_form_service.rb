@@ -89,6 +89,9 @@ class OnboardingFormService
                 Service display name:
                 #{ value_or_default(onboarding_form.service_display_name) }
 
+                Service description:
+                #{ value_or_default(onboarding_form.service_description) }
+
                 Other ways display name:
                 #{ value_or_default(onboarding_form.other_ways_display_name) }
 

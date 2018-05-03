@@ -27,6 +27,7 @@ describe OnboardingFormService do
         contact_details_phone: '012345 678 912',
         contact_details_message: 'Some text',
         service_display_name: 'Example service',
+        service_description: 'Service description',
         other_ways_display_name: 'Example service',
         other_ways_complete_transaction: 'Some text',
         contact_details_name: 'username',
@@ -99,6 +100,9 @@ describe OnboardingFormService do
                 Service display name:
                 Example service
 
+                Service description:
+                Service description
+
                 Other ways display name:
                 Example service
 
@@ -164,6 +168,7 @@ describe OnboardingFormService do
           contact_details_phone: '',
           contact_details_message: '',
           service_display_name: '',
+          service_description: '',
           other_ways_display_name: '',
           other_ways_complete_transaction: '',
           contact_details_name: '',
@@ -223,6 +228,9 @@ describe OnboardingFormService do
                 -
 
                 Service display name:
+                -
+
+                Service description:
                 -
 
                 Other ways display name:

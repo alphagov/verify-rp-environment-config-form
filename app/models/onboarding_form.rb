@@ -37,6 +37,7 @@ class OnboardingForm
     :encryption_certificate_transaction,
     :encryption_certificate_match,
     :service_display_name,
+    :service_description,
     :other_ways_display_name,
     :other_ways_complete_transaction,
     :contact_details_name,

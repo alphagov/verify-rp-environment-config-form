@@ -18,6 +18,7 @@ describe OnboardingForm do
           :encryption_certificate_transaction => GOOD_CERT_GOOD_ISSUER_INTEGRATION,
           :encryption_certificate_match => GOOD_CERT_GOOD_ISSUER_INTEGRATION,
           :service_display_name => 'something',
+          :service_description => 'something',
           :other_ways_display_name => 'something',
           :other_ways_complete_transaction => 'something',
           :stub_idp_username => 'something',
@@ -44,6 +45,7 @@ describe OnboardingForm do
       expect(form.errors['encryption_certificate_transaction']).to include("can't be blank")
       expect(form.errors['encryption_certificate_match']).to include("can't be blank")
       expect(form.errors['service_display_name']).to include("can't be blank")
+      expect(form.errors['service_description']).to include("can't be blank")
       expect(form.errors['other_ways_display_name']).to include("can't be blank")
       expect(form.errors['other_ways_complete_transaction']).to include("can't be blank")
       expect(form.errors['stub_idp_username']).to include("can't be blank")

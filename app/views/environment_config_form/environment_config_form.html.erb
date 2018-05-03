@@ -150,6 +150,19 @@
                  </p>
                  '
       %>
+
+      <%= render 'textarea_question',
+                 value: @onboarding_form.service_description,
+                 errors: @onboarding_form.errors['service_description'],
+                 title: 'Verify service description',
+                 id: 'service_description',
+                 input_type: 'textarea',
+                 information: '
+                 <p>
+                 placeholder
+                 </p>'
+      %>
+
       <%= render 'question',
                  value: @onboarding_form.other_ways_display_name,
                  errors: @onboarding_form.errors['other_ways_display_name'],

@@ -42,7 +42,7 @@ describe OnboardingFormService do
 
     it 'should generate a valid zendesk ticket' do
       json = {"results": [{ "name": "Connecting to Verify", "created_at":  "2009-05-13T00:07:08Z", "updated_at": "2011-07-22T00:11:12Z", "id": 360000257114, "result_type": "group", "url": "http://example.com" }], "count": 1}.to_json
-      stub_request(:get, "https://example.com/api/v2/search?query=type:group%20name:'Connecting%20to%20Verify'")
+      stub_request(:get, "https://example.com/api/v2/search?query=type:group%20name:'#{CGI.escape(ZENDESK_GROUP_NAME)}'")
           .with(:headers => {'Accept'=>'application/json'})
           .to_return(:status => 200, :body => json, :headers => { :content_type => "application/json", :content_length => json.size })
 
@@ -137,7 +137,7 @@ describe OnboardingFormService do
 
     it 'should generate an empty zendesk ticket' do
       json = {"results": [{ "name": "Connecting to Verify", "created_at":  "2009-05-13T00:07:08Z", "updated_at": "2011-07-22T00:11:12Z", "id": 360000257114, "result_type": "group", "url": "http://example.com" }], "count": 1}.to_json
-      stub_request(:get, "https://example.com/api/v2/search?query=type:group%20name:'Connecting%20to%20Verify'")
+      stub_request(:get, "https://example.com/api/v2/search?query=type:group%20name:'#{CGI.escape(ZENDESK_GROUP_NAME)}'")
           .with(:headers => {'Accept'=>'application/json'})
           .to_return(:status => 200, :body => json, :headers => { :content_type => "application/json", :content_length => json.size })
 

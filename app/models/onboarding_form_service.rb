@@ -50,6 +50,9 @@ class OnboardingFormService
                 Environment access:
                 #{ value_or_default(onboarding_form.environment_access) }
 
+                Level of assurance:
+                #{ value_or_default(onboarding_form.level_of_assurance) }
+
                 Service entity id:
                 #{ value_or_default(onboarding_form.service_entity_id) }
 

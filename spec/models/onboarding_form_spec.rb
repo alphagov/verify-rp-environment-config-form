@@ -26,7 +26,8 @@ describe OnboardingForm do
           :contact_details_email => 'something@email.com',
           :contact_details_service => 'something',
           :contact_details_department => 'something',
-          :user_account_creation_uri => 'http://example.com'
+          :user_account_creation_uri => 'http://example.com',
+          :level_of_assurance => 'LEVEL_1',
       })
       expect(form).to be_valid
     end

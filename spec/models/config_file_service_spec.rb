@@ -5,6 +5,7 @@ describe 'ConfigFileService' do
 
   form = OnboardingForm.new({
     environment_access: 'Integration access request',
+    level_of_assurance: 'LEVEL_2',
     service_entity_id: 'https://example.com',
     matching_service_entity_id: 'https://example.com/msa',
     matching_service_url: 'https://example.com/msa',

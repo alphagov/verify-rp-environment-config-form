@@ -28,6 +28,8 @@ gem 'bcrypt', '3.1.11'
 
 gem 'zendesk_api', '1.15.0'
 
+gem 'selenium-webdriver'
+
 group :development, :test do
   gem 'rspec', '~> 3.5.0'
   gem 'rspec-rails', '~> 3.5.0'

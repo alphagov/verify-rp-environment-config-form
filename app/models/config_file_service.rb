@@ -13,7 +13,12 @@ class ConfigFileService
 
     transaction_yaml = YAML.load_file('./app/models/rp-transaction-template.yml')
     transaction_yaml['entityId'] = @form.service_entity_id
-    transaction_yaml['levelsOfAssurance'][0] = @level_of_assurance
+    if @level_of_assurance == 'LEVEL_1'
+      transaction_yaml['levelsOfAssurance'][0] = 'LEVEL_1'
+      transaction_yaml['levelsOfAssurance'][1] = 'LEVEL_2'
+    else
+      transaction_yaml['levelsOfAssurance'][0] = 'LEVEL_2'
+    end
     transaction_yaml['assertionConsumerServices'][0]['uri'] = @form.assertion_consumer_services_https_url
     transaction_yaml['signatureVerificationCertificates'][0]['x509'] = format_certificate(@form.signature_verification_certificate_transaction)
     transaction_yaml['encryptionCertificate']['x509'] = format_certificate(@form.encryption_certificate_transaction)

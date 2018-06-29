@@ -18,7 +18,7 @@ RSpec.describe 'The start page', :type => :feature, :smoke => true do
 
     submit_valid_form
 
-    expect(page).to have_content('Your request has been submitted')
+    expect(page).to have_selector(:css, "h1", text: "Your request has been submitted", wait: 5)
     expect(page).to have_content('Your ticket has been created')
     expect(current_path).to eq '/submit'
   end

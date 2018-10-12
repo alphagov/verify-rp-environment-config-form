@@ -54,7 +54,7 @@ describe OnboardingFormService do
               email: 'example@example.com'
           },
           group_id: 360000257114,
-          subject: 'Example service: Integration access request [requestor: username]',
+          subject: '[GOV.UK Verify] Example service: Integration access request [requestor: username]',
           comment: {
               body: <<~EOF
                 Environment access:
@@ -183,7 +183,7 @@ describe OnboardingFormService do
               email: '-'
           },
           group_id: 360000257114,
-          subject: '-: - [requestor: -]',
+          subject: '[GOV.UK Verify] -: - [requestor: -]',
           comment: {
               body: <<~EOF
                 Environment access:

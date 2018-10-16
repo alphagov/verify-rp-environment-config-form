@@ -8,19 +8,35 @@ Once you’ve cloned this then `bundle` will install the requirements.
 
 ## Running the application
 
-Prepare the application configuration:
+The application makes use of environment variables for specifying certain configurable parameters.
+You can set these by creating a file named `.env` and defining any environment variables within. 
+The file `.env-example` lists all the required environment variables with example values - simply 
+copy it and change the values.
 
-```
+```bash
 cp .env-example .env
 vim .env
 ```
 
-You can run the application with:
+Once the required environment variables have been defined, you can run the application with:
 
-```
+```bash
 bundle exec rails server
 open localhost:3000
 ```
+
+#### Environment variables
+
+| Variable name | Description |
+| ------------- | ----------- |
+| `ZENDESK_BASE_URL` | Base URL of Zendesk API (e.g. https://<your-org>.zendesk.com/api/v2/) |
+| `ZENDESK_TOKEN` | Zendesk token is require for making calls to its API. A Zendesk admin can 
+generate one if needed. |
+| `ZENDESK_USERNAME` | Username (usually an email address) of the account to which the token 
+belongs. |
+| `ZENDESK_NEW_TICKET_GROUP_ID` | ID of the group in Zendesk to which a newly created ticket will
+be assigned. |
+
 
 ## Running the tests
 

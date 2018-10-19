@@ -6,4 +6,4 @@ ZENDESK_CLIENT = ZendeskAPI::Client.new do |config|
   config.token = ENV.fetch('ZENDESK_TOKEN')
 end
 
-ZENDESK_GROUP_ID = ENV.fetch('ZENDESK_NEW_TICKET_GROUP_ID')
+ZENDESK_GROUP_NAME = '3rd Line - Product Support (all teams)'

@@ -2,6 +2,8 @@ ENV['RAILS_ENV'] ||= 'test'
 ENV['ZENDESK_BASE_URL'] = 'https://example.com/api/v2/'
 ENV['ZENDESK_TOKEN'] = 'some-token'
 ENV['ZENDESK_USERNAME'] = 'idasupport@example.com'
+ENV['ZENDESK_NEW_TICKET_GROUP_ID'] = '1234'
+
 require File.expand_path('../../config/environment', __FILE__)
 
 abort('The Rails environment is running in production mode!') if Rails.env.production?

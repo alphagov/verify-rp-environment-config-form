@@ -1,5 +1,7 @@
 # verify-rp-onboarding-form
 
+[![Build Status](https://api.travis-ci.com/alphagov/verify-rp-environment-config-form.svg?branch=master)](https://travis-ci.org/alphagov/verify-rp-environment-config-form)
+
 A form for requesting configuration changes for integrating a Relying Party to GOV.UK Verify.
 
 ## Installing the application

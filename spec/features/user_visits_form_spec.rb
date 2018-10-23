@@ -5,6 +5,7 @@ RSpec.describe 'The start page', :type => :feature do
 
   ZENDESK_TICKETS_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}tickets"
   ZENDESK_UPLOADS_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}uploads"
+  ZENDESK_SEARCH_URL = "#{ENV.fetch('ZENDESK_BASE_URL')}search?query=type:group name:'#{ZENDESK_GROUP_NAME}'"
 
   before(:all) do
     @cert_file = Tempfile.new('good-cert')
@@ -53,6 +54,10 @@ RSpec.describe 'The start page', :type => :feature do
     stub_request(:post, ZENDESK_TICKETS_URL).to_return(:status => 201, :body => {"ticket":{"id":ticket_number}}.to_json, :headers => { "Content-Type": "application/json" })
     stub_request(:post, ZENDESK_UPLOADS_URL).to_return(:status => 201, :body => {"upload":{"token":ticket_number}}.to_json, :headers => { "Content-Type": "text/plain" })
     stub_request(:put, "#{ZENDESK_TICKETS_URL}/#{ticket_number}").to_return(:status => 200, :body => {"ticket":{"id":ticket_number}}.to_json, :headers => { "Content-Type": "application/json" })
+
+    stub_request(:get, ZENDESK_SEARCH_URL).to_return(:status => 200,
+                                                     :body => {"results": [{"id":360000257114 }]}.to_json,
+                                                     :headers => { "Content-Type": "application/json" })
 
     submit_valid_form
     expect(page).to have_content('Your ticket has been created with the id #123456')

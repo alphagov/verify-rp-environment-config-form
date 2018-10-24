@@ -46,8 +46,83 @@ be assigned. |
 
 `user_visits_form_smoke_spec.rb` will run an end to end acceptance test, creating a real ticket in Zendesk when this test submits the config form.
 
-The test is run within Docker. This allows us to create an environment that includes the dependencies required by Selenium to run on our Jenkins setup. The Jenkins job that runs the smoke test is triggered every 5 minutes and after this application is deployed.
+The test is run within Docker. This allows us to create an environment that includes the dependencies required by Selenium to run on our Jenkins setup. The [Jenkins job](https://build.ida.digital.cabinet-office.gov.uk/job/verify-rp-environment-config-form-smoke-test/) that runs the smoke test is triggered every 5 minutes and after this application is deployed.
 
 The smoke test has been filtered out of the main test run (`bundle exec rspec spec`) via a `smoke` filter.
 
 To run the smoke test, use: `./smoke-test.sh`.
+
+
+## Deploying
+
+| Environment | App Name | PaaS Space Name |
+| ------------- | ----------- | ----------- |
+| Production | `verify-environment-access` | `docs` |
+| Staging | `verify-environment-access-staging` | `onboarding-forms` |
+
+
+The environment variables above currently need to be set manually before deployment:
+
+```
+cf login
+```
+
+Choose the `docs` space from the options provided, or target it manually:
+
+```
+cf target -s docs
+```
+
+To set an environment variable:
+
+```
+cf set-env verify-environment-access <ENV_VAR> <VALUE>
+```
+
+To see the current environment config for the app:
+
+```
+cf env verify-environment-access
+```
+
+Once a PR is merged to master this triggers a Jenkins [build job](https://build.ida.digital.cabinet-office.gov.uk/job/verify-rp-environment-config-form-build/) and then a [deploy job](https://build.ida.digital.cabinet-office.gov.uk/job/verify-rp-environment-config-form-deploy/).
+
+If you only need to make changes to environment variables and you do not need to redeploy the app you can just restage it to pick up the changes:
+
+```
+cf restage verify-environment-access
+```
+
+
+## Debugging
+
+The logging output from the Zendesk client is not very verbose. You can add the following to the Zendesk client config in `zendesk_client.rb`:
+
+```
+require 'logger'
+config.logger = Logger.new(STDOUT)
+```
+
+This also logs out unredacted information for the form that is being submitted so do not check this in.
+
+To run the smoke tests locally the you can change the url that the `spec/features/user_visits_form_smoke_spec.rb` is visiting to `http://host.docker.internal:3000/`. The Docker containers running the smoke tests then should make the requests to your local app.
+
+To see the logs for the app on the PaaS:
+
+```
+cf logs verify-environment-access
+```
+
+The above will give you a real time tail of the logs.
+
+```
+cf logs verify-environment-access --recent
+```
+
+The above will output all the current log lines in the [Loggregator buffer](https://docs.cloudfoundry.org/loggregator/architecture.html) associated with the app.
+
+If you need to ssh onto the container for any reason:
+
+```
+cf ssh verify-environment-access
+```

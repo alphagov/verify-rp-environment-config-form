@@ -41,7 +41,7 @@ describe OnboardingFormService do
 
   context 'prepare the zendesk ticket' do
     it 'should generate a valid zendesk ticket' do
-      stub_const('ZENDESK_GROUP_ID', 360000257114)
+      stub_const('ZENDESK_NEW_TICKET_GROUP_ID', 360000257114)
 
       form = create_valid_form
 
@@ -136,7 +136,7 @@ describe OnboardingFormService do
     end
 
     it 'should generate an empty zendesk ticket' do
-      stub_const('ZENDESK_GROUP_ID', 360000257114)
+      stub_const('ZENDESK_NEW_TICKET_GROUP_ID', 360000257114)
 
       form = OnboardingForm.new({
         environment_access: '',

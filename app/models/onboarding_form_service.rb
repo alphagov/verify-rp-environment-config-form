@@ -39,7 +39,7 @@ class OnboardingFormService
               name: value_or_default(onboarding_form.contact_details_name),
               email: value_or_default(onboarding_form.contact_details_email)
           },
-          group_id: ZENDESK_GROUP_ID,
+          group_id: ZENDESK_NEW_TICKET_GROUP_ID,
           subject: "[GOV.UK Verify] #{value_or_default(onboarding_form.service_display_name)}: #{value_or_default(onboarding_form.environment_access)} [requestor: #{value_or_default(onboarding_form.contact_details_name)}]",
           comment: {
               body: <<~EOF

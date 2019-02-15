@@ -58,7 +58,7 @@ To run the smoke test, use: `./smoke-test.sh`.
 | Environment | App Name | PaaS Space Name |
 | ------------- | ----------- | ----------- |
 | Production | `verify-environment-access` | `docs` |
-| Staging | `verify-environment-access-staging` | `onboarding-forms` |
+| Staging | `verify-environment-access-staging` | `docs-staging` |
 
 
 The environment variables above currently need to be set manually before deployment:

@@ -25,12 +25,15 @@ class OnboardingFormService
 
     def generate_config_files(onboarding_form)
       config_file_service = ConfigFileService.new(onboarding_form)
-      [
-          config_file_service.generate_transaction_config_file,
-          config_file_service.generate_msa_config_file,
-          config_file_service.generate_stub_idp_file('post-office'),
-          config_file_service.generate_stub_idp_file('experian'),
-      ]
+      config_files = [config_file_service.generate_transaction_config_file]
+      if onboarding_form.is_use_msa? && !onboarding_form.is_reuse_msa_config?
+        config_files << config_file_service.generate_msa_config_file
+      end
+      if onboarding_form.is_integration?
+        config_files << config_file_service.generate_stub_idp_file('post-office')
+        config_files << config_file_service.generate_stub_idp_file('experian')
+      end
+      config_files
     end
 
     def generate_ticket_body(onboarding_form)
@@ -40,17 +43,20 @@ class OnboardingFormService
               email: value_or_default(onboarding_form.contact_details_email)
           },
           group_id: ZENDESK_NEW_TICKET_GROUP_ID,
-          subject: "[GOV.UK Verify] #{value_or_default(onboarding_form.service_display_name)}: #{value_or_default(onboarding_form.environment_access)} [requestor: #{value_or_default(onboarding_form.contact_details_name)}]",
+          subject: "[GOV.UK Verify] #{value_or_default(onboarding_form.service_display_name)}: #{value_or_default(onboarding_form.options.environment_access)} [requestor: #{value_or_default(onboarding_form.contact_details_name)}]",
           comment: {
               body: <<~EOF
                 Environment access:
-                #{ value_or_default(onboarding_form.environment_access) }
+                #{ value_or_default(onboarding_form.options.environment_access) }
 
                 Level of assurance:
-                #{ value_or_default(onboarding_form.level_of_assurance) }
+                #{ value_or_default(onboarding_form.options.level_of_assurance) }
 
                 Service entity id:
                 #{ value_or_default(onboarding_form.service_entity_id) }
+
+                Reuse config for Service entity id:
+                #{ value_or_default(onboarding_form.reuse_service_entity_id) }
 
                 Matching service entity id:
                 #{ value_or_default(onboarding_form.matching_service_entity_id) }
@@ -89,7 +95,7 @@ class OnboardingFormService
                 #{ value_or_default(onboarding_form.encryption_certificate_match) }
 
                 Requested attributes for creating user account:
-                #{ value_or_default(onboarding_form.get_user_account_attributes_array.join(', '))}
+                #{ value_or_default(onboarding_form.get_user_account_attributes_array.join(', '), '-- None --')}
 
                 Requested cycle 3 attribute name (if applicable):
                 #{ value_or_default(onboarding_form.cycle3_attribute_name) }
@@ -118,7 +124,7 @@ class OnboardingFormService
                 Message:
                 #{ value_or_default(onboarding_form.contact_details_message) }
 
-                Follow this guide on how to onboard an RP: https://github.com/alphagov/ida-hub/wiki/Onboarding-an-rp
+                Follow this guide on how to onboard a service : https://verify-team-manual.cloudapps.digital/documentation/support/connecting-a-service/
           EOF
           }
       }
@@ -132,7 +138,7 @@ class OnboardingFormService
 
     private
 
-    def value_or_default(value, default = '-')
+    def value_or_default(value, default = '-- Not Provided --')
       if value.nil? || value.empty?
         default
       else

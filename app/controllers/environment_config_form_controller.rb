@@ -1,21 +1,22 @@
 class EnvironmentConfigFormController < ApplicationController
 
   def start
-    @onboarding_form = OnboardingForm.new({'environment_access' => 'integration-access-request'})
+    @onboarding_form = OnboardingForm.new({})
+    @onboarding_form.options = OnboardingOptions.new(session[:options])
     render 'environment_config_form'
   end
 
   def submit
     @onboarding_form = OnboardingForm.new(get_onboarding_form_params)
+    @onboarding_form.options = OnboardingOptions.new(session[:options])
 
-    if !@onboarding_form.valid?
+    unless @onboarding_form.valid?
       return render 'environment_config_form'
     end
 
     begin
       ticket_body = OnboardingFormService.generate_ticket_body(@onboarding_form)
       @ticket = OnboardingFormService.save(ticket_body)
-
       raise 'problem creating ticket' if @ticket.nil?
 
       begin

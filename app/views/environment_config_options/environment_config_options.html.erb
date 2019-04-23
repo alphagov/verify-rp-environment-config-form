@@ -1,0 +1,25 @@
+
+<div class="inner-block">
+  <%= form_for @onboarding_options, :url => { :action => "option_#{@onboarding_options.part}" }, :html => { :id => 'onboarding', :novalidate => 'novalidate', :multipart => true } do |f| %>
+
+    <h1 class="form-title heading-large">Request access to an environment</h1>
+    <div class="form-group">
+      <p>You must complete all required fields and submit your request in a single session.  Data is not stored if you leave this sequence of pages before you select the ‘Request Access’ button on the last page.</p>
+      <p>You should be able to access your environment within 5 working days of submitting your completed form.  Please contact us if you cannot gain access and more than 5 working days have passed since your request.</p>
+    </div>
+
+    <%= render :partial => 'options_environment', :locals => {f: f} if @onboarding_options.part == 'environment' %>
+    <%= render :partial => 'options_service', :locals => {f: f} if @onboarding_options.part == 'service' %>
+    <%= render :partial => 'options_msa_use', :locals => {f: f} if @onboarding_options.part == 'msa_use' %>
+    <%= render :partial => 'options_msa_reuse', :locals => {f: f} if @onboarding_options.part == 'msa_reuse' %>
+
+    <%= f.hidden_field :part %>
+
+    <input class="button button-get-started" type="submit" value="Continue">
+  <% end %>
+</div>
+
+<% content_for :body_end do %>
+    <%= javascript_include_tag 'application', integrity: true %>
+    <%= javascript_include_tag 'environment_config_form.js', integrity: true %>
+<% end %>

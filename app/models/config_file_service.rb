@@ -5,7 +5,7 @@ class ConfigFileService
   def initialize(onboarding_form)
     @form = onboarding_form
     @simple_id = "#{@form.contact_details_department}-#{@form.contact_details_service}".gsub(' ','-').downcase
-    @level_of_assurance = "#{@form.level_of_assurance}"
+    @level_of_assurance = "#{@form.options.level_of_assurance}"
   end
 
   def generate_transaction_config_file

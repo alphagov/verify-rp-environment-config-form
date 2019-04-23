@@ -1,0 +1,186 @@
+
+<h2 class="heading-large">Matching Service Adapter configuration</h2>
+
+
+<% if @onboarding_form.is_reuse_msa_config?%>
+  <%= render 'question',
+             value: @onboarding_form.matching_service_entity_id,
+             errors: @onboarding_form.errors['matching_service_entity_id'],
+             title: 'Reuse configuration from Matching Service Adapter with entity ID',
+             id: 'matching_service_entity_id',
+             input_type: 'url',
+             information: '<p>Enter the entity ID of the previously configured Matching Service Adaptor you would
+             like to reuse.</p>
+             <p>We will link your service provider configuration to the existing Matching Service Adaptor configuration.</p>
+           '
+  %>
+
+<% else %>
+
+  <%= render 'question',
+             value: @onboarding_form.matching_service_entity_id,
+             errors: @onboarding_form.errors['matching_service_entity_id'],
+             title: 'Matching Service Adapter entity ID',
+             id: 'matching_service_entity_id',
+             input_type: 'url',
+             information: '<p>Your Matching Service Adapter entity ID and service provider entity ID and must be different.</p>
+             <p>Where possible, make your Matching Service Adapter entity ID descriptive, by including the name of your service and department, for example:</p>
+             <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}/msa</code></p>
+             '
+  %>
+  <%= render 'question',
+             value: @onboarding_form.matching_service_url,
+             errors: @onboarding_form.errors['matching_service_url'],
+             title: 'Matching URL',
+             id: 'matching_service_url',
+             input_type: 'url',
+             information: '<p>This is the URL you will use to receive matching requests from GOV.UK Verify, for example:</p>
+             <p>Integration: <code>https://{your-integration-domain}/matching-service/POST</code></p>
+             <p>Production: <code>https://{your-production-domain}.gov.uk/matching-service/POST</code></p>'
+  %>
+  <%= render 'question',
+             value: @onboarding_form.user_account_creation_uri,
+             errors: @onboarding_form.errors['user_account_creation_uri'],
+             title: 'User account creation URL',
+             id: 'user_account_creation_uri',
+             input_type: 'url',
+             information: '<p>
+             If your service needs to create user accounts, enter the URL that will accept
+             GOV.UK Verify <em>‘Unknown User Attribute’</em> query requests, for example:
+             </p>
+             <p>Integration: <code>https://{your-integration-domain}/unknown-user-attribute-query</code></p>
+             <p>Production: <code>https://{your-production-domain}.gov.uk/unknown-user-attribute-query</code></p>
+             <p>You only need to do this if you have user account creation enabled for your service.</p>
+             '
+  %>
+
+  <h3 class="heading-medium">Certificates</h3>
+  <p>
+    You must supply GOV.UK Verify with copies of the valid X.509 encryption and signature validation
+    certificates you will use for your Matching Service Adapter.
+  </p>
+  <div class="panel panel-border-narrow">
+    <p>Note: Certificate issuing authorities are environment specific. For the:</p>
+    <ul class="list-bullet">
+      <li>Integration environment, use the "IDAP Test Certificate Authority"</li>
+      <li>Production environment, use the "IDAP Certificate Authority"</li>
+    </ul>
+  </div>
+  <p>See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">request certificates</a></p>
+
+
+  <%= render 'certificate_question',
+             value: @onboarding_form.signature_verification_certificate_match,
+             errors: @onboarding_form.errors['signature_verification_certificate_match'],
+             title: 'Matching service signature validation certificate',
+             id: 'signature_verification_certificate_match',
+             input_type: 'textarea',
+             information: '
+             <p>This certificate is used to validate the SAML responses sent from your Matching
+             Service Adapter to GOV.UK Verify.</p>
+             <div>This certificate must correspond to the signing private key for your Matching Service Adapter, and be:
+             <ul class="list-bullet">
+             <li>a valid X.509 certificate</li>
+             <li>signed by the correct IDAP certificate authority for the environment (Integration or Production)</li>
+             <li>different to your service signature validation certificate</li>
+             </ul>
+             </div>
+             <p>
+             See
+             <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+             request certificates</a>.
+             </p>
+             '
+  %>
+  <%= render 'certificate_question',
+             value: @onboarding_form.encryption_certificate_match,
+             errors: @onboarding_form.errors['encryption_certificate_match'],
+             title: 'Matching service encryption certificate',
+             id: 'encryption_certificate_match',
+             input_type: 'textarea',
+             information: '
+             <p>This certificate is used to encrypt the SAML assertions sent from GOV.UK Verify to your Matching
+             Service Adapter.</p>
+             <div>This certificate must correspond to the encryption private key for your Matching Service Adapter, and be:
+             <ul class="list-bullet">
+             <li>a valid X.509 certificate</li>
+             <li>signed by the correct IDAP certificate authority for the environment (Integration or Production)</li>
+             <li>different to your service encryption validation certificate</li>
+             </ul>
+             </div>
+             <p>
+             See
+             <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+             request certificates</a>.
+             </p>
+             '
+  %>
+
+  <h3 class="heading-medium">User account creation attributes</h3>
+  <p>Select any attributes you need your GOV.UK Verify responses to contain:
+
+  <div class="form-group">
+    <div class="provide-option">
+      <fieldset>
+        <legend class="visually-hidden">User account creation attributes</legend>
+        <div class="personal-attributes form-group">
+          <div class="multiple-choice">
+            <%= f.check_box :user_account_first_name %>
+            <label for="onboarding_form_user_account_first_name">First name</label>
+          </div>
+          <div class="multiple-choice">
+            <%= f.check_box :user_account_middle_name %>
+            <label for="onboarding_form_user_account_middle_name">Middle name</label>
+          </div>
+          <div class="multiple-choice">
+            <%= f.check_box :user_account_surname %>
+            <label for="onboarding_form_user_account_surname">Surname</label>
+          </div>
+          <div class="multiple-choice">
+            <%= f.check_box :user_account_dob %>
+            <label for="onboarding_form_user_account_dob">Date of birth</label>
+          </div>
+          <div class="multiple-choice">
+            <%= f.check_box :user_account_current_address %>
+            <label for="onboarding_form_user_account_current_address">Current address</label>
+          </div>
+          <div class="multiple-choice">
+            <%= f.check_box :user_account_address_history %>
+            <label for="onboarding_form_user_account_current_address">Address history</label>
+          </div>
+          <div class="multiple-choice">
+            <%= f.check_box :user_account_cycle_3 %>
+            <label for="onboarding_form_user_account_cycle_3">Cycle 3</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <details>
+        <summary>
+          <span class="summary">More Information</span>
+        </summary>
+        <div class="panel panel-border-narrow">
+          <p>If your service creates user accounts, select any attributes you need.</p>
+          <p>See <a href="https://www.docs.verify.service.gov.uk/legacy/create-datasources/#create-user-accounts-optional">user account creation</a>.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <h3 class="heading-medium">Cycle 3 attribute name</h3>
+
+  <%= render 'question',
+             value: @onboarding_form.cycle3_attribute_name,
+             errors: @onboarding_form.errors['cycle3_attribute_name'],
+             title: 'Requested Cycle 3 attribute name (if applicable)',
+             id: 'cycle3_attribute_name',
+             input_type: 'text',
+             information: '
+             <p>Cycle 3 matching is an optional service feature that requires
+             additional service development. Contact your GOV.UK Verify
+             engagement lead for more information.</p>
+
+             '
+  %>
+
+<% end %>

@@ -1,0 +1,37 @@
+<div class="form-group">
+  <h2 class="heading-small">Select your service provider</h2>
+  <fieldset>
+    <p>
+      Your service provider is the part of your service that generates SAML requests for the Verify Hub and
+      handles the SAML response from the Verify Hub. Most services use a component provided by Verify called
+      the Verify Service Provider (VSP). If your service handles SAML messages using something other than the
+      Verify Service Provider (VSP), please select Other service provider.
+    </p>
+    <div class="multiple-choice">
+      <%= f.radio_button :service_provider, 'VSP', checked: true %>
+      <label for="service-provider-1">Verify Service Provider (VSP)</label>
+    </div>
+    <div class="multiple-choice">
+      <%= f.radio_button :service_provider, 'Other'%>
+      <label for="service-provider-2">Other service provider</label>
+    </div>
+  </fieldset>
+</div>
+
+<div class="form-group">
+  <h2 class="heading-small">Select if you wish to provide new service configuration or reuse an existing configuration</h2>
+  <fieldset>
+    <p>
+      If you have previously connected a service to verify in production or integration, you can reuse some of that
+      configuration. Otherwise you will need to provide all configuration information.
+    </p>
+    <div class="multiple-choice">
+      <%= f.radio_button :reuse_service_config, 'No', checked: true%>
+      <label for="reuse-service-config-1">Provide service configuration</label>
+    </div>
+    <div class="multiple-choice">
+      <%= f.radio_button :reuse_service_config, 'Yes' %>
+      <label for="reuse-service-config-2">Reuse an existing service configuration</label>
+    </div>
+  </fieldset>
+</div>

@@ -3,3 +3,4 @@ applications:
 - name: verify-environment-access
   memory: 512M
   buildpack: ruby_buildpack
+  stack: cflinuxfs3

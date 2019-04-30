@@ -154,7 +154,7 @@ class OnboardingForm
         user_account_address_history: ['ADDRESS_HISTORY'],
         user_account_cycle_3: ['CYCLE_3']
     }.collect { |attribute_name, attr|
-      self.send(attribute_name) != '0' ? attr : []
+      self.send(attribute_name) == '1' ? attr : []
     }.flatten
   end
 

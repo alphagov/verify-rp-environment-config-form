@@ -25,31 +25,25 @@ RSpec.describe 'The start page', :type => :feature, :smoke => true do
 
 
   def submit_valid_form
-    visit 'https://verify-environment-access.cloudapps.digital/'
+    # visit 'https://verify-environment-access.cloudapps.digital/config'
+    visit 'http://localhost:3000/config'
 
-    fill_in('Verify service entity ID', with: 'http://smoketestexample.com')
-    fill_in('Matching Service Adapter entity ID', with: 'http://smoketestexample.com/msa')
-    fill_in('Matching Service Adapter: matching URL', with: 'http://smoketestexample.com/msa')
-    fill_in('Service start page URL', with: 'http://smoketestexample.com')
-    fill_in('Verify SAML response URL', with: 'http://smoketestexample.com')
-
+    fill_in 'Service provider entity ID', with: 'http://example.com'
+    fill_in 'Service start page URL', with: 'http://example.com/start'
+    fill_in 'Response URL', with: 'http://example.com'
+    fill_in 'Service display name', with: 'something'
+    fill_in 'Service display name for "Other ways to apply"', with: 'something'
+    fill_in 'Other ways to complete the transaction', with: 'something'
     fill_in 'Service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
-    fill_in 'Matching service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
     fill_in 'Service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
-    fill_in 'Matching service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
 
-    fill_in 'Matching Service Adapter: User account creation URL', with: 'http://example.com/msa/create-account'
-    fill_in 'Verify service display name', with: 'smoke test'
-    fill_in 'Other ways to apply display name', with: 'smoke test'
-    fill_in 'Other ways to complete the transaction', with: 'smoke test'
-
-    fill_in 'Username', with: 'smoketest'
+    fill_in 'Username', with: 'username'
     fill_in 'Password', with: 'password'
 
-    fill_in 'Name', with: 'smoketest'
+    fill_in 'Name', with: 'something'
     fill_in 'Email address', with: 'email@example.com'
-    fill_in 'Service', with: 'smoketest'
-    fill_in 'Department or Agency', with: 'smoketest'
+    fill_in 'Service', with: 'something'
+    fill_in 'Department or Agency', with: 'something'
 
     click_button 'Request access'
   end

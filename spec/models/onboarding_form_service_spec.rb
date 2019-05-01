@@ -3,10 +3,19 @@ require 'zendesk_api'
 
 describe OnboardingFormService do
 
+  def create_default_options
+    OnboardingOptions.new({
+                              :environment_access => OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION,
+                              :level_of_assurance => 'LEVEL_1',
+                              :service_provider => 'VSP',
+                              :reuse_service_config => 'No',
+                              :matching_service_adapter => 'MSA',
+                              :reuse_msa_config => 'No'})
+  end
+
   def create_valid_form
-    OnboardingForm.new({
-        environment_access: 'Integration access request',
-        level_of_assurance: 'LEVEL_1',
+    form = OnboardingForm.new({
+        options: create_default_options,
         service_entity_id: 'https://example.com',
         matching_service_entity_id: 'https://example.com/msa',
         service_homepage_url: 'https://example.com/start',
@@ -20,23 +29,25 @@ describe OnboardingFormService do
         signature_verification_certificate_match: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
         encryption_certificate_transaction: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
         encryption_certificate_match: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
-        user_account_first_name: true,
-        user_account_middle_name: true,
-        user_account_surname: true,
-        user_account_dob: true,
-        user_account_current_address: true,
-        user_account_address_history: true,
-        user_account_cycle_3: true,
+        user_account_first_name: '1',
+        user_account_middle_name: '0',
+        user_account_surname: '1',
+        user_account_dob: '0',
+        user_account_current_address: '0',
+        user_account_address_history: '0',
+        user_account_cycle_3: '0',
         cycle3_attribute_name: 'cycle3attr',
         stub_idp_username: 'stub-idp-username',
         stub_idp_password: 'stup-idp-password',
         contact_details_name: 'username',
         contact_details_email: 'example@example.com',
-        contact_details_phone: '012345 678 912',
+        contact_details_phone: '',
         contact_details_service: 'Example service',
         contact_details_department: 'Example department',
         contact_details_message: 'Some text',
     })
+    # form.validate
+    form
   end
 
   context 'prepare the zendesk ticket' do
@@ -50,7 +61,7 @@ describe OnboardingFormService do
               name: 'username',
               email: 'example@example.com'
           },
-          group_id: 360000257114,
+          # group_id: 360000257114,
           subject: '[GOV.UK Verify] Example service: Integration access request [requestor: username]',
           comment: {
               body: <<~EOF
@@ -62,6 +73,9 @@ describe OnboardingFormService do
 
                 Service entity id:
                 https://example.com
+
+                Reuse config for Service entity id:
+                -- Not Provided --
 
                 Matching service entity id:
                 https://example.com/msa
@@ -100,7 +114,7 @@ describe OnboardingFormService do
                 #{GOOD_CERT_GOOD_ISSUER_INTEGRATION}
 
                 Requested attributes for creating user account:
-                FIRST_NAME, FIRST_NAME_VERIFIED, MIDDLE_NAME, MIDDLE_NAME_VERIFIED, SURNAME, SURNAME_VERIFIED, DATE_OF_BIRTH, DATE_OF_BIRTH_VERIFIED, CURRENT_ADDRESS, CURRENT_ADDRESS_VERIFIED, ADDRESS_HISTORY, CYCLE_3
+                FIRST_NAME, FIRST_NAME_VERIFIED, SURNAME, SURNAME_VERIFIED
 
                 Requested cycle 3 attribute name (if applicable):
                 cycle3attr
@@ -118,7 +132,7 @@ describe OnboardingFormService do
                 example@example.com
 
                 Phone:
-                012345 678 912
+                -- Not Provided --
 
                 Service:
                 Example service
@@ -129,134 +143,8 @@ describe OnboardingFormService do
                 Message:
                 Some text
 
-                Follow this guide on how to onboard an RP: https://github.com/alphagov/ida-hub/wiki/Onboarding-an-rp
+                Follow this guide on how to onboard a service : https://verify-team-manual.cloudapps.digital/documentation/support/connecting-a-service/
           EOF
-          }
-      })
-    end
-
-    it 'should generate an empty zendesk ticket' do
-      stub_const('ZENDESK_NEW_TICKET_GROUP_ID', 360000257114)
-
-      form = OnboardingForm.new({
-        environment_access: '',
-        service_entity_id: '',
-        matching_service_entity_id: '',
-        service_homepage_url: '',
-        assertion_consumer_services_https_url: '',
-        matching_service_url: '',
-        user_account_creation_uri: '',
-        service_display_name: '',
-        other_ways_display_name: '',
-        other_ways_complete_transaction: '',
-        signature_verification_certificate_transaction: '',
-        signature_verification_certificate_match: '',
-        encryption_certificate_transaction: '',
-        encryption_certificate_match: '',
-        user_account_first_name: '0',
-        user_account_middle_name: '0',
-        user_account_surname: '0',
-        user_account_dob: '0',
-        user_account_current_address: '0',
-        user_account_address_history: '0',
-        user_account_cycle_3: '0',
-        cycle3_attribute_name: '',
-        stub_idp_username: '',
-        stub_idp_password: '',
-        contact_details_name: '',
-        contact_details_email: '',
-        contact_details_phone: '',
-        contact_details_service: '',
-        contact_details_department: '',
-        contact_details_message: '',
-      })
-
-      expect(OnboardingFormService.generate_ticket_body(form)).to eq({
-          requester: {
-              name: '-',
-              email: '-'
-          },
-          group_id: 360000257114,
-          subject: '[GOV.UK Verify] -: - [requestor: -]',
-          comment: {
-              body: <<~EOF
-                Environment access:
-                -
-
-                Level of assurance:
-                -
-
-                Service entity id:
-                -
-
-                Matching service entity id:
-                -
-
-                Service start page URL:
-                -
-
-                Assertion consumer services https url:
-                -
-
-                Matching service url:
-                -
-
-                Matching service user account creation URL:
-                -
-
-                Service display name:
-                -
-
-                Other ways display name:
-                -
-
-                Other ways complete transaction:
-                -
-
-                Transaction signature verification certificate:
-                -
-
-                Matching Service signature verification certificate:
-                -
-
-                Transaction encryption certificate:
-                -
-
-                Matching Service encryption certificate:
-                -
-
-                Requested attributes for creating user account:
-                -
-
-                Requested cycle 3 attribute name (if applicable):
-                -
-
-                Username for stub idp:
-                -
-
-                Hashed password for stub idp:
-                #{form.hashed_password}
-
-                Name:
-                -
-
-                Email:
-                -
-
-                Phone:
-                -
-
-                Service:
-                -
-
-                Department:
-                -
-
-                Message:
-                -
-
-                Follow this guide on how to onboard an RP: https://github.com/alphagov/ida-hub/wiki/Onboarding-an-rp
-        EOF
           }
       })
     end

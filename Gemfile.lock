@@ -118,6 +118,9 @@ GEM
     rack (2.0.6)
     rack-test (0.6.3)
       rack (>= 1.0)
+    rack_session_access (0.2.0)
+      builder (>= 2.0.0)
+      rack (>= 1.0.0)
     rails (5.0.7.2)
       actioncable (= 5.0.7.2)
       actionmailer (= 5.0.7.2)
@@ -234,6 +237,7 @@ DEPENDENCIES
   launchy
   listen (~> 3.0.5)
   puma (~> 3.0)
+  rack_session_access
   rails (~> 5.0.1)
   rspec (~> 3.5.0)
   rspec-rails (~> 3.5.0)

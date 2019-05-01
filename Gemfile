@@ -39,6 +39,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'launchy'
   gem 'webmock'
+  gem 'rack_session_access'
 end
 
 group :development do

@@ -19,6 +19,7 @@ class MSAValidator < ActiveModel::Validator
     REQUIRED_URL_FIELDS.each {|field_name| record.validate_url(field_name)}
 
     unless record.is_reuse_msa_config?
+      record.validate_entity_ids_are_different
       NEW_REQUIRED_URL_FIELDS.each {|field_name| record.validate_url(field_name)}
       CERTIFICATE_FIELDS.each {|field_name| record.validate_certificate(field_name)}
     end

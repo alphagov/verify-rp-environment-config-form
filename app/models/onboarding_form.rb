@@ -62,6 +62,14 @@ class OnboardingForm
     super
   end
 
+  def environment_access_pretty
+    if is_integration?
+      'Integration access request'
+    else
+      'Productions access request'
+    end
+  end
+
   def is_integration?
     options.environment_access == ENVIRONMENT_ACCESS_INTEGRATION
   end
@@ -83,36 +91,44 @@ class OnboardingForm
   end
 
   def validate_entity_ids_are_different
-    if (@service_entity_id == @matching_service_entity_id)
+    if (service_entity_id == matching_service_entity_id)
       errors['matching_service_entity_id'] << 'needs to be different from the Verify service entity ID'
     end
   end
 
   def validate_not_empty(field_name)
-    if self.send(field_name).empty?
-      errors.add(field_name, 'must not be empty')
+    value = self.send(field_name)
+    if value.nil? || value.empty?
+      errors.add(field_name, 'can\'t be blank')
     end
   end
 
   def validate_url(field_name)
-    unless self.send(field_name)[/\Ahttps?:\/\//]
+    validate_not_empty(field_name)
+    value = self.send(field_name)
+    if value.nil? || ! value[/\Ahttps?:\/\//]
       errors.add(field_name, 'must be a url')
     end
   end
 
   def validate_email(field_name)
-    unless self.send(field_name)[/.+@.+/]
+    validate_not_empty(field_name)
+    value = self.send(field_name)
+    if value.nil? || ! value[/.+@.+/]
       errors.add(field_name, 'is not properly formatted')
     end
   end
 
   def validate_strong_password(field_name)
-    if self.send(field_name).length < 8
-      errors.add(field_name, 'must be at least 8 characters')
+    validate_not_empty(field_name)
+    value = self.send(field_name)
+    if value.nil? || value.length < 8
+      errors.add(field_name, 'is too short (minimum is 8 characters)')
     end
   end
 
   def validate_certificate(field_name)
+    validate_not_empty(field_name)
     certificate = convert_value_to_x509_certificate(self.send(field_name))
     self.send("#{field_name}=", Base64.strict_encode64(certificate.to_der))
     validate_certificate_issuer(certificate, field_name)

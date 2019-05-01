@@ -177,13 +177,13 @@ describe OnboardingForm do
     it 'should return an array of verify compliant attributes' do
 
       form = OnboardingForm.new({
-          user_account_first_name: true,
-          user_account_middle_name: true,
-          user_account_surname: true,
-          user_account_dob: true,
-          user_account_current_address: true,
-          user_account_address_history: true,
-          user_account_cycle_3: true,
+          user_account_first_name: '1',
+          user_account_middle_name: '1',
+          user_account_surname: '1',
+          user_account_dob: '1',
+          user_account_current_address: '1',
+          user_account_address_history: '1',
+          user_account_cycle_3: '1',
       })
 
       expect(form.get_user_account_attributes_array).to eq([

@@ -52,7 +52,6 @@ describe OnboardingFormService do
 
   context 'prepare the zendesk ticket' do
     it 'should generate a valid zendesk ticket' do
-      stub_const('ZENDESK_NEW_TICKET_GROUP_ID', 360000257114)
 
       form = create_valid_form
 
@@ -61,7 +60,6 @@ describe OnboardingFormService do
               name: 'username',
               email: 'example@example.com'
           },
-          # group_id: 360000257114,
           subject: '[GOV.UK Verify] Example service: Integration access request [requestor: username]',
           comment: {
               body: <<~EOF

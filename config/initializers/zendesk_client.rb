@@ -7,8 +7,3 @@ ZENDESK_CLIENT = ZendeskAPI::Client.new do |config|
   config.token = ENV.fetch('ZENDESK_TOKEN')
   config.logger = Logger.new(STDOUT)
 end
-
-
-
-
-ZENDESK_NEW_TICKET_GROUP_ID = ENV.fetch('ZENDESK_NEW_TICKET_GROUP_ID')

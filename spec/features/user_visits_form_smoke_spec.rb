@@ -45,8 +45,8 @@ RSpec.describe 'The config page', :type => :feature, :smoke => true do
     fill_in 'Username', with: 'smoketest'
     fill_in 'Password', with: 'password'
 
-    fill_in 'Name', with: 'smoketest'
-    fill_in 'Email address', with: 'email@example.com'
+    fill_in 'Name', with: 'smoketester'
+    fill_in 'Email address', with: 'smoketester@example.com'
     fill_in 'Service', with: 'smoketest'
     fill_in 'Department or Agency', with: 'smoketest'
 

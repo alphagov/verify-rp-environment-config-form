@@ -20,9 +20,9 @@ gem 'jquery-rails', '~> 4.2.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 
-gem 'govuk_template', '~> 0.20.0'
-gem 'govuk_frontend_toolkit', '5.2.0'
-gem 'govuk_elements_rails', '3.0.2'
+gem 'govuk_template'
+gem 'govuk_frontend_toolkit'
+gem 'govuk_elements_rails'
 
 gem 'bcrypt', '3.1.11'
 

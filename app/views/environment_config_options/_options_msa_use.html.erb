@@ -1,0 +1,13 @@
+<div class="form-group">
+<h2 class="heading-small">Do you have a Matching Service Adapter?</h2>
+  <fieldset>
+    <div class="multiple-choice">
+      <%= f.radio_button :matching_service_adapter, 'None', checked: true%>
+      <label for="matching-service-adapter-1">No Matching Service Adapter</label>
+    </div>
+    <div class="multiple-choice">
+      <%= f.radio_button :matching_service_adapter, 'MSA'%>
+      <label for="matching-service-adapter-2">Using Matching Service Adapter</label>
+    </div>
+  </fieldset>
+</div>

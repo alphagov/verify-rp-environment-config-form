@@ -3,10 +3,19 @@ require 'yaml'
 
 describe 'ConfigFileService' do
 
+  def create_options(level_of_assurance)
+    OnboardingOptions.new({
+                              :environment_access => OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION,
+                              :level_of_assurance => level_of_assurance,
+                              :service_provider => 'VSP',
+                              :reuse_service_config => 'No',
+                              :matching_service_adapter => 'MSA',
+                              :reuse_msa_config => 'No'})
+  end
+
   def create_form(level_of_assurance)
-    OnboardingForm.new({
-      environment_access: 'Integration access request',
-      level_of_assurance: level_of_assurance,
+    form = OnboardingForm.new({
+      options: create_options(level_of_assurance),
       service_entity_id: 'https://example.com',
       matching_service_entity_id: 'https://example.com/msa',
       matching_service_url: 'https://example.com/msa',
@@ -18,13 +27,13 @@ describe 'ConfigFileService' do
       encryption_certificate_transaction: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
       encryption_certificate_match: GOOD_CERT_GOOD_ISSUER_INTEGRATION,
       user_account_creation_uri: 'https://example.com',
-      user_account_first_name: true,
+      user_account_first_name: '1',
       user_account_middle_name: '0',
-      user_account_surname: true,
-      user_account_dob: true,
-      user_account_current_address: true,
-      user_account_address_history: true,
-      user_account_cycle_3: true,
+      user_account_surname: '1',
+      user_account_dob: '1',
+      user_account_current_address: '1',
+      user_account_address_history: '1',
+      user_account_cycle_3: '1',
       contact_details_phone: '012345 678 912',
       contact_details_message: 'Some text',
       service_display_name: 'Example service',
@@ -37,14 +46,13 @@ describe 'ConfigFileService' do
       stub_idp_username: 'stub-idp-username',
       stub_idp_password: 'stup-idp-password'
     })
+    form.validate
+    form
   end
 
   it 'should generate transaction config file for LoA 2 services' do
-
     test_transaction_filename = ConfigFileService.new(create_form('LEVEL_2')).generate_transaction_config_file
-
     expect(YAML.load_file(test_transaction_filename)).to eq(YAML.load_file('./spec/test-rp-transaction-config-loa-2.yml'))
-
     File.delete(test_transaction_filename)
   end
 

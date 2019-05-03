@@ -1,0 +1,48 @@
+
+<fieldset class="stub-api-details">
+
+  <h2 class="heading-large">Manage your Integration environment test user data</h2>
+
+  <p>
+    When you develop and test your service in the Integration environment, you will need to manage
+    password-protected pseudo personal data (test user) records.</p>
+
+  <p>Please create a memorable username and password to access this feature.</p>
+
+  <p>You can reset your password by contacting: <em>idasupport@digital.cabinet-office.gov.uk</em>.</p>
+
+  <p>
+    See <a href="https://www.docs.verify.service.gov.uk/test-in-integration/testing/set-up-tests/#create-test-users">create test users</a>.
+  </p>
+
+  <%= render 'question',
+             value: @onboarding_form.stub_idp_username,
+             errors: @onboarding_form.errors['stub_idp_username'],
+             title: 'Username',
+             id: 'stub_idp_username',
+             input_type: 'text',
+             information: '
+             <p>
+             You need basic authentication credentials to access and manage the
+             test user data API. Please enter your preferred username.
+             </p>
+             '
+  %>
+  <%= render 'question',
+             value: @onboarding_form.stub_idp_password,
+             errors: @onboarding_form.errors['stub_idp_password'],
+             title: 'Password',
+             id: 'stub_idp_password',
+             input_type: 'password',
+             information: '
+             <p>
+             You need basic authentication credentials to access and manage the
+             test user data API.  Your password must be at least 8 characters long.
+             </p>
+             <p>
+             To reset your password, please contact: <em>idasupport@digital.cabinet-office.gov.uk</em>.
+             </p>
+             '
+  %>
+
+</fieldset>

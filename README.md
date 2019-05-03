@@ -34,8 +34,6 @@ open localhost:3000
 generate one if needed. |
 | `ZENDESK_USERNAME` | Username (usually an email address) of the account to which the token 
 belongs. |
-| `ZENDESK_NEW_TICKET_GROUP_ID` | ID of the group in Zendesk to which a newly created ticket will
-be assigned. |
 
 
 ## Running the tests

@@ -1,0 +1,17 @@
+<div class="form-group">
+  <h2 class="heading-small">Are you reusing a Matching Service Adapter (MSA) configuration?</h2>
+  <fieldset>
+    <p>
+      You can reuse an existing Matching Service Adapter (MSA) configuration if you have one previously configured.
+      Otherwise please provide all details for connecting to your MSA.
+    </p>
+    <div class="multiple-choice">
+      <%= f.radio_button :reuse_msa_config, 'Yes', checked: true%>
+      <label for="reuse-msa-config-1">Reuse Matching Service Adapter (MSA) configuration</label>
+    </div>
+    <div class="multiple-choice">
+      <%= f.radio_button :reuse_msa_config, 'No'%>
+      <label for="reuse-msa-config-2">Provide all Matching Service Adapter (MSA) configuration</label>
+    </div>
+  </fieldset>
+</div>

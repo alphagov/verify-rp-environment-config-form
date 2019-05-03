@@ -1,0 +1,195 @@
+<h2 class="heading-large">Service configuration</h2>
+
+<%= render 'question',
+           title: 'Service provider entity ID',
+           id: 'service_entity_id',
+           errors: @onboarding_form.errors['service_entity_id'],
+           input_type: 'url',
+           value: @onboarding_form.service_entity_id,
+           information: '<p>The service provider entity ID must be a globally unique URL. When you contact us, our
+               service support engineers use this ID to identify your specific service.</p>
+               <p>When possible, please make your service provider entity ID descriptive, by including the name of your
+               service and department, for example: </p>
+               <p><code>https://{your-service-name}.{your-department}.gov.uk/{test|qa|integration|production}</code></p>
+               <p>You must use different entity IDs in the Integration and Production environments.</p>
+               '
+%>
+
+<% if @onboarding_form.is_reuse_service_config? %>
+
+  <%= render 'question',
+             title: 'Service provider entity ID for configuration reuse',
+             id: 'reuse_service_entity_id',
+             errors: @onboarding_form.errors['reuse_service_entity_id'],
+             input_type: 'url',
+             value: @onboarding_form.reuse_service_entity_id,
+             information: '<p>To reuse the configuration from a previously connected service, please provide the
+                 service provider entity ID of that service.</p>
+                 <p>We will reuse the following configuration elements:
+                 <ul class="list-bullet">
+                 <li>Service display name</li>
+                 <li>Other ways to apply display name</li>
+                 <li>Other ways to complete the transaction</li>
+                 <li>Service signature validation certificate</li>
+                 <li>Service encryption certificate</li>
+                 </ul>
+                 </p>
+               '
+  %>
+<% end %>
+
+<h3 class="heading-medium">URLs</h3>
+<%= render 'question',
+           value: @onboarding_form.service_homepage_url,
+           errors: @onboarding_form.errors['service_homepage_url'],
+           title: 'Service start page URL',
+           id: 'service_homepage_url',
+           input_type: 'url',
+           information: '<p>This is the URL that gives users access to your service.</p>
+               <p>Your service start page might be a:
+               <ul class="list-bullet">
+               <li>page on GOV.UK, for example https://www.gov.uk/update-company-car-details</li>
+               <li>similar landing page in your testing environment</li>
+               </ul>
+               </p>
+               <p>Do not host private beta services on GOV.UK. (Refer:
+               <a href="https://www.gov.uk/service-manual/design/start-pages">https://www.gov.uk/service-manual/design/start-pages</a>)
+               </p>
+               '
+%>
+<%= render 'question',
+           value: @onboarding_form.assertion_consumer_services_https_url,
+           errors: @onboarding_form.errors['assertion_consumer_services_https_url'],
+           title: 'Response URL',
+           id: 'assertion_consumer_services_https_url',
+           input_type: 'url',
+           information: '<p>Provide a unique URL for each connection you request. This is where you will receive
+               your GOV.UK Verify responses, for example:</p>
+               <p>Integration: <code>https://{your-service-name}.{your-integration-domain}/verify/response</code></p>
+               <p>Production: <code>https://{your-service-name}.service.gov.uk/verify/response</code></p>
+               <p>You cannot reuse your existing Integration environment URLs in the Production environment.</p>
+               '
+%>
+
+<% unless @onboarding_form.is_reuse_service_config? %>
+
+  <h3 class="heading-medium">GOV.UK Verify user webpage text</h3>
+  <p>
+    Your Content Designer should provide:
+  </p>
+
+  <div class="form-group">
+    <%= render 'question',
+               value: @onboarding_form.service_display_name,
+               errors: @onboarding_form.errors['service_display_name'],
+               title: 'Service display name',
+               id: 'service_display_name',
+               input_type: 'text',
+               information: '
+                   <p>
+                   Enter your service name, as you need it to appear to the user throughout
+                   their GOV.UK Verify journey.</p>
+
+                   <p> Use a sentence starting with a verb, for example
+                   <em>"Sign in to your personal tax account"</em>,
+                   rather than <em>"Self Assessment tax return"</em>.
+                   </p>
+                   '
+    %>
+    <%= render 'question',
+               value: @onboarding_form.other_ways_display_name,
+               errors: @onboarding_form.errors['other_ways_display_name'],
+               title: 'Service display name for "Other ways to apply"',
+               id: 'other_ways_display_name',
+               input_type: 'text',
+               information: '
+                   <p>This text defaults to your service display name and is used on the
+                   GOV.UK Verify <em>"Other ways to apply"</em> webpage.  This text is displayed when a
+                   user is unable to prove their identity using your GOV.UK Verify service.</p>
+                   <p>
+                   If required, enter an alternative service name here, for example <em>"Access your personal tax account"</em>.
+                   </p>
+                   '
+    %>
+    <%= render 'textarea_question',
+               value: @onboarding_form.other_ways_complete_transaction,
+               errors: @onboarding_form.errors['other_ways_complete_transaction'],
+               title: 'Other ways to complete the transaction',
+               id: 'other_ways_complete_transaction',
+               input_type: 'textarea',
+               information: '
+                   <p>
+                   This content is displayed as text on the GOV.UK Verify “Other ways to apply” page and is used
+                   to show users the alternative routes to access your service.</p>
+
+                   <p>
+                   For example: <em>"If you can’t verify your identity using GOV.UK Verify, request Government
+                   Gateway user ID and password replacements from HMRC. This can take about 10 working days
+                   (or longer if you live abroad). For help, contact the HMRC Online Self Assessment helpline."
+                   </em>
+                   </p>
+
+                   <p>Please type or paste valid HTML content, including URLs here.
+                   </p>'
+    %>
+  </div>
+
+  <h3 class="heading-medium">Certificates</h3>
+  <p>
+    You must supply GOV.UK Verify with copies of the valid X.509 encryption and signature validation
+    certificates you will use for your Matching Service Adapter and service.
+  </p>
+  <div class="panel panel-border-narrow">
+    <p>Note: Certificate issuing authorities are environment specific. For the:</p>
+    <ul class="list-bullet">
+      <li>Integration environment, use the "IDAP Test Certificate Authority"</li>
+      <li>Production environment, use the "IDAP Certificate Authority"</li>
+    </ul>
+  </div>
+  <p>See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">request certificates</a></p>
+
+  <%= render 'certificate_question',
+             value: @onboarding_form.signature_verification_certificate_transaction,
+             errors: @onboarding_form.errors['signature_verification_certificate_transaction'],
+             title: 'Service signature validation certificate',
+             id: 'signature_verification_certificate_transaction',
+             input_type: 'textarea',
+             information: '
+                 <p>This certificate is used to validate the SAML messages sent from your service to GOV.UK Verify.</p>
+                 <div>This certificate must correspond to the signing private key for your service, and be:
+                 <ul class="list-bullet">
+                 <li>a valid X.509 certificate</li>
+                 <li>signed by the correct IDAP certificate authority for the environment (Integration or Production)</li>
+                 <li>different to your Matching Service Adapter signature validation certificate</li>
+                 </ul>
+                 </div>
+                 <p>
+                 See
+                 <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+                 request certificates</a>.
+                 </p>
+                 '
+  %>
+  <%= render 'certificate_question',
+             value: @onboarding_form.encryption_certificate_transaction,
+             errors: @onboarding_form.errors['encryption_certificate_transaction'],
+             title: 'Service encryption certificate',
+             id: 'encryption_certificate_transaction',
+             input_type: 'textarea',
+             information: '
+                 <p>This certificate is used to encrypt the SAML assertions sent from GOV.UK Verify to your service.</p>
+                 <div>This certificate must correspond to the encryption private key for your service, and be:
+                 <ul class="list-bullet">
+                 <li>a valid X.509 certificate</li>
+                 <li>signed by the correct IDAP certificate authority for the environment (Integration or Production)</li>
+                 <li>different to your Matching Service Adapter encryption certificate</li>
+                 </ul>
+                 </div>
+                 <p>
+                 See
+                 <a href= "http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">
+                 request certificates</a>.
+                 </p>
+                 '
+  %>
+<% end %>

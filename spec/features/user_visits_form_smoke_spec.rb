@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'tempfile'
 
-RSpec.describe 'The start page', :type => :feature, :smoke => true do
+RSpec.describe 'The config page', :type => :feature, :smoke => true do
   before(:all) do
     @cert_file = Tempfile.new('good-cert')
     @cert_file.write(GOOD_CERT_GOOD_ISSUER_INTEGRATION)
@@ -25,29 +25,28 @@ RSpec.describe 'The start page', :type => :feature, :smoke => true do
 
 
   def submit_valid_form
-    visit 'https://verify-environment-access.cloudapps.digital/'
+    visit 'https://verify-environment-access.cloudapps.digital'
 
-    fill_in('Verify service entity ID', with: 'http://smoketestexample.com')
-    fill_in('Matching Service Adapter entity ID', with: 'http://smoketestexample.com/msa')
-    fill_in('Matching Service Adapter: matching URL', with: 'http://smoketestexample.com/msa')
-    fill_in('Service start page URL', with: 'http://smoketestexample.com')
-    fill_in('Verify SAML response URL', with: 'http://smoketestexample.com')
+    click_button 'Continue'
 
-    fill_in 'Service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
-    fill_in 'Matching service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
-    fill_in 'Service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
-    fill_in 'Matching service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
+    click_button 'Continue'
 
-    fill_in 'Matching Service Adapter: User account creation URL', with: 'http://example.com/msa/create-account'
-    fill_in 'Verify service display name', with: 'smoke test'
-    fill_in 'Other ways to apply display name', with: 'smoke test'
+    click_button 'Continue'
+
+    fill_in 'Service provider entity ID', with: 'http://smoketestexample.com'
+    fill_in 'Service start page URL', with: 'http://smoketestexample.com'
+    fill_in 'Response URL', with: 'http://smoketestexample.com'
+    fill_in 'Service display name', with: 'smoke test'
+    fill_in 'Service display name for "Other ways to apply"', with: 'smoke test'
     fill_in 'Other ways to complete the transaction', with: 'smoke test'
+    fill_in 'Service signature validation certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
+    fill_in 'Service encryption certificate', with: GOOD_CERT_GOOD_ISSUER_INTEGRATION
 
     fill_in 'Username', with: 'smoketest'
     fill_in 'Password', with: 'password'
 
-    fill_in 'Name', with: 'smoketest'
-    fill_in 'Email address', with: 'email@example.com'
+    fill_in 'Name', with: 'smoketester'
+    fill_in 'Email address', with: 'smoketester@example.com'
     fill_in 'Service', with: 'smoketest'
     fill_in 'Department or Agency', with: 'smoketest'
 

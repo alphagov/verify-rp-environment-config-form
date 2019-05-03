@@ -5,9 +5,19 @@ describe OnboardingForm do
 
   context 'validate' do
 
+    def create_default_options
+      OnboardingOptions.new({
+                                :environment_access => OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION,
+                                :level_of_assurance => 'LEVEL_1',
+                                :service_provider => 'VSP',
+                                :reuse_service_config => 'No',
+                                :matching_service_adapter => 'MSA',
+                                :reuse_msa_config => 'No'})
+    end
+
     it 'should return true when there are no validation errors' do
       form = OnboardingForm.new({
-          :environment_access => OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION,
+          :options => create_default_options,
           :service_entity_id => 'http://example.com',
           :matching_service_entity_id => 'http://example.com/msa',
           :matching_service_url => 'http://example.com/msa',
@@ -26,14 +36,13 @@ describe OnboardingForm do
           :contact_details_email => 'something@email.com',
           :contact_details_service => 'something',
           :contact_details_department => 'something',
-          :user_account_creation_uri => 'http://example.com',
-          :level_of_assurance => 'LEVEL_1',
+          :user_account_creation_uri => 'http://example.com'
       })
       expect(form).to be_valid
     end
 
     it 'should require required fields' do
-      form = OnboardingForm.new({environment_access: OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION})
+      form = OnboardingForm.new({options: create_default_options})
       form.valid?
       expect(form.errors['service_entity_id']).to include("can't be blank")
       expect(form.errors['matching_service_entity_id']).to include("can't be blank")
@@ -57,6 +66,7 @@ describe OnboardingForm do
 
     it 'should require urls to be urls' do
       form = OnboardingForm.new({
+          options: create_default_options,
           service_entity_id: 'not-a-url',
           matching_service_entity_id: 'not-a-url',
           matching_service_url: 'not-a-url',
@@ -74,7 +84,9 @@ describe OnboardingForm do
     end
 
     it 'should not require username and password on production environment' do
-      form = OnboardingForm.new({environment_access: OnboardingForm::ENVIRONMENT_ACCESS_PRODUCTION})
+      options = create_default_options
+      options.environment_access = OnboardingForm::ENVIRONMENT_ACCESS_PRODUCTION
+      form = OnboardingForm.new({options: options})
       form.valid?
       expect(form.errors['stub_idp_password']).to_not include("can't be blank")
       expect(form.errors['stub_idp_username']).to_not include("can't be blank")
@@ -82,6 +94,7 @@ describe OnboardingForm do
 
     it 'should validate certificate correctness' do
       form = OnboardingForm.new({
+          :options => create_default_options,
           :signature_verification_certificate_transaction => 'malformed-cert',
           :signature_verification_certificate_match => 'malformed-cert',
           :encryption_certificate_transaction => 'malformed-cert',
@@ -96,7 +109,7 @@ describe OnboardingForm do
 
     it 'should validate that the issuer of the certificate is correct for Integration' do
       form = OnboardingForm.new({
-          :environment_access => OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION,
+          :options => create_default_options,
           :signature_verification_certificate_transaction => GOOD_CERT_BAD_ISSUER,
           :signature_verification_certificate_match => GOOD_CERT_BAD_ISSUER,
           :encryption_certificate_transaction => GOOD_CERT_BAD_ISSUER,
@@ -110,8 +123,10 @@ describe OnboardingForm do
     end
 
     it 'should validate that the issuer of the certificate is correct for Production' do
+      options = create_default_options
+      options.environment_access = OnboardingForm::ENVIRONMENT_ACCESS_PRODUCTION
       form = OnboardingForm.new({
-          :environment_access => OnboardingForm::ENVIRONMENT_ACCESS_PRODUCTION,
+          :options => options,
           :signature_verification_certificate_transaction => GOOD_CERT_BAD_ISSUER,
           :signature_verification_certificate_match => GOOD_CERT_BAD_ISSUER,
           :encryption_certificate_transaction => GOOD_CERT_BAD_ISSUER,
@@ -126,6 +141,7 @@ describe OnboardingForm do
 
     it 'should require service entity id and matching service entity id to be different' do
       form = OnboardingForm.new({
+          options: create_default_options,
           service_entity_id: 'foo',
           matching_service_entity_id: 'foo',
       })
@@ -135,7 +151,7 @@ describe OnboardingForm do
 
     it 'should require at least 8 chars on password' do
       form = OnboardingForm.new({
-          environment_access: OnboardingForm::ENVIRONMENT_ACCESS_INTEGRATION,
+          options: create_default_options,
           stub_idp_password: 'asdf'
       })
       form.valid?
@@ -161,13 +177,13 @@ describe OnboardingForm do
     it 'should return an array of verify compliant attributes' do
 
       form = OnboardingForm.new({
-          user_account_first_name: true,
-          user_account_middle_name: true,
-          user_account_surname: true,
-          user_account_dob: true,
-          user_account_current_address: true,
-          user_account_address_history: true,
-          user_account_cycle_3: true,
+          user_account_first_name: '1',
+          user_account_middle_name: '1',
+          user_account_surname: '1',
+          user_account_dob: '1',
+          user_account_current_address: '1',
+          user_account_address_history: '1',
+          user_account_cycle_3: '1',
       })
 
       expect(form.get_user_account_attributes_array).to eq([

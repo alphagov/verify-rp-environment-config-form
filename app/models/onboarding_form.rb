@@ -131,7 +131,6 @@ class OnboardingForm
     validate_not_empty(field_name)
     certificate = convert_value_to_x509_certificate(self.send(field_name))
     self.send("#{field_name}=", Base64.strict_encode64(certificate.to_der))
-    validate_certificate_issuer(certificate, field_name)
     rescue
       errors[field_name] << "is malformed"
   end
@@ -141,18 +140,6 @@ class OnboardingForm
       OpenSSL::X509::Certificate.new(cert_value)
     rescue
       OpenSSL::X509::Certificate.new(Base64.decode64(cert_value))
-    end
-  end
-
-  def validate_certificate_issuer(certificate, field_name)
-    if is_integration?
-      unless certificate.issuer.to_s.include?("CN=#{OnboardingForm::CERTIFICATE_ISSUER_INTEGRATION}")
-        errors.add(field_name, "Certificates for the integration environment must be issued by #{OnboardingForm::CERTIFICATE_ISSUER_INTEGRATION}")
-      end
-    else
-      unless certificate.issuer.to_s.include?("CN=#{OnboardingForm::CERTIFICATE_ISSUER_PRODUCTION}")
-        errors.add(field_name, "Certificates for the production environment must be issued by #{OnboardingForm::CERTIFICATE_ISSUER_PRODUCTION}")
-      end
     end
   end
 

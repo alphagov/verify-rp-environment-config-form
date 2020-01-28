@@ -59,15 +59,6 @@
     You must supply GOV.UK Verify with copies of the valid X.509 encryption and signature validation
     certificates you will use for your Matching Service Adapter.
   </p>
-  <div class="panel panel-border-narrow">
-    <p>Note: Certificate issuing authorities are environment specific. For the:</p>
-    <ul class="list-bullet">
-      <li>Integration environment, use the "IDAP Test Certificate Authority"</li>
-      <li>Production environment, use the "IDAP Certificate Authority"</li>
-    </ul>
-  </div>
-  <p>See <a href="http://alphagov.github.io/rp-onboarding-tech-docs/pages/pki/pkiRequestCert.html#pkirequestcert">request certificates</a></p>
-
 
   <%= render 'certificate_question',
              value: @onboarding_form.signature_verification_certificate_match,

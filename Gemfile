@@ -33,7 +33,7 @@ gem 'selenium-webdriver'
 group :development, :test do
   gem 'rspec', '~> 3.5.0'
   gem 'rspec-rails', '~> 3.5.0'
-  gem 'capybara', '~> 2.10'
+  gem 'capybara', '~> 3.31'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'dotenv-rails'

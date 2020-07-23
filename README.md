@@ -9,8 +9,8 @@ Once you’ve cloned this then `bundle` will install the requirements.
 ## Running the application
 
 The application makes use of environment variables for specifying certain configurable parameters.
-You can set these by creating a file named `.env` and defining any environment variables within. 
-The file `.env-example` lists all the required environment variables with example values - simply 
+You can set these by creating a file named `.env` and defining any environment variables within.
+The file `.env-example` lists all the required environment variables with example values - simply
 copy it and change the values.
 
 ```bash
@@ -30,9 +30,9 @@ open localhost:3000
 | Variable name | Description |
 | ------------- | ----------- |
 | `ZENDESK_BASE_URL` | Base URL of Zendesk API (e.g. https://<your-org>.zendesk.com/api/v2/) |
-| `ZENDESK_TOKEN` | Zendesk token is require for making calls to its API. A Zendesk admin can 
+| `ZENDESK_TOKEN` | Zendesk token is require for making calls to its API. A Zendesk admin can
 generate one if needed. |
-| `ZENDESK_USERNAME` | Username (usually an email address) of the account to which the token 
+| `ZENDESK_USERNAME` | Username (usually an email address) of the account to which the token
 belongs. |
 
 
@@ -44,7 +44,7 @@ belongs. |
 
 `user_visits_form_smoke_spec.rb` will run an end to end acceptance test, creating a real ticket in Zendesk when this test submits the config form.
 
-The test is run within Docker. This allows us to create an environment that includes the dependencies required by Selenium to run on our Jenkins setup. The [Jenkins job](https://build.ida.digital.cabinet-office.gov.uk/job/verify-rp-environment-config-form-smoke-test/) that runs the smoke test is triggered every 5 minutes and after this application is deployed.
+The test is run within Docker. This allows us to create an environment that includes the dependencies required by Selenium to run on our CI/CD setup.
 
 The smoke test has been filtered out of the main test run (`bundle exec rspec spec`) via a `smoke` filter.
 
@@ -58,6 +58,12 @@ To run the smoke test, use: `./smoke-test.sh`.
 | Production | `verify-environment-access` | `docs` |
 | Staging | `verify-environment-access-staging` | `docs-staging` |
 
+Changes to this repository are continuously deployed to `staging` and `production` environments by the
+[deploy-verify-rp-environment-config-form pipeline in
+concourse](https://cd.gds-reliability.engineering/teams/verify/pipelines/deploy-verify-rp-environment-config-form)
+on merge to master.
+
+If you need to manually deploy changes you can follow the steps below.
 
 The environment variables above currently need to be set manually before deployment:
 
@@ -82,8 +88,6 @@ To see the current environment config for the app:
 ```
 cf env verify-environment-access
 ```
-
-Once a PR is merged to master this triggers a Jenkins [build job](https://build.ida.digital.cabinet-office.gov.uk/job/verify-rp-environment-config-form-build/) and then a [deploy job](https://build.ida.digital.cabinet-office.gov.uk/job/verify-rp-environment-config-form-deploy/).
 
 If you only need to make changes to environment variables and you do not need to redeploy the app you can just restage it to pick up the changes:
 

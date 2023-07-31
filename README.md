@@ -2,6 +2,11 @@
 
 A form for requesting configuration changes for integrating a Relying Party to GOV.UK Verify.
 
+>**GOV.UK Verify has closed**
+>
+>This repository is out of date and has been archived
+
+
 ## Installing the application
 
 Once you’ve cloned this then `bundle` will install the requirements.
